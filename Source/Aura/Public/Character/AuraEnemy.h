@@ -6,12 +6,18 @@
 #include "Character/AuraCharacterBase.h"
 #include "AuraEnemy.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class AURA_API AAuraEnemy : public AAuraCharacterBase
 {
 	GENERATED_BODY()
+
+public:
+	AAuraEnemy();
+protected:
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<USkeletalMeshComponent> Weapon;
 	
 };
