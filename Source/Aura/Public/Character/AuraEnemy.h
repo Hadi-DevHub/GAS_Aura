@@ -20,6 +20,9 @@ public:
 	
 protected:
 
+	UPROPERTY(BlueprintReadOnly)
+	bool bHighlighted = false;
 private:
+	
 
 };
