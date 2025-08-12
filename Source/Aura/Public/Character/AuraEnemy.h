@@ -14,7 +14,6 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 
 public:
 	AAuraEnemy();
-
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
 	
