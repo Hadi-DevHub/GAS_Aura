@@ -25,9 +25,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-private:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
+private:
 	
 
 };
