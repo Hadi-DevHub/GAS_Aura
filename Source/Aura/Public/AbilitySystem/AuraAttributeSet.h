@@ -13,6 +13,45 @@ GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+USTRUCT(BlueprintType)
+struct FEffectProperties 
+{
+	GENERATED_BODY()
+
+	FEffectProperties(){};
+
+	FGameplayEffectContextHandle EffectContextHandle;
+	/**
+	 * Source's Data
+	 */
+	UPROPERTY()
+	UAbilitySystemComponent* SourceASC;
+	
+	UPROPERTY()
+	AActor* SourceAvatarActor;
+	
+	UPROPERTY()
+	AController* SourceController;
+	
+	UPROPERTY()
+	ACharacter* SourceCharacter;
+	/**
+	 * Target's Data
+	 */
+
+	UPROPERTY()
+	UAbilitySystemComponent* TargetASC;
+	
+	UPROPERTY()
+	AActor* TargetAvatarActor;
+	
+	UPROPERTY()
+	AController* TargetController;
+	
+	UPROPERTY()
+	ACharacter* TargetCharacter;
+};
+
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
@@ -51,6 +90,8 @@ public:
 	void OnRep_MaxMana(FGameplayAttributeData OldMaxMana) const;
 	
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 protected:
 
 private:
