@@ -49,8 +49,10 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(FGameplayAttributeData OldMaxMana) const;
-protected:
 	
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+protected:
+
 private:
 	
 };
