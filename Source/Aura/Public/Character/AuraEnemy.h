@@ -19,6 +19,10 @@ public:
 	
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+
+	// Combat Interface //
+	virtual int32 GetPlayerLevel() override;
+	// Combat Interface //
 	
 	//** Interface Functions **//
 	
