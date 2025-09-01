@@ -43,3 +43,9 @@ void AAuraCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 }
 
+void AAuraCharacterBase::InitializeVitalAttributes() const
+{
+	ApplyEffectToSelf(DefaultHealth, 1.f);
+	ApplyEffectToSelf(DefaultMana, 1.f);
+}
+
