@@ -3,9 +3,18 @@
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
+#include "AuraGameplayTags.h"
+
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::EffectApplied);
+	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	5.f,
+	FColor::Green,
+	FString::Printf(TEXT("Secondary Armor Tag: %s"),
+	*AuraGameplayTags::Attributes_Secondary_Armor.GetTag().ToString()));
 }
 
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,
