@@ -24,3 +24,13 @@ void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Ability
 	EffectSpec.GetAllAssetTags(TagContainer);
 	EffectAssetTags.Broadcast(TagContainer);
 }
+
+void UAuraAbilitySystemComponent::AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities)
+{
+	if (Abilities.Num() <= 0) return;
+	for (auto Ability : Abilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, 1.f);
+		GiveAbilityAndActivateOnce(AbilitySpec);
+	}
+}

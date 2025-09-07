@@ -2,6 +2,8 @@
 
 #include "Character/AuraCharacterBase.h"
 
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+
 AAuraCharacterBase::AAuraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -24,6 +26,14 @@ void AAuraCharacterBase::BeginPlay()
 
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
+	
+}
+
+void AAuraCharacterBase::AddCharacterAbilities()
+{
+	UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+	AuraASC->AddCharacterAbilities(StartupAbilities);
 	
 }
 
