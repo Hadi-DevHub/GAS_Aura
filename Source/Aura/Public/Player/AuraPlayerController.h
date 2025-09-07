@@ -11,8 +11,6 @@
 class IEnemyInterface;
 class UInputMappingContext;
 
-template<typename FAuraInputConfig>
-
 UCLASS()
 class AURA_API AAuraPlayerController : public APlayerController
 {
