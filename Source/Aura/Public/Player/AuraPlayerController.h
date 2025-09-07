@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "InputAction.h"
 #include "GameFramework/PlayerController.h"
+#include "Input/AuraInputConfig.h"
 #include "AuraPlayerController.generated.h"
 
 class IEnemyInterface;
 class UInputMappingContext;
-/**
- * 
- */
+
+template<typename FAuraInputConfig>
+
 UCLASS()
 class AURA_API AAuraPlayerController : public APlayerController
 {

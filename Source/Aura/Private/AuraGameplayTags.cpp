@@ -28,5 +28,13 @@ namespace AuraGameplayTags
 	// Vitals
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Vitals_Health, "Attributes.Vitals.Health");
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Vitals_Mana, "Attributes.Vitals.Mana");
+
+	//Input
+	UE_DEFINE_GAMEPLAY_TAG(Input_LMB, "Input.LMB");
+	UE_DEFINE_GAMEPLAY_TAG(Input_RMB, "Input.RMB");
+	UE_DEFINE_GAMEPLAY_TAG(Input_1, "Input.1");
+	UE_DEFINE_GAMEPLAY_TAG(Input_2, "Input.2");
+	UE_DEFINE_GAMEPLAY_TAG(Input_3, "Input.3");
+	UE_DEFINE_GAMEPLAY_TAG(Input_4, "Input.4");
 	
 }
