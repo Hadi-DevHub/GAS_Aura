@@ -19,10 +19,13 @@ class AURA_API AAuraPlayerController : public APlayerController
 public:
 	AAuraPlayerController();
 	virtual void SetupInputComponent() override;
-	
 protected:
 	virtual void BeginPlay() override;
 	virtual void PlayerTick(float DeltaTime) override;
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -34,4 +37,9 @@ private:
 
 	TScriptInterface<IEnemyInterface> ThisEnemy;
 	TScriptInterface<IEnemyInterface> LastEnemy;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UAuraInputConfig> AbilityInputConfig;
 };
+
+

@@ -13,8 +13,10 @@ class AURA_API UAuraInputComponent : public UEnhancedInputComponent
 {
 	GENERATED_BODY()
 	
+public:
 	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
 void BindAbilityActions(const UAuraInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc);
+	
 };
 
 template <class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
@@ -39,7 +41,7 @@ void UAuraInputComponent::BindAbilityActions(const UAuraInputConfig* InputConfig
 
 			if (HeldFunc)
 			{
-				BindAction(Action.InputAction, ETriggerEvent::Ongoing, Object, HeldFunc, Action.ActionTag);
+				BindAction(Action.InputAction, ETriggerEvent::Triggered, Object, HeldFunc, Action.ActionTag);
 			}
 		}
 	}
