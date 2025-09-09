@@ -18,6 +18,9 @@ public:
 	UFUNCTION()
 	void AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
 
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+	
 	FEffectAssetTags EffectAssetTags;
 	
 protected:
