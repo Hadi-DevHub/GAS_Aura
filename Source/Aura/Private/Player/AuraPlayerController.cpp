@@ -2,7 +2,6 @@
 
 
 #include "Player/AuraPlayerController.h"
-
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraGameplayTags.h"
 #include "EnhancedInputComponent.h"
@@ -13,7 +12,6 @@
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
-#include "Kismet/GameplayStatics.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -38,33 +36,25 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bTargeting = ThisEnemy ? true : false;
 		bAutoMovement = false;
 	}
-	
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);	
-		}
+		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
 		return;
 	}
 	if (bTargeting)
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);	
-		}
+		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
 	}
 	else
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
-		FHitResult Hit;
-		if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		if (UnderCursor.bBlockingHit)
 		{
-			CachedDestination = Hit.ImpactPoint;
+			CachedDestination = UnderCursor.ImpactPoint;
 		}
 		if (APawn* ControlledPawn = GetPawn())
 		{
@@ -78,18 +68,12 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);	
-		}
+		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
 		return;
 	}
 	if (bTargeting)
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);	
-		}
+		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 	}
 	else
 	{
@@ -102,8 +86,8 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(), PointLoc, 5.f, 8, FColor::Yellow, false, 5.f);
 				}
+				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
 				bAutoMovement = true;
 			}
 		}
@@ -133,73 +117,43 @@ void AAuraPlayerController::BeginPlay()
 	SetInputMode(InputModeData);
 }
 
+void AAuraPlayerController::AutoRun()
+{
+	if (!bAutoMovement) return;
+	if (APawn* ControlledPawn = GetPawn())
+	{
+		FVector ClosestPoint = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
+		FVector DirectionToPoint = Spline->FindDirectionClosestToWorldLocation(ClosestPoint, ESplineCoordinateSpace::World);
+		ControlledPawn->AddMovementInput(DirectionToPoint);
+
+		const float DistanceToDestination = (ClosestPoint - CachedDestination).Length();
+		if (DistanceToDestination <= AutoRunAcceptanceRadius)
+		{
+			bAutoMovement = false;
+		}
+	}
+}
+
 void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	CursorTrace();
+	AutoRun();
+}
 
-	FHitResult UnderCursor;
+void AAuraPlayerController::CursorTrace()
+{
 	GetHitResultUnderCursor(ECC_Visibility, false, UnderCursor );
 	if (!UnderCursor.bBlockingHit) return;
 	
 	LastEnemy = ThisEnemy;
 	ThisEnemy = UnderCursor.GetActor();
 
-	/**
-	Case A
-	ThisEnemy = Null, LastEnemy = Null
-	DO NOTHING
-	
-	Case B
-	ThisEnemy = Valid, LastEnemy = Null
-	ThisEnemy->Highlight()
-	 
-	Case C
-	LastEnemy == Valid, ThisEnemy = Null
-	LastEnemy->UnHighlight()
-	 
-	Case D
-	ThisEnemy = Valid, LastEnemy = Valid
-	Check --> ThisEnemy = LastEnemy?
-	if true, DO NOTHING
-	 
-	Case E
-	ThisEnemy = Valid, LastEnemy = Valid
-	Check --> ThisEnemy = LastEnemy?
-	if false, ThisEnemy->Highlight(), LastEnemy->UnHighlight()
-	
-	**/
-
-	if (ThisEnemy != nullptr)
+	if (LastEnemy != ThisEnemy)
 	{
-		if (LastEnemy == nullptr)
-		{
-			ThisEnemy->HighlightActor();
-		}
+		if (LastEnemy) LastEnemy->UnHighlightActor();
+		if (ThisEnemy) ThisEnemy->HighlightActor();
 	}
-	else
-	{
-		if (LastEnemy != nullptr)
-		{
-			LastEnemy->UnHighlightActor();
-		}
-		else
-		{
-			// DO NOTHING
-		}
-	}
-	if (ThisEnemy && LastEnemy)
-	{
-		if (ThisEnemy == LastEnemy)
-		{
-			// DO NOTHING
-		}
-		else
-		{
-			ThisEnemy->HighlightActor();
-			LastEnemy->UnHighlightActor();
-		}
-	}
-	
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)

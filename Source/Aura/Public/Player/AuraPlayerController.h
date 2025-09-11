@@ -23,6 +23,8 @@ public:
 	virtual void SetupInputComponent() override;
 protected:
 	virtual void BeginPlay() override;
+	void AutoRun();
+	void CursorTrace();
 	virtual void PlayerTick(float DeltaTime) override;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
@@ -57,6 +59,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
+
+	// Cursor Trace
+	FHitResult UnderCursor;
 };
 
 
