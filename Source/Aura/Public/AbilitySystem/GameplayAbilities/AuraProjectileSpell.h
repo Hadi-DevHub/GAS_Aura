@@ -20,6 +20,8 @@ protected:
 
 	void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<class AAuraProjectile> ProjectileClass;
 private:
 	
 	
