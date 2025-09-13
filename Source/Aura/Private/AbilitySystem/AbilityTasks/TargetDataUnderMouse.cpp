@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/AbilityTasks/TargetDataUnderMouse.h"
 
+#include "AbilitySystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
 
@@ -14,19 +15,39 @@ UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGamepl
 
 void UTargetDataUnderMouse::Activate()
 {
-	APawn* Pawn = Cast<APawn>(GetAvatarActor());
-	if (Pawn)
+	if (IsLocallyControlled())
 	{
-		AAuraPlayerController* PC = Cast<AAuraPlayerController>(Pawn->GetController());
-		if (PC)
-		{
-			FHitResult UnderCursor;
-			PC->GetHitResultUnderCursor(ECC_Visibility, false, UnderCursor);
-			if (UnderCursor.bBlockingHit)
-			{
-				FVector UnderCursorLocation = UnderCursor.ImpactPoint;
-				ValidData.Broadcast(UnderCursorLocation);
-			}
-		}
+		SendMouseCursorData();
+	}
+	else
+	{
+		//TODO: We're the server, listen to us!
+	}
+}
+
+void UTargetDataUnderMouse::SendMouseCursorData()
+{
+	FScopedPredictionWindow ScopedPredictionWindow(AbilitySystemComponent.Get());
+	
+	AAuraPlayerController* PC = Cast<AAuraPlayerController>(Ability->GetActorInfo().PlayerController);
+	FHitResult UnderCursor;
+	PC->GetHitResultUnderCursor(ECC_Visibility, false, UnderCursor);
+	
+	FGameplayAbilityTargetDataHandle DataHandle;
+	FGameplayAbilityTargetData_SingleTargetHit* Data = new FGameplayAbilityTargetData_SingleTargetHit(); 
+	Data->HitResult = UnderCursor;
+	DataHandle.Add(Data);
+
+	AbilitySystemComponent->ServerSetReplicatedTargetData(
+		GetAbilitySpecHandle(),
+		GetActivationPredictionKey(),
+		DataHandle,
+		FGameplayTag(),
+		AbilitySystemComponent->ScopedPredictionKey
+		);
+
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		ValidData.Broadcast(DataHandle);
 	}
 }
