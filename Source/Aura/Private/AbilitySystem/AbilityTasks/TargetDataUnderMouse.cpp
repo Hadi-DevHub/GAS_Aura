@@ -22,6 +22,14 @@ void UTargetDataUnderMouse::Activate()
 	else
 	{
 		//TODO: We're the server, listen to us!
+		FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
+		FPredictionKey PredictionKey = GetActivationPredictionKey();
+		AbilitySystemComponent->AbilityTargetDataSetDelegate(SpecHandle, PredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
+		const bool bDelegateCalled = AbilitySystemComponent->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, PredictionKey);
+		if (!bDelegateCalled)
+		{
+			SetWaitingOnRemotePlayerData();
+		}
 	}
 }
 
@@ -46,6 +54,16 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 		AbilitySystemComponent->ScopedPredictionKey
 		);
 
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		ValidData.Broadcast(DataHandle);
+	}
+}
+
+void UTargetDataUnderMouse::OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle,
+	FGameplayTag ActivationTag)
+{
+	AbilitySystemComponent->ConsumeClientReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey());
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
 		ValidData.Broadcast(DataHandle);
