@@ -38,6 +38,12 @@ protected:
 	TObjectPtr<UInputAction> MoveAction;
 	void Move(const FInputActionValue& InputActionValue);
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> SHIFTAction;
+	void SHIFTPressed(); 
+	void SHIFTReleased();
+	bool bShiftAction = false;
+
 	TScriptInterface<IEnemyInterface> ThisEnemy;
 	TScriptInterface<IEnemyInterface> LastEnemy;
 

@@ -26,7 +26,19 @@ void AAuraPlayerController::SetupInputComponent()
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 	
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAction(SHIFTAction, ETriggerEvent::Started, this, &AAuraPlayerController::SHIFTPressed);
+	AuraInputComponent->BindAction(SHIFTAction, ETriggerEvent::Completed, this, &AAuraPlayerController::SHIFTReleased);
 	AuraInputComponent->BindAbilityActions(AbilityInputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
+}
+
+void AAuraPlayerController::SHIFTPressed()
+{
+	bShiftAction = true;
+}
+
+void AAuraPlayerController::SHIFTReleased()
+{
+	bShiftAction = false;
 }
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
@@ -45,17 +57,14 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
 		return;
 	}
-	if (bTargeting)
+	if (bTargeting || bShiftAction)
 	{
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
 	}
 	else
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
-		if (UnderCursor.bBlockingHit)
-		{
-			CachedDestination = UnderCursor.ImpactPoint;
-		}
+		if (UnderCursor.bBlockingHit) CachedDestination = UnderCursor.ImpactPoint;
 		if (APawn* ControlledPawn = GetPawn())
 		{
 			FVector WorldDirection = CachedDestination - ControlledPawn->GetActorLocation();
@@ -71,11 +80,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
 		return;
 	}
-	if (bTargeting)
-	{
-		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
-	}
-	else
+
+	if (bShiftAction) if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
+
+	if (!bTargeting && !bShiftAction)
 	{
 		APawn* ControlledPawn = GetPawn();
 		if (ControlledPawn && FollowTime <= ShortPressedThreshold)
@@ -139,6 +147,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
 	AutoRun();
+	GEngine->AddOnScreenDebugMessage(1, 0.1, FColor::Black, FString::Printf(TEXT("bSHIFTAction : %d"), bShiftAction));
 }
 
 void AAuraPlayerController::CursorTrace()
