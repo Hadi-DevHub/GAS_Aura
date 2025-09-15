@@ -3,8 +3,11 @@
 
 #include "Actors/AuraProjectile.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAuraProjectile::AAuraProjectile()
@@ -30,10 +33,34 @@ void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
+	LoopingSFXComponent = UGameplayStatics::SpawnSoundAttached(MidAirLoopingSFX, GetRootComponent());
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
+	LoopingSFXComponent->Stop();
+	
+	if (HasAuthority())
+	{
+		Destroy();
+	}
+	else
+	{
+		bIsHit = true;
+	}
+}
+
+void AAuraProjectile::Destroyed()
+{
+	if (!bIsHit && !HasAuthority())
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
+		LoopingSFXComponent->Stop();
+	}
+	Super::Destroyed();
 }
 
