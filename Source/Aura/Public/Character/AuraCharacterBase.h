@@ -29,6 +29,8 @@ protected:
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
 	
+
+	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 	
