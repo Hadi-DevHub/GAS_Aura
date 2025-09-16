@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffect.h"
 #include "AuraProjectile.generated.h"
 
 class UNiagaraSystem;
@@ -22,6 +23,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
+
+	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
 	
 protected:
 	
@@ -32,12 +36,16 @@ protected:
 	virtual void Destroyed() override;
 	
 private:
+
+	// Technical //
 	
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* Sphere;
 
 	bool bIsHit = false;
 
+	// Cosmetics //
+	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ProjectileImpactVFX;
 	
@@ -47,6 +55,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> MidAirLoopingSFX;
 
+	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSFXComponent;
 	
 };
