@@ -52,7 +52,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 	InitializeDefaultAttributes();
-	InitializeVitalAttributes();
 	if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(GetController()))
 	{
 		if (AAuraHUD* HUD = Cast<AAuraHUD>(PlayerController->GetHUD()))

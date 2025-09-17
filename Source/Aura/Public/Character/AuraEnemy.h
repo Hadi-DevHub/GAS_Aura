@@ -8,6 +8,7 @@
 #include "Interaction/EnemyInterface.h"
 #include "AuraEnemy.generated.h"
 
+enum class ECharacterClass : uint8;
 class UWidgetComponent;
 
 UCLASS()
@@ -38,6 +39,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
+	virtual void InitializeDefaultAttributes() const override;
+
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
@@ -46,5 +49,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
+
+	UPROPERTY(EditDefaultsOnly, Category = "CharacterProperties")
+	ECharacterClass CharacterClass;
 
 };
