@@ -195,6 +195,14 @@ public:
 	UFUNCTION()
 	void OnRep_MaxMana(FGameplayAttributeData OldMaxMana) const;
 	
+	/**
+	 *	Meta Attributes
+	 */
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+	
 protected:
 
 private:
