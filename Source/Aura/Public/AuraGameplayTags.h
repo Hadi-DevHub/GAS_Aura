@@ -43,6 +43,9 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_2);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_3);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_4);
-    
+
+	// Damage Gameplay Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage);
+
 
 }
