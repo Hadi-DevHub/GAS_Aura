@@ -28,6 +28,7 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
+
 	
 private:
 	

@@ -29,7 +29,7 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Vitals_Health, "Attributes.Vitals.Health");
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Vitals_Mana, "Attributes.Vitals.Mana");
 
-	//Input
+	// Input
 	UE_DEFINE_GAMEPLAY_TAG(Input_LMB, "Input.LMB");
 	UE_DEFINE_GAMEPLAY_TAG(Input_RMB, "Input.RMB");
 	UE_DEFINE_GAMEPLAY_TAG(Input_1, "Input.1");
@@ -37,7 +37,10 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_3, "Input.3");
 	UE_DEFINE_GAMEPLAY_TAG(Input_4, "Input.4");
 
-	//Damage Gameplay Tags
+	// Damage Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Damage, "Damage");
+	
+	// Status Tags
+	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
 	
 }

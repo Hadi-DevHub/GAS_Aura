@@ -29,8 +29,6 @@ protected:
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
 	
-
-	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 	
@@ -60,7 +58,13 @@ protected:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	virtual void InitializeDefaultAttributes() const;
 
-
 	UPROPERTY(EditAnywhere, Category = "Character Class Default")
 	int32 Level = 1;
+
+	// Anim Related Section
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")
+	TObjectPtr<UAnimMontage> HitReactAnim;
 };

@@ -49,6 +49,7 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, A
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
 			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			TargetASC->ApplyGameplayEffectSpecToSelf(*HitReactEffectSpecHandle.Data.Get());
 		}
 		Destroy();
 	}

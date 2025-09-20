@@ -35,6 +35,16 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
+
+	/**
+	* Reacting to player attacks
+	 */
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = " Combat ")
+	float BaseWalkSpeed;
+
+	UPROPERTY(BlueprintReadOnly, Category = " Combat ")
+	bool bHitReacting;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -53,4 +63,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "CharacterProperties")
 	ECharacterClass CharacterClass;
 
+	/**
+	 * Reacting to player attacks
+	 */
+
+	UFUNCTION()
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 };

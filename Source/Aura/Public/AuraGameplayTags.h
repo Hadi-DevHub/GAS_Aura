@@ -47,5 +47,7 @@ namespace AuraGameplayTags
 	// Damage Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage);
 
+	// Status Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
 
 }
