@@ -62,7 +62,6 @@ protected:
 	int32 Level = 1;
 
 	// Anim Related Section
-
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")

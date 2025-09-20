@@ -57,6 +57,8 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	
 }
 
+#pragma region OnRep_Functions_Declared_Here
+
 void UAuraAttributeSet::OnRep_Strength(FGameplayAttributeData OldStrength) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Strength, OldStrength);
@@ -136,6 +138,7 @@ void UAuraAttributeSet::OnRep_MaxMana(FGameplayAttributeData OldMaxMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxMana, OldMaxMana);
 }
+#pragma endregion OnReps 
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
@@ -176,6 +179,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
 			const bool bFatal = NewHealth <= 0.f;
+
+			if (bFatal)
+			{
+				//Todo: set Ragdoll
+			}
+			else
+			{
+				FGameplayTagContainer GameplayTagContainer;
+				GameplayTagContainer.AddTag(AuraGameplayTags::Status_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(GameplayTagContainer);
+			}
 		}
 	}
 }
