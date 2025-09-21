@@ -30,6 +30,20 @@ protected:
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
 
+	virtual void Dissolve();
+	UPROPERTY(EditAnywhere, Category = "Dissolve")
+	TObjectPtr<UMaterialInstance> CharacterDissolveMaterial;
+	
+	UPROPERTY(EditAnywhere, Category = "Dissolve")
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterial;
+
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartCharacterDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
 	/**
 	 *  Derived from ICombatInterface Functions
 	 */
@@ -43,6 +57,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
+
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;

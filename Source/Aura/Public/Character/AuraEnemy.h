@@ -45,11 +45,16 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = " Combat ")
 	bool bHitReacting;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float LifeSpan = 5.f;
 	
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
+
+	virtual void DIE() override;
 
 
 	UPROPERTY(BlueprintReadOnly)
