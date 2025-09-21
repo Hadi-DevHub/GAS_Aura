@@ -17,7 +17,7 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
+	Weapon->SetIsReplicated(true);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -48,6 +48,25 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 	AuraASC->AddCharacterAbilities(StartupAbilities);
 	
+}
+
+void AAuraCharacterBase::DIE()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	MulticastHandleDeath();
+}
+
+void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel) const

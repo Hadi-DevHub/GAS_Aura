@@ -25,9 +25,21 @@ public:
 
 
 protected:
+	
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
+
+	/**
+	 *  Derived from ICombatInterface Functions
+	 */
+	virtual void DIE() override;
+	
+	UFUNCTION(NetMulticast, reliable)  // This function is related to the DIE function above.
+	virtual void MulticastHandleDeath();
+	/**
+	 *  Derived from ICombatInterface Functions
+	 */
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
