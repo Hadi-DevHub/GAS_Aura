@@ -73,7 +73,7 @@ public:
 
 	// A Map to store and used to broadcast values to the AttributeMenuWidgetController
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
-
+	
 	/**
 	 * Primary Attributes
 	 */
@@ -202,6 +202,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+
+	UFUNCTION()
+	void ShowDamageText(FEffectProperties& Props, float DamageAmount);
 	
 protected:
 

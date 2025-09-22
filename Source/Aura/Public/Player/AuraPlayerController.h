@@ -6,6 +6,7 @@
 #include "InputAction.h"
 #include "GameFramework/PlayerController.h"
 #include "Input/AuraInputConfig.h"
+#include "UI/Widgets/DamageTextComponent.h"
 #include "AuraPlayerController.generated.h"
 
 class USplineComponent;
@@ -21,6 +22,10 @@ class AURA_API AAuraPlayerController : public APlayerController
 public:
 	AAuraPlayerController();
 	virtual void SetupInputComponent() override;
+
+	// Gameplay Related Function
+	UFUNCTION(Client, Reliable)
+	void ShowDamageText(float DamageAmount, ACharacter* TargetCharacter);
 protected:
 	virtual void BeginPlay() override;
 	void AutoRun();
@@ -68,6 +73,11 @@ protected:
 
 	// Cursor Trace
 	FHitResult UnderCursor;
+
+	// Popping DamageText when damaging enemies
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponent;
 };
 
 

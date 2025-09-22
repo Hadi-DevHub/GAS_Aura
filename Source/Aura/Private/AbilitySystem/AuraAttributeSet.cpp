@@ -7,7 +7,9 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -139,6 +141,7 @@ void UAuraAttributeSet::OnRep_MaxMana(FGameplayAttributeData OldMaxMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxMana, OldMaxMana);
 }
+
 #pragma endregion OnReps 
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -191,7 +194,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 				GameplayTagContainer.AddTag(AuraGameplayTags::Status_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(GameplayTagContainer);
 			}
+			ShowDamageText(Props, LocalIncomingDamage);
 		}
+	}
+}
+
+void UAuraAttributeSet::ShowDamageText(FEffectProperties& Props, float DamageAmount)
+{
+	if (Props.SourceCharacter != Props.TargetCharacter && Props.SourceController != nullptr)
+	{
+		AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0));
+		PC->ShowDamageText(DamageAmount, Props.TargetCharacter);
 	}
 }
 
@@ -228,7 +241,7 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	if (IsValid(Data.Target.GetAvatarActor()) && Data.Target.AbilityActorInfo.IsValid())
 	{
 		Props.TargetAvatarActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-		Props.TargetController = CastChecked<APawn>(Props.SourceAvatarActor)->GetController();
+		Props.TargetController = CastChecked<APawn>(Props.TargetAvatarActor)->GetController();
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetController->GetPawn());
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
