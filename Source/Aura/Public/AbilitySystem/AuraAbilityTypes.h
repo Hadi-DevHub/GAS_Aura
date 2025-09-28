@@ -3,7 +3,7 @@
 #include "AuraAbilityTypes.generated.h"
 
 USTRUCT(BlueprintType)
-struct FAuraGameplayEffectTypes : public FGameplayEffectContext
+struct FAuraGameplayEffectContext : public FGameplayEffectContext
 {
 	GENERATED_BODY()
 
@@ -22,9 +22,9 @@ public:
 	}
 
 	/** Creates a copy of this context, used to duplicate for later modifications */
-	virtual FGameplayEffectContext* Duplicate() const
+	virtual FAuraGameplayEffectContext* Duplicate() const
 	{
-		FGameplayEffectContext* NewContext = new FGameplayEffectContext();
+		FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
 		*NewContext = *this;
 		if (GetHitResult())
 		{
@@ -39,7 +39,20 @@ public:
 
 	protected:
 
+	UPROPERTY()
 	bool bIsBlockedHit = false;
-
+	
+	UPROPERTY()
 	bool bIsCriticalHit = false;
+};
+
+template<>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+{
+	enum
+	{
+		WithNetSerialize = true,
+		WithCopy = true
+	};
+		
 };

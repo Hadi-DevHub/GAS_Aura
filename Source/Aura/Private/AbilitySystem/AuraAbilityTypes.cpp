@@ -1,6 +1,6 @@
 #include "AbilitySystem/AuraAbilityTypes.h"
 
-bool FAuraGameplayEffectTypes::NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess)
+bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess)
 {
 	uint32 RepBits = 0;
 	if (Ar.IsSaving())
