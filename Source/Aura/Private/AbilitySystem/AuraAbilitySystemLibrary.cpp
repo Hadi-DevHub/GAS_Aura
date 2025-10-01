@@ -88,7 +88,7 @@ UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObj
 
 void UAuraAbilitySystemLibrary::SetIsBlockedHit( FGameplayEffectContextHandle& Context, bool bIsInBlock)
 {
-	if ( FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(Context.Get()))
+	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(Context.Get()))
 	{
 		AuraEffectContext->SetIsBlockingHit(bIsInBlock);
 	}
@@ -107,7 +107,7 @@ void UAuraAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& C
 {
 	if ( FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(Context.Get()))
 	{
-		AuraEffectContext->SetIsBlockingHit(bIsInCriticalHit);
+		AuraEffectContext->SetIsCriticalHit(bIsInCriticalHit);
 	}
 }
 

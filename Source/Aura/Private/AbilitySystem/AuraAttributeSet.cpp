@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraGameplayTags.h"
 #include "GameplayEffectExtension.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -181,8 +182,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		{
 			float NewHealth = GetHealth() - LocalIncomingDamage;
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
-
-			if (const bool bFatal = NewHealth <= 0.f)
+			const bool bFatal = NewHealth <= 0.f;
+			if (bFatal)
 			{
 				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 				if (CombatInterface == nullptr) return;
@@ -194,17 +195,19 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 				GameplayTagContainer.AddTag(AuraGameplayTags::Status_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(GameplayTagContainer);
 			}
-			ShowDamageText(Props, LocalIncomingDamage);
+			bool bIsBlocked = UAuraAbilitySystemLibrary::GetIsBlockedHit(Props.EffectContextHandle);
+			bool bIsCritical = UAuraAbilitySystemLibrary::GetIsCriticalHit(Props.EffectContextHandle);
+			ShowDamageText(Props, LocalIncomingDamage, bIsBlocked, bIsCritical);
 		}
 	}
 }
 
-void UAuraAttributeSet::ShowDamageText(FEffectProperties& Props, float DamageAmount)
+void UAuraAttributeSet::ShowDamageText(FEffectProperties& Props, float DamageAmount, bool bIsBlocked, bool bIsCritical)
 {
 	if (Props.SourceCharacter != Props.TargetCharacter && Props.SourceController != nullptr)
 	{
 		AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0));
-		PC->ShowDamageText(DamageAmount, Props.TargetCharacter);
+		PC->ShowDamageText(DamageAmount, Props.TargetCharacter, bIsBlocked, bIsCritical);
 	}
 }
 

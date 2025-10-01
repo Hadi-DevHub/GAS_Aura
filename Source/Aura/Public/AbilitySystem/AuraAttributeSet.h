@@ -204,7 +204,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
 
 	UFUNCTION()
-	void ShowDamageText(FEffectProperties& Props, float DamageAmount);
+	void ShowDamageText(FEffectProperties& Props, float DamageAmount, bool bIsBlocked, bool bIsCritical);
 	
 protected:
 

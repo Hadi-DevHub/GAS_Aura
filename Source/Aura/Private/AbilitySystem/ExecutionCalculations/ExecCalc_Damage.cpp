@@ -103,6 +103,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	 */
 	
 	// Multiply damage with CriticalHitDamage Attribute
+	
 	//Calculate Source's CritChance with Target's CritRes
 	float EffectiveCriticalChance = SourceCriticalHitChance - TargetCriticalHitResistance;
 	EffectiveCriticalChance = FMath::Max<float>(EffectiveCriticalChance, 0.0f);
@@ -114,7 +115,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const bool bBlockedHit = FMath::FRandRange(0.f,100.f) <= TargetBlockChance;
 	Damage = bBlockedHit ? Damage / 2.f : Damage;
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlockedHit);
-
 
 	// Armor Penetration ignores a percentage of target's armor
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);

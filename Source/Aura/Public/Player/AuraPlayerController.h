@@ -25,7 +25,7 @@ public:
 
 	// Gameplay Related Function
 	UFUNCTION(Client, Reliable)
-	void ShowDamageText(float DamageAmount, ACharacter* TargetCharacter);
+	void ShowDamageText(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCritical);
 protected:
 	virtual void BeginPlay() override;
 	void AutoRun();
