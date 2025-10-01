@@ -9,11 +9,11 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 
 public:
 	
-	void SetIsCriticalhit(bool CritHit) { bIsCriticalHit = CritHit; }
-	void SetIsBlockingHit(bool HitBlock) { bIsBlockedHit = HitBlock; }
+	void SetIsCriticalHit(bool bCritHit) { bIsCriticalHit = bCritHit; }
+	void SetIsBlockingHit(bool bHitBlock) { bIsBlockedHit = bHitBlock; }
 	
 	bool GetIsCriticalHit() const { return bIsCriticalHit; }
-	bool GetIsBlockingHit() const { return bIsCriticalHit; }
+	bool GetIsBlockingHit() const { return bIsBlockedHit; }
 	
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const
@@ -33,7 +33,7 @@ public:
 		}
 		return NewContext;
 	}
-
+protected:
 	/** Custom serialization, subclasses must override this */
 	virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
 

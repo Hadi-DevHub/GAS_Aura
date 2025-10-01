@@ -95,6 +95,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalHitResistanceDef, EvaluationParameters, TargetCriticalHitResistance);
 	TargetCriticalHitResistance = FMath::Max<float>(TargetCriticalHitResistance, 0.0f);
 
+	//FGameplayEffectContext
+	FGameplayEffectContextHandle EffectContextHandle = EffectSpec.GetContext();
+	
 	/*
 	 * Calculation
 	 */
@@ -105,10 +108,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EffectiveCriticalChance = FMath::Max<float>(EffectiveCriticalChance, 0.0f);
 	const bool bCriticalHit = FMath::FRandRange(0.f,100.f) <= EffectiveCriticalChance;
 	Damage = bCriticalHit ? Damage += Damage * SourceCriticalHitDamage / 100.f : Damage;
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
 	
 	// Halves Damage Taken, if Block Chance = true
-	const bool bBlocked = FMath::FRandRange(0.f,100.f) <= TargetBlockChance;
-	Damage = bBlocked ? Damage / 2.f : Damage;
+	const bool bBlockedHit = FMath::FRandRange(0.f,100.f) <= TargetBlockChance;
+	Damage = bBlockedHit ? Damage / 2.f : Damage;
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlockedHit);
+
 
 	// Armor Penetration ignores a percentage of target's armor
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
