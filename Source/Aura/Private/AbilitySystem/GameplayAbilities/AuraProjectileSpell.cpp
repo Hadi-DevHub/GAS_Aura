@@ -63,7 +63,4 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-	UKismetSystemLibrary::PrintString(GetWorld(), FString("Activate From C++"), true, true, FColor::Yellow, 3.f);
-
-	
 }

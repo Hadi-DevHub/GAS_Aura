@@ -64,7 +64,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.TargetTags = TargetTags;
 
 	// Get Incoming Damage
-	float Damage = EffectSpec.GetSetByCallerMagnitude(AuraGameplayTags::Damage);
+	int Damage = EffectSpec.GetSetByCallerMagnitude(AuraGameplayTags::Damage);
 
 	// Get Block Chance
 	float TargetBlockChance = 0;
