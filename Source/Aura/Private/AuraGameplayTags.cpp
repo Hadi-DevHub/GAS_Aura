@@ -38,11 +38,41 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_4, "Input.4");
 
 	// DamageType Gameplay Tags
+	// Damage
 	UE_DEFINE_GAMEPLAY_TAG(Damage, "Damage");
 	UE_DEFINE_GAMEPLAY_TAG(Damage_Fire, "Damage.Fire");
+	UE_DEFINE_GAMEPLAY_TAG(Damage_Arcane, "Damage.Arcane");
+	UE_DEFINE_GAMEPLAY_TAG(Damage_Lightning, "Damage.Lightning");
+	UE_DEFINE_GAMEPLAY_TAG(Damage_Physical, "Damage.Physical");
+
+	// Damage Resistance
+	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage, "Attribute.Resistance.Damage");
+	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Fire, "Attribute.Resistance.Fire");
+	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Arcane, "Attribute.Resistance.Arcane");
+	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Lightning, "Attribute.Resistance.Lightning");
+	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Physical, "Attribute.Resistance.Physical");
 
 	// Status Tags
 	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
 	
+}
+
+FAuraGameplayTags& FAuraGameplayTags::Get()
+{
+	static FAuraGameplayTags Instance;
+	return Instance;
+}
+ 
+FAuraGameplayTags::FAuraGameplayTags()
+{
+	InitializeDamageTypeMappings();
+}
+ 
+void FAuraGameplayTags::InitializeDamageTypeMappings()
+{
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Fire, AuraGameplayTags::Attribute_Resistance_Damage_Fire);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Arcane, AuraGameplayTags::Attribute_Resistance_Damage_Arcane);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Lightning, AuraGameplayTags::Attribute_Resistance_Damage_Lightning);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Physical, AuraGameplayTags::Attribute_Resistance_Damage_Physical);
 }
 

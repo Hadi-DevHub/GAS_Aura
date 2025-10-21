@@ -63,11 +63,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
 
-	int Damage = 0;
-	FGameplayTagContainer AllDamageTags = UGameplayTagsManager::Get().RequestGameplayTagChildren(AuraGameplayTags::Damage);
-	for (const auto& DamageTag : AllDamageTags)
+	float Damage = 0.f;
+	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FAuraGameplayTags::Get().DamageTypesToResistance)
 	{
-		Damage += EffectSpec.GetSetByCallerMagnitude(DamageTag);
+		Damage += EffectSpec.GetSetByCallerMagnitude(Pair.Key);
 	}
 
 	// Get Block Chance

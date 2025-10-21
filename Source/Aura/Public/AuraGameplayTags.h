@@ -45,11 +45,38 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_4);
 
 	// DamageType Gameplay Tags
+	// Damage
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Fire);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Arcane);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Lightning);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Physical);
+
+	// Damage Resistance
+	// DamageType Gameplay Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Fire);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Arcane);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Lightning);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Physical);
 
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
 
 }
+
+class FAuraGameplayTags
+{
+public:
+	// Singleton access
+	static FAuraGameplayTags& Get();
+ 
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
+ 
+	void InitializeDamageTypeMappings();
+ 
+private:
+	// Private constructor to enforce singleton pattern
+	FAuraGameplayTags();
+};
 
