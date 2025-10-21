@@ -37,10 +37,12 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_3, "Input.3");
 	UE_DEFINE_GAMEPLAY_TAG(Input_4, "Input.4");
 
-	// Damage Gameplay Tags
+	// DamageType Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Damage, "Damage");
-	
+	UE_DEFINE_GAMEPLAY_TAG(Damage_Fire, "Damage.Fire");
+
 	// Status Tags
 	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
 	
 }
+

@@ -46,4 +46,6 @@ public:
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& Context, bool bIsInCriticalHit);
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static bool GetIsCriticalHit(const FGameplayEffectContextHandle& Context);
+	
+	
 };

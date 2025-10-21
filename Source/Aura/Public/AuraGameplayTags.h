@@ -44,10 +44,12 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_3);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_4);
 
-	// Damage Gameplay Tags
+	// DamageType Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Fire);
 
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
 
 }
+
