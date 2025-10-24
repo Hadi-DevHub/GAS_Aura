@@ -46,11 +46,11 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Damage_Physical, "Damage.Physical");
 
 	// Damage Resistance
-	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage, "Attribute.Resistance.Damage");
-	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Fire, "Attribute.Resistance.Fire");
-	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Arcane, "Attribute.Resistance.Arcane");
-	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Lightning, "Attribute.Resistance.Lightning");
-	UE_DEFINE_GAMEPLAY_TAG(Attribute_Resistance_Damage_Physical, "Attribute.Resistance.Physical");
+	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage, "Attributes.Resistance.Damage");
+	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Fire, "Attributes.Resistance.Fire");
+	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Arcane, "Attributes.Resistance.Arcane");
+	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Lightning, "Attributes.Resistance.Lightning");
+	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Physical, "Attributes.Resistance.Physical");
 
 	// Status Tags
 	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
@@ -70,9 +70,9 @@ FAuraGameplayTags::FAuraGameplayTags()
  
 void FAuraGameplayTags::InitializeDamageTypeMappings()
 {
-	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Fire, AuraGameplayTags::Attribute_Resistance_Damage_Fire);
-	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Arcane, AuraGameplayTags::Attribute_Resistance_Damage_Arcane);
-	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Lightning, AuraGameplayTags::Attribute_Resistance_Damage_Lightning);
-	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Physical, AuraGameplayTags::Attribute_Resistance_Damage_Physical);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Fire, AuraGameplayTags::Attributes_Resistance_Damage_Fire);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Arcane, AuraGameplayTags::Attributes_Resistance_Damage_Arcane);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Lightning, AuraGameplayTags::Attributes_Resistance_Damage_Lightning);
+	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Physical, AuraGameplayTags::Attributes_Resistance_Damage_Physical);
 }
 

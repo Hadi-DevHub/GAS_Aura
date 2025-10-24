@@ -14,7 +14,6 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-
 	// Primary Attributes
 	TagsToAttributes.Add(AuraGameplayTags::Attributes_Primary_Strength, GetStrengthAttribute);
 	TagsToAttributes.Add(AuraGameplayTags::Attributes_Primary_Intelligence, GetIntelligenceAttribute);
@@ -32,6 +31,12 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(AuraGameplayTags::Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
 	TagsToAttributes.Add(AuraGameplayTags::Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
 	TagsToAttributes.Add(AuraGameplayTags::Attributes_Secondary_MaxMana, GetMaxManaAttribute);
+
+	// Secondary Attributes -- Resistances
+	TagsToAttributes.Add(AuraGameplayTags::Attributes_Resistance_Damage_Fire, GetFireResistanceAttribute);
+	TagsToAttributes.Add(AuraGameplayTags::Attributes_Resistance_Damage_Arcane, GetArcaneResistanceAttribute);
+	TagsToAttributes.Add(AuraGameplayTags::Attributes_Resistance_Damage_Lightning, GetLightningResistanceAttribute);
+	TagsToAttributes.Add(AuraGameplayTags::Attributes_Resistance_Damage_Physical, GetPhysicalResistanceAttribute);
 
 }
 
@@ -58,7 +63,12 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
-	
+
+	//Secondary Attribute -- Resistances
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, FireResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArcaneResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LightningResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
 }
 
 #pragma region OnRep_Functions_Declared_Here
@@ -143,6 +153,26 @@ void UAuraAttributeSet::OnRep_MaxMana(FGameplayAttributeData OldMaxMana) const
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxMana, OldMaxMana);
 }
 
+void UAuraAttributeSet::OnRep_FireResistance(FGameplayAttributeData OldFireResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, FireResistance, OldFireResistance);
+}
+
+void UAuraAttributeSet::OnRep_ArcaneResistance(FGameplayAttributeData Old_ArcaneResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ArcaneResistance, Old_ArcaneResistance);
+}
+
+void UAuraAttributeSet::OnRep_LightningResistance(FGameplayAttributeData OldLightningResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, LightningResistance, OldLightningResistance);
+}
+
+void UAuraAttributeSet::OnRep_PhysicalResistance(FGameplayAttributeData OldPhysicalResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, PhysicalResistance, OldPhysicalResistance);
+}
+
 #pragma endregion OnReps 
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -157,7 +187,6 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMana());
 	}
-	
 }
 
 void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)

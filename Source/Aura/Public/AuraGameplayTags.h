@@ -54,11 +54,11 @@ namespace AuraGameplayTags
 
 	// Damage Resistance
 	// DamageType Gameplay Tags
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Fire);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Arcane);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Lightning);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Damage_Physical);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage_Fire);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage_Arcane);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage_Lightning);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage_Physical);
 
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
