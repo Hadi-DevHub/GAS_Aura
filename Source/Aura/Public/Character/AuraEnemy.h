@@ -8,6 +8,8 @@
 #include "Interaction/EnemyInterface.h"
 #include "AuraEnemy.generated.h"
 
+class UBehaviorTree;
+class AAuraAIController;
 enum class ECharacterClass : uint8;
 class UWidgetComponent;
 
@@ -26,7 +28,6 @@ public:
 
 	// Combat Interface //
 	virtual int32 GetPlayerLevel() override;
-	// Combat Interface //
 	
 	//** Interface Functions **//
 
@@ -56,9 +57,20 @@ protected:
 
 	virtual void DIE() override;
 
-
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
+
+	//
+	// AI Implementations
+	//
+
+	void PossessedBy(AController* NewController) override;
+	
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<AAuraAIController> AuraAIController;
 	
 private:
 
