@@ -195,7 +195,7 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
 
 void AAuraPlayerController::ShowDamageText_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCritical)
 {
-	if (IsValid(TargetCharacter) && DamageTextComponent)
+	if (IsValid(TargetCharacter) && DamageTextComponent && IsLocalController())
 	{
 		UDamageTextComponent* DamageTextComp = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponent);
 		DamageTextComp->RegisterComponent();

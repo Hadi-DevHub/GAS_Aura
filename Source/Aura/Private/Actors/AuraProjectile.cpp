@@ -38,12 +38,18 @@ void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
-	LoopingSFXComponent = UGameplayStatics::SpawnSoundAttached(MidAirLoopingSFX, GetRootComponent());
+	if (LoopingSFXComponent) LoopingSFXComponent = UGameplayStatics::SpawnSoundAttached(MidAirLoopingSFX, GetRootComponent());
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (!bIsHit)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
+		if (LoopingSFXComponent) LoopingSFXComponent->Stop();
+	}
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
@@ -56,9 +62,6 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, A
 	{
 		bIsHit = true;
 	}
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
-	LoopingSFXComponent->Stop();
 }
 
 void AAuraProjectile::Destroyed()
@@ -67,7 +70,7 @@ void AAuraProjectile::Destroyed()
 	{
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
-		LoopingSFXComponent->Stop();
+		if (LoopingSFXComponent) LoopingSFXComponent->Stop();
 	}
 	Super::Destroyed();
 }

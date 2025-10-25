@@ -235,7 +235,7 @@ void UAuraAttributeSet::ShowDamageText(FEffectProperties& Props, float DamageAmo
 {
 	if (Props.SourceCharacter != Props.TargetCharacter && Props.SourceController != nullptr)
 	{
-		AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0));
+		AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.SourceController);
 		PC->ShowDamageText(DamageAmount, Props.TargetCharacter, bIsBlocked, bIsCritical);
 	}
 }
