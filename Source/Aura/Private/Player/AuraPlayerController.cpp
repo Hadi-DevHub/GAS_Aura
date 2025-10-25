@@ -149,7 +149,6 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
 	AutoRun();
-	GEngine->AddOnScreenDebugMessage(1, 0.1, FColor::Black, FString::Printf(TEXT("bSHIFTAction : %d"), bShiftAction));
 }
 
 void AAuraPlayerController::CursorTrace()

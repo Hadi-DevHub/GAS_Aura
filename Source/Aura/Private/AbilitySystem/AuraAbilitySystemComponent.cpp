@@ -8,13 +8,6 @@
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ClientEffectApplied);
-	
-	GEngine->AddOnScreenDebugMessage(
-	-1,
-	5.f,
-	FColor::Green,
-	FString::Printf(TEXT("Secondary Armor Tag: %s"),
-	*AuraGameplayTags::Attributes_Secondary_Armor.GetTag().ToString()));
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
