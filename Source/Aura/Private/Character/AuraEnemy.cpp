@@ -64,7 +64,7 @@ void AAuraEnemy::BeginPlay()
 			}
 			);
 		OnHealthChanged.Broadcast(AuraAS->GetHealth());
-		OnHealthChanged.Broadcast(AuraAS->GetMaxHealth());
+		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 		AbilitySystemComponent->RegisterGameplayTagEvent(AuraGameplayTags::Status_HitReact, EGameplayTagEventType::NewOrRemoved);
 	}
 }
