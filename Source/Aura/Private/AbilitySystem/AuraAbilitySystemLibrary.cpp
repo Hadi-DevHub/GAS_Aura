@@ -67,13 +67,22 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 }
 
 void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,
-	UAbilitySystemComponent* ThisASC)
+	UAbilitySystemComponent* ThisASC, ECharacterClass CharacterClass)
 {
 	UCharacterClassInfo* CharaClassInfo = GetCharacterClassInfo(WorldContextObject);
 	
-	for (auto Ability : CharaClassInfo->CommonAbilities)
+	for (TSubclassOf<UGameplayAbility> Ability : CharaClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, 1.f);
+		ThisASC->GiveAbility(AbilitySpec);
+	}
+
+	FCharacterClassDefaultInfo DefaultInfo = CharaClassInfo->GetClassDefaultInfo(CharacterClass);
+	for (TSubclassOf<UGameplayAbility> Ability : DefaultInfo.StartupAbilities)
+	{
+		ICombatInterface* CombatInterface = Cast<ICombatInterface>(ThisASC->GetAvatarActor());
+		int AbilityLevel = CombatInterface ? CombatInterface->GetPlayerLevel() : 1;
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, AbilityLevel);
 		ThisASC->GiveAbility(AbilitySpec);
 	}
 }

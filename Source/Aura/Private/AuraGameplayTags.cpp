@@ -54,6 +54,9 @@ namespace AuraGameplayTags
 
 	// Status Tags
 	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
+
+	// Attack Tags
+	UE_DEFINE_GAMEPLAY_TAG(Attak_MeleeAttack, "Attack.MeleeAttack");
 	
 }
 

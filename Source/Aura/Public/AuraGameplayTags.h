@@ -63,6 +63,9 @@ namespace AuraGameplayTags
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
 
+	// Attack Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attak_MeleeAttack);
+
 }
 
 class FAuraGameplayTags
