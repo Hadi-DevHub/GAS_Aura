@@ -50,7 +50,7 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 {
 	UCharacterClassInfo* CharaClassInfo = GetCharacterClassInfo(WorldContextObject);
 	
-	FCharacterClassDefaultInfo CharacterClassDefaultInfo = CharaClassInfo->GetCharacterClass(CharacterClass);
+	FCharacterClassDefaultInfo CharacterClassDefaultInfo = CharaClassInfo->GetClassDefaultInfo(CharacterClass);
 	FGameplayEffectContextHandle EffectContextHandle = ASC->MakeEffectContext();
 
 	AActor* AvatarActor = ASC->GetAvatarActor();
