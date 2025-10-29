@@ -109,3 +109,10 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactAnim;
 }
 
+UAnimMontage* AAuraCharacterBase::GetAttackMontage_Implementation()
+{
+	check(AttackAnim)
+	return AttackAnim;
+}
+
+

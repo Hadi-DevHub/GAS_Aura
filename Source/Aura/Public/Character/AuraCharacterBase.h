@@ -90,7 +90,12 @@ protected:
 
 	// Anim Related Section
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+
+	virtual UAnimMontage* GetAttackMontage_Implementation() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")
 	TObjectPtr<UAnimMontage> HitReactAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")
+	TObjectPtr<UAnimMontage> AttackAnim;
 };
