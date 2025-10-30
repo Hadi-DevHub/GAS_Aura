@@ -135,6 +135,18 @@ void AAuraEnemy::UnHighlightActor()
 	Weapon->SetCustomDepthStencilValue(0);
 }
 
+void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	if (InCombatTarget == nullptr) return;
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AAuraEnemy::GetCombatTarget_Implementation() const
+{
+	if (CombatTarget == nullptr) return nullptr;
+	return CombatTarget;
+}
+
 int32 AAuraEnemy::GetPlayerLevel()
 {
 	return Level;
