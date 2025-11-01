@@ -23,7 +23,17 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() { return AttributeSet; }
 
-
+	/**
+	 *  Derived from ICombatInterface Functions
+	 */
+	virtual void DIE() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual AActor* GetAvatarActor_Implementation() override;
+	virtual bool GetIsDead() const;
+	/**
+	 *  Derived from ICombatInterface Functions
+	 */
+	
 protected:
 	
 	virtual void BeginPlay() override;
@@ -37,32 +47,22 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Dissolve")
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterial;
 
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartCharacterDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
-	/**
-	 *  Derived from ICombatInterface Functions
-	 */
-	virtual void DIE() override;
-	
 	UFUNCTION(NetMulticast, reliable)  // This function is related to the DIE function above.
 	virtual void MulticastHandleDeath();
-	/**
-	 *  Derived from ICombatInterface Functions
-	 */
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
-
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation_Implementation() override;
+	bool bIsDead = false;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -87,6 +87,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Character Class Default")
 	int32 Level = 1;
+
 
 	// Anim Related Section
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;

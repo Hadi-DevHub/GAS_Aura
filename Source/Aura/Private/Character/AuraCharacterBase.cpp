@@ -32,15 +32,23 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 
+AActor* AAuraCharacterBase::GetAvatarActor_Implementation() 
+{
+	return this;
+}
+
+bool AAuraCharacterBase::GetIsDead() const
+{
+	return bIsDead;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
-	
 }
 
 void AAuraCharacterBase::AddCharacterAbilities()

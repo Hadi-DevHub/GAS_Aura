@@ -10,9 +10,7 @@ class UCharacterClassInfo;
 enum class ECharacterClass : uint8;
 class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
-/**
- * 
- */
+
 UCLASS()
 class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 {
@@ -46,6 +44,9 @@ public:
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& Context, bool bIsInCriticalHit);
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static bool GetIsCriticalHit(const FGameplayEffectContextHandle& Context);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
+	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorsToIgnore, float radius, const FVector& SphereOrigin);
 	
 	
 };
