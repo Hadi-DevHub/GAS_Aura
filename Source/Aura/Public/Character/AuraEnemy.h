@@ -56,7 +56,6 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
-
 	
 protected:
 	virtual void BeginPlay() override;
@@ -87,8 +86,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "CharacterProperties")
 	ECharacterClass CharacterClass;
-
-	
 
 	/**
 	 * Reacting to player attacks

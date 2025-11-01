@@ -66,7 +66,7 @@ void AAuraEnemy::BeginPlay()
 			);
 		OnHealthChanged.Broadcast(AuraAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
-		AbilitySystemComponent->RegisterGameplayTagEvent(AuraGameplayTags::Status_HitReact, EGameplayTagEventType::NewOrRemoved);
+		AbilitySystemComponent->RegisterGameplayTagEvent(AuraGameplayTags::Status_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraEnemy::HitReactTagChanged);
 	}
 }
 
@@ -108,7 +108,10 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 {
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
-	AuraAIController->GetBlackboardComponent()->SetValueAsBool("bHitReacting", bHitReacting);
+	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("bHitReacting"), bHitReacting);
+	}
 }
 
 void AAuraEnemy::HighlightActor()
