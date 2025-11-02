@@ -57,6 +57,11 @@ namespace AuraGameplayTags
 
 	// Attack Tags
 	UE_DEFINE_GAMEPLAY_TAG(Attak_MeleeAttack, "Attack.MeleeAttack");
+
+	// Montage Gameplay Tags
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_Weapon, "Montage.Attack.Weapon");
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_RightHand, "Montage.Attack.RightHand");
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_LeftHand, "Montage.Attack.LeftHand");
 	
 }
 
