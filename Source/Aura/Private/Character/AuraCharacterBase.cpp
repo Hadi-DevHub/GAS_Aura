@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Character/AuraCharacterBase.h"
+
+#include "AuraGameplayTags.h"
 #include "Components/CapsuleComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
@@ -26,10 +28,21 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	if (MontageTag.MatchesTagExact(AuraGameplayTags::Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag == AuraGameplayTags::Montage_Attack_RightHand && IsValid(GetMesh()))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	if (MontageTag == AuraGameplayTags::Montage_Attack_LeftHand && IsValid(GetMesh()))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	return FVector();
 }
 
 AActor* AAuraCharacterBase::GetAvatarActor_Implementation() 

@@ -27,9 +27,22 @@ public:
 	 *  Derived from ICombatInterface Functions
 	 */
 	virtual void DIE() override;
-	virtual FVector GetCombatSocketLocation_Implementation() override;
+	
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName WeaponTipSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName LeftHandSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName RightHandSocketName;
+
 	virtual AActor* GetAvatarActor_Implementation() override;
 	virtual bool GetIsDead() const;
+	
+	virtual TArray<FTaggedMontages> GetAttackMontages_Implementation() const override;
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
+	TArray<FTaggedMontages> TaggedMontages;
+	
 	/**
 	 *  Derived from ICombatInterface Functions
 	 */
@@ -58,13 +71,6 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
-	
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName WeaponTipSocketName;
-
-	virtual TArray<FTaggedMontages> GetAttackMontages_Implementation() const override;
-	UPROPERTY(EditDefaultsOnly, Category = "Combat")
-	TArray<FTaggedMontages> TaggedMontages;
 	
 	bool bIsDead = false;
 
