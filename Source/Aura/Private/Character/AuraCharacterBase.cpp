@@ -74,6 +74,11 @@ void AAuraCharacterBase::Dissolve()
 	}
 }
 
+TArray<FTaggedMontages> AAuraCharacterBase::GetAttackMontages_Implementation() const
+{
+	return TaggedMontages;
+}
+
 void AAuraCharacterBase::DIE()
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
@@ -117,10 +122,5 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactAnim;
 }
 
-UAnimMontage* AAuraCharacterBase::GetAttackMontage_Implementation()
-{
-	check(AttackAnim)
-	return AttackAnim;
-}
 
 
