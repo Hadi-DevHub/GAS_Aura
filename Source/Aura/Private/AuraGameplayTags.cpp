@@ -56,7 +56,7 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
 
 	// Attack Tags
-	UE_DEFINE_GAMEPLAY_TAG(Attak_MeleeAttack, "Attack.MeleeAttack");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Attack, "Ability.Attack");
 
 	// Montage Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_Weapon, "Montage.Attack.Weapon");

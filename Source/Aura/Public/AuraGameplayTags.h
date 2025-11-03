@@ -64,7 +64,7 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
 
 	// Attack Tags
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attak_MeleeAttack);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Attack);
 
 	// Montage Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_Weapon);
