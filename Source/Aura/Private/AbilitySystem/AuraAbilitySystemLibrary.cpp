@@ -139,7 +139,7 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldC
 	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
 	{
 		TArray<FOverlapResult> Overlaps;
-		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::AllDynamicObjects), FCollisionShape::MakeSphere(radius));
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::AllDynamicObjects), FCollisionShape::MakeSphere(radius), SphereParams);
 		for (FOverlapResult Overlap : Overlaps)
 		{
 			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_GetIsDead(Overlap.GetActor()))
@@ -148,4 +148,17 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldC
 			}
 		}
 	}
+}
+
+bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* ThisActor, AActor* OtherActor)
+{
+	bool bIsThisPlayer = ThisActor->ActorHasTag("Player");
+	bool bIsOtherPlayer = OtherActor->ActorHasTag("Player");;
+
+	bool bIsBothPlayer = bIsThisPlayer && bIsOtherPlayer;
+	bool bIsBotNotPlayer = !bIsThisPlayer && !bIsOtherPlayer;
+
+	bool bIsFriend = bIsBothPlayer || bIsBotNotPlayer;
+	
+	return !bIsFriend;
 }
