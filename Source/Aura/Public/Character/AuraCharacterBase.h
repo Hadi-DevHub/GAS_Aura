@@ -69,7 +69,7 @@ protected:
 	UFUNCTION(NetMulticast, reliable)  // This function is related to the DIE function above.
 	virtual void MulticastHandleDeath();
 	
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 	
 	bool bIsDead = false;
