@@ -9,7 +9,7 @@
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
-class UAbilitySystemComponent;
+class UNiagaraSystem;class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayAbility;
 
@@ -38,6 +38,7 @@ public:
 
 	virtual AActor* GetAvatarActor_Implementation() override;
 	virtual bool GetIsDead() const;
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
 	
 	virtual TArray<FTaggedMontages> GetAttackMontages_Implementation() const override;
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
@@ -99,13 +100,15 @@ protected:
 	int32 Level = 1;
 
 
-	// Anim Related Section
+	// Visual Related Section
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
-
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")
 	TObjectPtr<UAnimMontage> HitReactAnim;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")
 	TObjectPtr<UAnimMontage> AttackAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|DamagedEffect")
+	TObjectPtr<UNiagaraSystem> BloodEffect;
 };

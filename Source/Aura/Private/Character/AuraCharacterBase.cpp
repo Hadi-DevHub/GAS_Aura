@@ -55,6 +55,11 @@ bool AAuraCharacterBase::GetIsDead() const
 	return bIsDead;
 }
 
+UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation() const
+{
+	return BloodEffect;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
