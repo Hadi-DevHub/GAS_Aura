@@ -67,9 +67,15 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Attack);
 
 	// Montage Gameplay Tags
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_Weapon);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_RightHand);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_LeftHand);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_1);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_2);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_3);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_4);
+
+	//Combat Socket Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_Weapon);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_LeftHand);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_RightHand);
 
 }
 

@@ -30,15 +30,15 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	if (MontageTag.MatchesTagExact(AuraGameplayTags::Montage_Attack_Weapon) && IsValid(Weapon))
+	if (MontageTag.MatchesTagExact(AuraGameplayTags::CombatSocket_Weapon) && IsValid(Weapon))
 	{
 		return Weapon->GetSocketLocation(WeaponTipSocketName);
 	}
-	if (MontageTag == AuraGameplayTags::Montage_Attack_RightHand && IsValid(GetMesh()))
+	if (MontageTag == AuraGameplayTags::CombatSocket_RightHand && IsValid(GetMesh()))
 	{
 		return GetMesh()->GetSocketLocation(RightHandSocketName);
 	}
-	if (MontageTag == AuraGameplayTags::Montage_Attack_LeftHand && IsValid(GetMesh()))
+	if (MontageTag == AuraGameplayTags::CombatSocket_LeftHand && IsValid(GetMesh()))
 	{
 		return GetMesh()->GetSocketLocation(LeftHandSocketName);
 	}
@@ -95,6 +95,18 @@ void AAuraCharacterBase::Dissolve()
 TArray<FTaggedMontages> AAuraCharacterBase::GetAttackMontages_Implementation() const
 {
 	return TaggedMontages;
+}
+
+FTaggedMontages AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) 
+{
+	for (auto TaggedMontage : TaggedMontages)
+	{
+		if (TaggedMontage.MontageTag == MontageTag)
+		{
+			return TaggedMontage;
+		}
+	}
+	return FTaggedMontages();
 }
 
 void AAuraCharacterBase::DIE()

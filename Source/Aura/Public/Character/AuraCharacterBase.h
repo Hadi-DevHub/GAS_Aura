@@ -41,6 +41,7 @@ public:
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
 	
 	virtual TArray<FTaggedMontages> GetAttackMontages_Implementation() const override;
+	virtual FTaggedMontages GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	TArray<FTaggedMontages> TaggedMontages;
 	

@@ -59,9 +59,15 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Ability_Attack, "Ability.Attack");
 
 	// Montage Gameplay Tags
-	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_Weapon, "Montage.Attack.Weapon");
-	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_RightHand, "Montage.Attack.RightHand");
-	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_LeftHand, "Montage.Attack.LeftHand");
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_1, "Montage.Attack.1");
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_2, "Montage.Attack.2");
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_3, "Montage.Attack.3");
+	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_4, "Montage.Attack.4");
+
+	// Combat Socket Tags
+	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_Weapon, "CombatSocket.Weapon");
+	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_LeftHand, "CombatSocket.LeftHand");
+	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_RightHand, "CombatSocket.RightHand");
 	
 }
 
