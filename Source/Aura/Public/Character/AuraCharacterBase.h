@@ -82,26 +82,26 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	virtual void InitializeDefaultAttributes() const;
 
-	UPROPERTY(EditAnywhere, Category = "Character Class Default")
+	UPROPERTY(EditAnywhere, Category = "Character Defaults|Attributes")
 	int32 Level = 1;
 
 
-	// Visual Related Section
+	// FX Related
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")
@@ -112,4 +112,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|DamagedEffect")
 	TObjectPtr<UNiagaraSystem> BloodEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|DamagedEffect")
+	TObjectPtr<USoundBase> DeathSound;
 };
