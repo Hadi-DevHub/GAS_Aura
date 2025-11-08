@@ -35,6 +35,8 @@ public:
 	FName LeftHandSocketName;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName RightHandSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
 
 	virtual AActor* GetAvatarActor_Implementation() override;
 	virtual bool GetIsDead() const;
