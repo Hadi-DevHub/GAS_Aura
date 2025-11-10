@@ -46,6 +46,8 @@ public:
 	virtual FTaggedMontages GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	TArray<FTaggedMontages> TaggedMontages;
+	virtual int32 GetNumberOfMinions_Implementation() const override;
+	virtual void IncrementNumberOfMinions_Implementation(int32 Amount) override;
 	
 	/**
 	 *  Derived from ICombatInterface Functions
@@ -83,6 +85,9 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY()
+	int32 MinionCount = 0;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

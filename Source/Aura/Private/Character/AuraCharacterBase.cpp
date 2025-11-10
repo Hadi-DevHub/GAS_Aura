@@ -65,6 +65,16 @@ UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation() const
 	return BloodEffect;
 }
 
+int32 AAuraCharacterBase::GetNumberOfMinions_Implementation() const
+{
+	return MinionCount;
+}
+
+void AAuraCharacterBase::IncrementNumberOfMinions_Implementation(int32 Amount)
+{
+	MinionCount += Amount;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
