@@ -57,6 +57,7 @@ namespace AuraGameplayTags
 
 	// Attack Tags
 	UE_DEFINE_GAMEPLAY_TAG(Ability_Attack, "Ability.Attack");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Montage, "Ability.Summon");
 
 	// Montage Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_1, "Montage.Attack.1");

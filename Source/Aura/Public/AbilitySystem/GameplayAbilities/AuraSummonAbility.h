@@ -27,8 +27,11 @@ public:
 	int NumberOfSpawns = 5;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Summon Properties")
-	TArray<TObjectPtr<AAuraEnemy>> TypesOfEnemiesToSpawn;
+	TArray<TSubclassOf<APawn>> TypesOfEnemiesToSpawn;
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FVector> GetSpawnLocations();
+
+	UFUNCTION(BlueprintPure)
+	TSubclassOf<APawn> GetRandomMinion();
 };

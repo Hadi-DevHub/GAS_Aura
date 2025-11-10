@@ -273,15 +273,14 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
 		}
 	}
-	
 	// Getting the Target //
 	// -> To get the Target, we can get it from the data.
 
-	if (IsValid(Data.Target.GetAvatarActor()) && Data.Target.AbilityActorInfo.IsValid())
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 	{
 		Props.TargetAvatarActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-		Props.TargetController = CastChecked<APawn>(Props.TargetAvatarActor)->GetController();
-		Props.TargetCharacter = Cast<ACharacter>(Props.TargetController->GetPawn());
+		Props.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
+		Props.TargetCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
 }

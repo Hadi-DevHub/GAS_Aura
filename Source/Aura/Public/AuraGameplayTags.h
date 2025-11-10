@@ -65,6 +65,7 @@ namespace AuraGameplayTags
 
 	// Attack Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Attack);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Summon);
 
 	// Montage Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_1);

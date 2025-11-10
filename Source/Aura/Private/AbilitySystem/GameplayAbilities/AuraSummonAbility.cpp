@@ -34,3 +34,12 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 	}
 	return SpawnLocations;
 }
+
+TSubclassOf<APawn> UAuraSummonAbility::GetRandomMinion()
+{
+	if (TypesOfEnemiesToSpawn.Num() > 0)
+	{
+		return TypesOfEnemiesToSpawn[FMath::RandRange(0, TypesOfEnemiesToSpawn.Num() - 1)];
+	}
+	return nullptr;
+}
