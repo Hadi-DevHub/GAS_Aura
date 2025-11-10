@@ -17,11 +17,20 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 	{
 		const FVector Direction = LeftOfSpread.RotateAngleAxis((DistanceBetweenSpawns * i) + 8.6f, FVector::UpVector);
 		FVector SpawnLocation = Location + Direction * FMath::FRandRange(MinSpawnDistance , MaxSpawnDistance);
-		SpawnLocations.Add(SpawnLocation);
-		
-		DrawDebugDirectionalArrow(GetWorld(), Location, Location + Direction * MaxSpawnDistance, 1.f, FColor::Red,false, 5.f );
-		DrawDebugSphere(GetWorld(), SpawnLocation, 15.f, 12, FColor::Cyan, false, 5.f );
-	}
 
-	return TArray<FVector>();
+		FHitResult Hit;
+		GetWorld()->LineTraceSingleByChannel(
+			Hit,
+			SpawnLocation + FVector(0.f, 0.f, 400.f),
+			SpawnLocation - FVector(0.f, 0.f, 400.f),
+			ECC_Visibility
+			);
+
+		if (Hit.bBlockingHit)
+		{
+			SpawnLocation = Hit.ImpactPoint;
+			SpawnLocations.Add(SpawnLocation);
+		}
+	}
+	return SpawnLocations;
 }
