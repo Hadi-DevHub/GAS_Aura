@@ -86,7 +86,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	int32 MinionCount = 0;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
