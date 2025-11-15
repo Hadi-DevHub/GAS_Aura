@@ -79,6 +79,10 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_RightHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_Tail);
 
+	// Ability Info Tag
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
+
+
 }
 
 class FAuraGameplayTags

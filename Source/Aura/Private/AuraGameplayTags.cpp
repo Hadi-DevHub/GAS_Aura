@@ -70,6 +70,9 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_LeftHand, "CombatSocket.LeftHand");
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_RightHand, "CombatSocket.RightHand");
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_Tail, "CombatSocket.Tail");
+
+	// Ability Info Tag
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
 	
 }
 
