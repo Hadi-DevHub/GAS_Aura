@@ -8,6 +8,7 @@
 #include "OverlayWidgetController.generated.h"
 
 
+class UAuraAbilitySystemComponent;
 class UAbilityInfo;
 
 USTRUCT(BlueprintType)
@@ -40,6 +41,7 @@ class AURA_API UOverlayWidgetController : public UAuraWidgetController
 public:
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
+	void InitializeOnStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent);
 	
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnHealthChanged;

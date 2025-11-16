@@ -39,9 +39,18 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		{
 			OnMaxManaChanged.Broadcast(Data.NewValue);
 		});
-	
-	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetTags)
+
+	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		if (AuraASC->bStartupAbilitiesGiven)
+		{
+			InitializeOnStartupAbilities(AuraASC);
+		}
+		else
+		{
+			AuraASC->AbilityGiven.AddUObject(this, &UOverlayWidgetController::InitializeOnStartupAbilities);
+		}
+		AuraASC->EffectAssetTags.AddLambda([this](const FGameplayTagContainer& AssetTags)
 		{
 			for (const FGameplayTag& Tag : AssetTags)
 			{
@@ -52,6 +61,12 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 					MessageWidgetRowDelegate.Broadcast(*Row);	
 				}
 			}
-		}
-		);
+		});
+	}
+	
+}
+
+void UOverlayWidgetController::InitializeOnStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)
+{
+	if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
 }
