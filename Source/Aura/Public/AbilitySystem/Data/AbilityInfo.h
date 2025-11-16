@@ -31,6 +31,7 @@ class AURA_API UAbilityInfo : public UDataAsset
 {
 	GENERATED_BODY()
 
+public:
 	UPROPERTY(EditDefaultsOnly, Category = "AbilityInformation")
 	TArray<FAuraAbilityInfo> AbilityInformation;
 

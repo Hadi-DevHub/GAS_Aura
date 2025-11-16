@@ -32,6 +32,7 @@ struct FUIWidgetRow : public FTableRowBase
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FAuraAbilityInfo&, Info);
 
 UCLASS(Blueprintable, BlueprintType)
 class AURA_API UOverlayWidgetController : public UAuraWidgetController
@@ -41,7 +42,7 @@ class AURA_API UOverlayWidgetController : public UAuraWidgetController
 public:
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
-	void InitializeOnStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent);
+	void InitializeOnStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent) const;
 	
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnHealthChanged;
@@ -54,6 +55,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Messages")
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;
+	
+	UPROPERTY(BlueprintAssignable, Category="GAS|Messages")
+	FAbilityInfoSignature AbilityInfoDelegate;
 
 	
 protected:
