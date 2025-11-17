@@ -97,7 +97,7 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
 {
 	for (auto Tag : AbilitySpec.DynamicAbilityTags)
 	{
-		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Input"))))
 		{
 			return Tag;
 		}
