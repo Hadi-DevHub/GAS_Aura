@@ -74,6 +74,9 @@ namespace AuraGameplayTags
 	// Ability Info Tag
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
 	
+	// Cooldown Tag
+	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Firebolt, "Cooldown.Fire.FireBolt");
+	
 }
 
 FAuraGameplayTags& FAuraGameplayTags::Get()

@@ -81,6 +81,9 @@ namespace AuraGameplayTags
 
 	// Ability Info Tag
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
+	
+	// Cooldown Tag
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Fire_Firebolt);
 
 
 }
