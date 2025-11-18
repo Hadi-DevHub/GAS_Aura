@@ -25,7 +25,7 @@ UWaitCooldownChange* UWaitCooldownChange::WaitForCooldownChange(UAbilitySystemCo
 
 	return WaitCooldownChange;
 }
-
+	
 void UWaitCooldownChange::EndTask()
 {
 	if (!IsValid(ASC)) return;
