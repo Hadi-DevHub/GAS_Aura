@@ -4,15 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
 #include "GameFramework/PlayerState.h"
-#include "Interaction/CombatInterface.h"
 #include "AuraPlayerState.generated.h"
-
 
 class UAbilitySystemComponent;
 class UAttributeSet;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, float, EXP);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32);
 
 UCLASS()
 class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -37,6 +36,9 @@ public:
 
 	FOnPlayerStatChanged OnExperienceChanged;
 	FOnPlayerStatChanged OnLevelChanged;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<ULevelUpInfo> LevelUpInfo;
 
 protected:
 	UPROPERTY()
