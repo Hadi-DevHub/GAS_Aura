@@ -58,6 +58,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
+	virtual ECharacterClass GetCharacterClass_Implementation() const override;
 
 	virtual void Dissolve();
 	UPROPERTY(EditAnywhere, Category = "Dissolve")
@@ -100,6 +101,9 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "CharacterProperties")
+	ECharacterClass CharacterClass;
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	virtual void InitializeDefaultAttributes() const;

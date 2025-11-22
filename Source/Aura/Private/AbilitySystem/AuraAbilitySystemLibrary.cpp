@@ -12,6 +12,7 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "AuraAbilityTypes.h"
 #include "Engine/OverlapResult.h"
+#include "Interaction/CombatInterface.h"
 
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(UObject* WorldContextObject)
@@ -161,4 +162,14 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* ThisActor, AActor* OtherActo
 	bool bIsFriend = bIsBothPlayer || bIsBotNotPlayer;
 	
 	return !bIsFriend;
+}
+
+int32 UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 Level)
+{
+	const UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
+	if (ClassInfo == nullptr) return 0;
+
+	const FCharacterClassDefaultInfo& Info = ClassInfo->GetClassDefaultInfo(CharacterClass);
+	float XPReward = Info.XPReward.GetValueAtLevel(Level);
+	return static_cast<int32>(XPReward);
 }

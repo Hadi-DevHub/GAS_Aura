@@ -84,9 +84,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
 
-	UPROPERTY(EditDefaultsOnly, Category = "CharacterProperties")
-	ECharacterClass CharacterClass;
-
 	/**
 	 * Reacting to player attacks
 	 */

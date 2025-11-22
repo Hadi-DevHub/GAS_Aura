@@ -91,6 +91,11 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	AuraASC->AddCharacterAbilities(StartupAbilities);
 }
 
+ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation() const
+{
+	return CharacterClass;
+}
+
 void AAuraCharacterBase::Dissolve()
 {
 	if (IsValid(CharacterDissolveMaterial))
