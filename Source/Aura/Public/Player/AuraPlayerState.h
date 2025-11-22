@@ -12,6 +12,8 @@
 class UAbilitySystemComponent;
 class UAttributeSet;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, float, EXP);
+
 UCLASS()
 class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInterface
 {
@@ -25,6 +27,16 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
+	FORCEINLINE int32 GetPlayerExperience() const { return PlayerXP; }
+
+	void AddPlayerLevel(int32 InLevel); 
+	void AddToExperience(int32 XP); 
+
+	FORCEINLINE void SetPlayerLevel(int32 InLevel) { Level = InLevel; }
+	FORCEINLINE void SetToExperience(int32 XP) { PlayerXP = XP; }
+
+	FOnPlayerStatChanged OnExperienceChanged;
+	FOnPlayerStatChanged OnLevelChanged;
 
 protected:
 	UPROPERTY()
@@ -37,8 +49,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_Level)
 	int32 Level = 1;
-
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
+	
+	UPROPERTY(ReplicatedUsing = OnRep_PlayerXP)
+	int PlayerXP;
+	UFUNCTION()
+	void OnRep_PlayerXP(int32 OldXP);
 	
 };
