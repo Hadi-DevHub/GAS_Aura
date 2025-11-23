@@ -257,6 +257,9 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingXP);
 
 	UFUNCTION()
+	void SendXPEvent(const FEffectProperties& Props);
+
+	UFUNCTION()
 	void ShowDamageText(FEffectProperties& Props, float DamageAmount, bool bIsBlocked, bool bIsCritical);
 	
 protected:
