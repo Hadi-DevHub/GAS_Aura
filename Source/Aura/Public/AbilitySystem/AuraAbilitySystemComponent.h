@@ -19,6 +19,7 @@ public:
 	void AbilityActorInfoSet();
 	UFUNCTION()
 	void AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
+	void AddCharacterPassiveAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);

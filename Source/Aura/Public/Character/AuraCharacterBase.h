@@ -58,6 +58,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
+	virtual void AddCharacterPassiveAbilities();
 	virtual ECharacterClass GetCharacterClass_Implementation() const override;
 
 	virtual void Dissolve();
@@ -92,6 +93,9 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupPassiveAbilities;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;

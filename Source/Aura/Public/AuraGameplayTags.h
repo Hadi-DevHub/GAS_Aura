@@ -60,6 +60,9 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage_Lightning);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage_Physical);
 
+	// Meta Attribute Gameplay Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Meta_IncomingXP);
+	
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
 

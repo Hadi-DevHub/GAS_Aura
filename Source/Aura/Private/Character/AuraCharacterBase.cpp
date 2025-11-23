@@ -91,6 +91,14 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	AuraASC->AddCharacterAbilities(StartupAbilities);
 }
 
+void AAuraCharacterBase::AddCharacterPassiveAbilities()
+{
+	UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+	AuraASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
+	
+}
+
 ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation() const
 {
 	return CharacterClass;

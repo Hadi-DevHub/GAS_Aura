@@ -52,6 +52,10 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Lightning, "Attributes.Resistance.Lightning");
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Physical, "Attributes.Resistance.Physical");
 
+	// Meta Attribute Gameplay Tags
+	UE_DEFINE_GAMEPLAY_TAG(Attributes_Meta_IncomingXP, "Attributes.Meta.IncomingXP");
+
+	
 	// Status Tags
 	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
 
