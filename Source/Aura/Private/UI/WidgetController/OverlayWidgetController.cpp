@@ -101,7 +101,7 @@ void UOverlayWidgetController::OnXPChanged(int32 NewValue)
 	{
 		int32 LevelUpRequirement = LevelUpInfo->LevelUpInfos[CurrentPlayerLevel].LevelUpRequirement;
 		int32 PreviousLevelUpRequirement = LevelUpInfo->LevelUpInfos[CurrentPlayerLevel - 1].LevelUpRequirement;
-		int32 DeltaLevelUpRequirement = PreviousLevelUpRequirement - LevelUpRequirement;
+		int32 DeltaLevelUpRequirement = LevelUpRequirement - PreviousLevelUpRequirement;
 
 		float XPBarPercent = static_cast<float>(NewValue) / static_cast<float>(DeltaLevelUpRequirement);
 		
