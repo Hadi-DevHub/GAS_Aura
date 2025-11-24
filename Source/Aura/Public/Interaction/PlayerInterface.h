@@ -19,6 +19,10 @@ class AURA_API IPlayerInterface
 
 public:
 	
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent)
 	void AddToXp(int32 InXP);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void PlayerLevelUp(int32 InXP);
+	
 };
