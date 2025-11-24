@@ -236,9 +236,33 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	{
 		const float LocalIncomingXP = GetIncomingXP();
 		SetIncomingXP(0.f);
+		
 		if (Props.SourceCharacter->Implements<UPlayerInterface>())
 		{
-			IPlayerInterface::Execute_AddToXp(Props.SourceCharacter, LocalIncomingXP);
+			ACharacter* SChara = Props.SourceCharacter;
+			IPlayerInterface::Execute_AddToXp(SChara, LocalIncomingXP);
+			
+			int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(SChara);
+			int32 CurrentXP = IPlayerInterface::Execute_GetPlayerXP(SChara);
+			
+			int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(SChara, CurrentXP + LocalIncomingXP);
+			int32 NumLevelUps = NewLevel - CurrentLevel;
+			
+			if (NumLevelUps > 0)
+			{
+				int32 AttributePointsReward = IPlayerInterface::Execute_GetAttributePoints(SChara, CurrentLevel);
+				int32 SpellPointsReward = IPlayerInterface::Execute_GetAbilityPoints(SChara, CurrentLevel);
+
+				IPlayerInterface::Execute_AddToPlayerLevel(SChara, NumLevelUps);
+				IPlayerInterface::Execute_AddAttributePoints(SChara, AttributePointsReward);
+				IPlayerInterface::Execute_AddAbilityPoints(SChara, SpellPointsReward);
+
+				SetHealth(GetMaxHealth());
+				SetMana(GetMaxMana());
+
+				IPlayerInterface::Execute_PlayerLevelUp(SChara);
+			}
+			IPlayerInterface::Execute_AddToXp(SChara, LocalIncomingXP);
 		}
 	}
 }

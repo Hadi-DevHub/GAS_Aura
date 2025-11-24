@@ -51,6 +51,56 @@ void AAuraCharacter::AddToXp_Implementation(int32 InXP)
 	AuraPlayerState->AddToExperience(InXP);
 }
 
+int32 AAuraCharacter::GetPlayerXP_Implementation() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}
+
+int32 AAuraCharacter::GetAttributePoints_Implementation(int32 PlayerLevel) const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->LevelUpInfo->LevelUpInfos[PlayerLevel].AttributePointReward;
+}
+
+int32 AAuraCharacter::GetAbilityPoints_Implementation(int32 PlayerLevel) const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->LevelUpInfo->LevelUpInfos[PlayerLevel].SpellPointReward;
+}
+
+int32 AAuraCharacter::FindLevelForXP_Implementation(int32 XP)
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->LevelUpInfo->FindLevelForXP(XP);
+}
+
+inline void AAuraCharacter::PlayerLevelUp_Implementation()
+{
+	IPlayerInterface::PlayerLevelUp_Implementation();
+}
+
+void AAuraCharacter::AddAttributePoints_Implementation(int32 AttributePoint)
+{
+	//
+}
+
+void AAuraCharacter::AddAbilityPoints_Implementation(int32 AbilityPoint)
+{
+	//
+}
+
+void AAuraCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->AddPlayerLevel(InPlayerLevel);
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
