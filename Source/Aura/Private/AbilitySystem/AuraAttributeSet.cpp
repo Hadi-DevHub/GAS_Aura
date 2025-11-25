@@ -240,7 +240,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		if (Props.SourceCharacter->Implements<UPlayerInterface>())
 		{
 			ACharacter* SChara = Props.SourceCharacter;
-			IPlayerInterface::Execute_AddToXp(SChara, LocalIncomingXP);
 			
 			int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(SChara);
 			int32 CurrentXP = IPlayerInterface::Execute_GetPlayerXP(SChara);

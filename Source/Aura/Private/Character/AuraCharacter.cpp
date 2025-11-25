@@ -55,7 +55,7 @@ int32 AAuraCharacter::GetPlayerXP_Implementation() const
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
-	return AuraPlayerState->GetPlayerLevel();
+	return AuraPlayerState->GetPlayerExperience();
 }
 
 int32 AAuraCharacter::GetAttributePoints_Implementation(int32 PlayerLevel) const
