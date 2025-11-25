@@ -5,13 +5,30 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerController.h"
 #include "AbilitySystemComponent.h"
+#include "NiagaraComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Player/AuraPlayerState.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
 {
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>("CameraBoom");
+	CameraBoom->SetupAttachment(GetRootComponent());
+	CameraBoom->TargetArmLength = 800.f;
+	CameraBoom->SetUsingAbsoluteRotation(false);
+	CameraBoom->bDoCollisionTest = false;
+
+	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>("TopDownCameraComponent");
+	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	TopDownCameraComponent->bUsePawnControlRotation = false;
+
+	LevelUpParticles = CreateDefaultSubobject<UNiagaraComponent>("LevelUpVFXComponent");
+	LevelUpParticles->SetupAttachment(GetRootComponent());
+	LevelUpParticles->SetAutoActivate(false);
+	
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
@@ -81,7 +98,11 @@ int32 AAuraCharacter::FindLevelForXP_Implementation(int32 XP)
 
 inline void AAuraCharacter::PlayerLevelUp_Implementation()
 {
-	IPlayerInterface::PlayerLevelUp_Implementation();
+	FVector CameraLocation = TopDownCameraComponent->GetComponentLocation();
+	FVector LevelUpParticleLocation = LevelUpParticles->GetComponentLocation();
+	FRotator FaceCameraRotation = (LevelUpParticleLocation - CameraLocation).Rotation();
+	LevelUpParticles->SetWorldRotation(FaceCameraRotation);
+	LevelUpParticles->Activate(true);
 }
 
 void AAuraCharacter::AddAttributePoints_Implementation(int32 AttributePoint)

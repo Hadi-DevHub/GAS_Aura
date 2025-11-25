@@ -7,6 +7,9 @@
 #include "Interaction/PlayerInterface.h"
 #include "AuraCharacter.generated.h"
 
+class UNiagaraComponent;
+class USpringArmComponent;
+class UCameraComponent;
 class AAuraPlayerState;
 /**
  * 
@@ -42,6 +45,13 @@ protected:
 private:
 	virtual void InitAbilityActorInfo() override;
 
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UCameraComponent> TopDownCameraComponent;
 	
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USpringArmComponent> CameraBoom;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UNiagaraComponent> LevelUpParticles;
 };
 
