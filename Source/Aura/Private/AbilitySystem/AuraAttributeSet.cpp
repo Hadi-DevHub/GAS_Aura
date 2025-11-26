@@ -250,11 +250,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			if (NumLevelUps > 0)
 			{
 				int32 AttributePointsReward = IPlayerInterface::Execute_GetAttributePoints(SChara, CurrentLevel);
-				int32 SpellPointsReward = IPlayerInterface::Execute_GetAbilityPoints(SChara, CurrentLevel);
+				int32 SpellPointsReward = IPlayerInterface::Execute_GetSpellPoints(SChara, CurrentLevel);
 
 				IPlayerInterface::Execute_AddToPlayerLevel(SChara, NumLevelUps);
 				IPlayerInterface::Execute_AddAttributePoints(SChara, AttributePointsReward);
-				IPlayerInterface::Execute_AddAbilityPoints(SChara, SpellPointsReward);
+				IPlayerInterface::Execute_AddSpellPoints(SChara, SpellPointsReward);
 
 				SetHealth(GetMaxHealth());
 				SetMana(GetMaxMana());

@@ -6,16 +6,19 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include "Player/AuraPlayerState.h"
 
 void UAttributeMenuWidgetController::BroadcastInitialValue()
 {
 	UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(AttributeSet);
+	AAuraPlayerState* PS = CastChecked<AAuraPlayerState>(PlayerState);
 	check(AttributeInfo);
 
 	for (auto& Pair : AS->TagsToAttributes)
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
+	OnAttributePointsAdded.Broadcast(PS->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
@@ -23,6 +26,16 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 	UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(AttributeSet);
 	check(AttributeInfo);
 
+	AAuraPlayerState* PS = CastChecked<AAuraPlayerState>(PlayerState);
+	PS->OnAttributePointsAdded.AddLambda([this](int32 NewValue)
+	{
+		OnAttributePointsAdded.Broadcast(NewValue);
+	});
+	PS->OnSpellPointsAdded.AddLambda([this](int32 NewValue)
+	{
+		OnSpellPointsAdded.Broadcast(NewValue);
+	});
+	
 	for (auto& Pair : AS->TagsToAttributes)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda([this, Pair](const FOnAttributeChangeData& Data)

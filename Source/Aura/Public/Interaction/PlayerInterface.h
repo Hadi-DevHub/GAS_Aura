@@ -31,13 +31,13 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	int32 GetAttributePoints(int32 PlayerLevel) const;
 	UFUNCTION(BlueprintNativeEvent)
-	int32 GetAbilityPoints(int32 PlayerLevel) const;
+	int32 GetSpellPoints(int32 PlayerLevel) const;
 
 	UFUNCTION(BlueprintNativeEvent)
 	void AddToPlayerLevel(int32 InPlayerLevel);
 	UFUNCTION(BlueprintNativeEvent)
 	void AddAttributePoints(int32 AttributePoint);
 	UFUNCTION(BlueprintNativeEvent)
-	void AddAbilityPoints(int32 AbilityPoint);
+	void AddSpellPoints(int32 SpellPoint);
 	
 };

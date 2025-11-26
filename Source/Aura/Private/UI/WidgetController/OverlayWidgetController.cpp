@@ -19,15 +19,14 @@ void UOverlayWidgetController::BroadcastInitialValue()
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	AAuraPlayerState* PS = CastChecked<AAuraPlayerState>(PlayerState);
+	UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
 	PS->OnExperienceChanged.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	PS->OnLevelChanged.AddLambda([this](int32 NewValue)
 	{
 		OnPlayerStatChanged.Broadcast(NewValue);
 	});
-	
-	UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-	
+
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data)
 		{

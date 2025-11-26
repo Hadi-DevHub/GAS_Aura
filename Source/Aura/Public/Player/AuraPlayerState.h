@@ -27,6 +27,8 @@ public:
 
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 	FORCEINLINE int32 GetPlayerExperience() const { return PlayerXP; }
+	FORCEINLINE int32 GetAttributePoints() const { return AttributePoints; };
+	FORCEINLINE int32 GetSpellPoints() const { return SpellPoints; };
 
 	void AddPlayerLevel(int32 InLevel); 
 	void AddToExperience(int32 XP); 
@@ -34,8 +36,13 @@ public:
 	FORCEINLINE void SetPlayerLevel(int32 InLevel) { Level = InLevel; }
 	FORCEINLINE void SetToExperience(int32 XP) { PlayerXP = XP; }
 
+	void AddAttributePoints(int32 Points);
+	void AddSpellPoints(int32 Points);
+
 	FOnPlayerStatChanged OnExperienceChanged;
 	FOnPlayerStatChanged OnLevelChanged;
+	FOnPlayerStatChanged OnAttributePointsAdded;
+	FOnPlayerStatChanged OnSpellPointsAdded;
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
@@ -55,8 +62,17 @@ private:
 	void OnRep_Level(int32 OldLevel);
 	
 	UPROPERTY(ReplicatedUsing = OnRep_PlayerXP)
-	int PlayerXP;
+	int32 PlayerXP;
 	UFUNCTION()
 	void OnRep_PlayerXP(int32 OldXP);
-	
+
+	UPROPERTY(ReplicatedUsing = OnRep_AttributePoint)
+	int32 AttributePoints = 0;
+	UFUNCTION()
+	void OnRep_AttributePoint(int32 OldAttributePoint);
+
+	UPROPERTY(ReplicatedUsing = OnRep_SpellPoint)
+	int32 SpellPoints = 0;
+	UFUNCTION()
+	void OnRep_SpellPoint(int32 OldSpellPoint);
 };

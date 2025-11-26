@@ -13,6 +13,7 @@ struct FGameplayTag;
 struct FGameplayAttribute;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttributeInfoSignature, const FAuraAttributeInfo&, Info);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerStatChangedSignature, int32, NewValue);
 
 UCLASS(Blueprintable, BlueprintType)
 class AURA_API UAttributeMenuWidgetController : public UAuraWidgetController
@@ -20,17 +21,26 @@ class AURA_API UAttributeMenuWidgetController : public UAuraWidgetController
 	GENERATED_BODY()
 
 public:
+	
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FAttributeInfoSignature AttributeInfoDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FPlayerStatChangedSignature OnAttributePointsAdded;
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FPlayerStatChangedSignature OnSpellPointsAdded;
 	
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAttributeInfo> AttributeInfo;
+
+	int32 PendingAttributePoints;
+	int32 PendingSpellPoints;
 
 private:
 	void BroadcastAttributeInfo(const FGameplayTag& GameplayTag, const FGameplayAttribute& Attribute) const;
