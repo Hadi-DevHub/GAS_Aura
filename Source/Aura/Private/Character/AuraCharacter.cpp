@@ -75,18 +75,32 @@ int32 AAuraCharacter::GetPlayerXP_Implementation() const
 	return AuraPlayerState->GetPlayerExperience();
 }
 
-int32 AAuraCharacter::GetAttributePoints_Implementation(int32 PlayerLevel) const
+int32 AAuraCharacter::GetAttributePointsReward_Implementation(int32 PlayerLevel) const
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	return AuraPlayerState->LevelUpInfo->LevelUpInfos[PlayerLevel].AttributePointReward;
 }
 
-int32 AAuraCharacter::GetSpellPoints_Implementation(int32 PlayerLevel) const
+int32 AAuraCharacter::GetSpellPointsReward_Implementation(int32 PlayerLevel) const
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	return AuraPlayerState->LevelUpInfo->LevelUpInfos[PlayerLevel].SpellPointReward;
+}
+
+int32 AAuraCharacter::GetAttributePoints_Implementation() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetAttributePoints();
+}
+
+int32 AAuraCharacter::GetSpellPoints_Implementation() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetSpellPoints();
 }
 
 int32 AAuraCharacter::FindLevelForXP_Implementation(int32 XP)

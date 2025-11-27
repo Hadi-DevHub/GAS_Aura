@@ -25,6 +25,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
+	UFUNCTION(BlueprintCallable)
+	void UpgradeAttributes(const FGameplayTag& AttributeTag);
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FAttributeInfoSignature AttributeInfoDelegate;

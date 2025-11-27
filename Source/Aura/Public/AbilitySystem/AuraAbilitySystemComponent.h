@@ -31,6 +31,11 @@ public:
 	FEffectAssetTags EffectAssetTags;
 	FAbilityGiven AbilityGiven;
 	bool bStartupAbilitiesGiven = false;
+
+	void UpgradeAttributes(const FGameplayTag& AttributeTag);
+
+	UFUNCTION(Server, Reliable)
+	void ServerUpdateAttributes(const FGameplayTag& AttributeTag);
 	
 protected:
 	UFUNCTION(Client, Reliable)
