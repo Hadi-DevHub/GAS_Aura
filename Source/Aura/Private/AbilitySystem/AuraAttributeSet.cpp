@@ -279,7 +279,6 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	{
 		SetMana(GetMaxMana());
 		bTopOffMana = false;
-
 	}
 }
 
