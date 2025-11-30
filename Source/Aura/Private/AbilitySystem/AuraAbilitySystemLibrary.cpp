@@ -15,40 +15,64 @@
 #include "Interaction/CombatInterface.h"
 
 
-UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(UObject* WorldContextObject)
+UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
-	if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
+	FWidgetControllerParams WCParams;
+	AAuraHUD* HUD = nullptr;
+	if (MakeWidgetControllerParams(WorldContextObject, WCParams, HUD))
 	{
-		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(PC->GetHUD()))
-		{
-			AAuraPlayerState* PS = PC->GetPlayerState<AAuraPlayerState>();
-			UAuraAbilitySystemComponent* ASC = Cast<UAuraAbilitySystemComponent>(PS->GetAbilitySystemComponent());
-			UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(PS->GetAttributeSet());
-			const FWidgetControllerParams WCParams(PC, PS, ASC, AS); 
-			return AuraHUD->GetOverlayWidgetController(WCParams);
-		}
+		return HUD->GetOverlayWidgetController(WCParams);
 	}
 	return nullptr;
 }
 
-UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidgetController(UObject* WorldContextObject)
+UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidgetController(const UObject* WorldContextObject)
 {
-	if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
+	FWidgetControllerParams WCParams;
+	AAuraHUD* HUD = nullptr;
+	if (MakeWidgetControllerParams(WorldContextObject, WCParams, HUD))
 	{
-		if (AAuraHUD* HUD = Cast<AAuraHUD>(PC->GetHUD()))
-		{
-			AAuraPlayerState* PS = PC->GetPlayerState<AAuraPlayerState>();
-			UAuraAbilitySystemComponent* ASC = Cast<UAuraAbilitySystemComponent>(PS->GetAbilitySystemComponent());
-			UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(PS->GetAttributeSet());
-			const FWidgetControllerParams WCParams(PC,PS,ASC,AS);
-			return HUD->GetAttributeMenuWidgetController(WCParams);
-		}
+		return HUD->GetAttributeMenuWidgetController(WCParams);
 	}
 	return nullptr;
 }
 
-void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass,
-	float Level, UAbilitySystemComponent* ASC)
+UAuraSpellMenuWidgetController* UAuraAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+	FWidgetControllerParams WCParams;
+	AAuraHUD* HUD = nullptr;
+	if (MakeWidgetControllerParams(WorldContextObject, WCParams, HUD))
+	{
+		return HUD->GetSpellMenuWidgetController(WCParams);
+	}
+	return nullptr;
+}
+
+
+bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutHUD)
+{
+	if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
+	{
+		OutHUD = Cast<AAuraHUD>(PC->GetHUD());
+		if (OutHUD)
+		{
+			AAuraPlayerState* PS = PC->GetPlayerState<AAuraPlayerState>();
+			UAuraAbilitySystemComponent* ASC = Cast<UAuraAbilitySystemComponent>(PS->GetAbilitySystemComponent());
+			UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(PS->GetAttributeSet());
+
+			OutWCParams.PlayerController = PC;
+			OutWCParams.PlayerState = PS;
+			OutWCParams.AbilitySystemComponent = ASC;
+			OutWCParams.AttributeSet = AS;
+			
+			return true;
+		}
+	}
+	return false;
+}
+
+
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	UCharacterClassInfo* CharaClassInfo = GetCharacterClassInfo(WorldContextObject);
 	
@@ -68,8 +92,7 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	ASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandleVitals.Data.Get());
 }
 
-void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,
-	UAbilitySystemComponent* ThisASC, ECharacterClass CharacterClass)
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,UAbilitySystemComponent* ThisASC, ECharacterClass CharacterClass)
 {
 	UCharacterClassInfo* CharaClassInfo = GetCharacterClassInfo(WorldContextObject);
 	

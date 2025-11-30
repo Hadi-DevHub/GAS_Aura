@@ -6,30 +6,44 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "AbilitySystemComponent.h"
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
+#include "UI/WidgetController/AuraSpellMenuWidgetController.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 
-UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(FWidgetControllerParams WCParams)
+UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
-	if (OverlayWidgetController == nullptr)
+	/*if (OverlayWidgetController == nullptr)
 	{
-		check(OverlayWidgetControllerClass);
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WCParams);
 		OverlayWidgetController->BindCallbacksToDependencies();
 	}
-	return OverlayWidgetController;
+	return OverlayWidgetController;*/
+	return CreateOrGetWidgetController(OverlayWidgetController, OverlayWidgetControllerClass, WCParams);
 }
 
-UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(FWidgetControllerParams WCParams)
+UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams)
 {
-	if (AttributeMenuWidgetController == nullptr)
+	/*if (AttributeMenuWidgetController == nullptr)
 	{
-		check(AttributeMenuWidgetControllerClass);
 		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
 		AttributeMenuWidgetController->SetWidgetControllerParams(WCParams);
 		AttributeMenuWidgetController->BindCallbacksToDependencies();
 	}
-	return AttributeMenuWidgetController;
+	return AttributeMenuWidgetController;*/
+	return CreateOrGetWidgetController(AttributeMenuWidgetController, AttributeMenuWidgetControllerClass, WCParams);
+
+}
+
+UAuraSpellMenuWidgetController* AAuraHUD::GetSpellMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	/*if (SpellMenuWidgetController == nullptr)
+	{
+		SpellMenuWidgetController = NewObject<UAuraSpellMenuWidgetController>(this, SpellMenuWidgetControllerClass);
+		SpellMenuWidgetController->SetWidgetControllerParams(WCParams);
+		SpellMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return SpellMenuWidgetController;*/
+	return CreateOrGetWidgetController(SpellMenuWidgetController, SpellMenuWidgetControllerClass, WCParams);
 }
 
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
@@ -47,4 +61,5 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	WidgetController->BroadcastInitialValue();
 	Widget->AddToViewport();
 }
+
 

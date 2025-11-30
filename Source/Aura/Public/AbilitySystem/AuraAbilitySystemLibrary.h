@@ -6,9 +6,12 @@
 #include "AuraAbilityTypes.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
+struct FWidgetControllerParams;
+class UAuraSpellMenuWidgetController;
 class UCharacterClassInfo;
 enum class ECharacterClass : uint8;
 class UOverlayWidgetController;
+class AAuraHUD;
 class UAttributeMenuWidgetController;
 
 UCLASS()
@@ -18,10 +21,16 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 
 public:
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController")
-	static UOverlayWidgetController* GetOverlayWidgetController(UObject* WorldContextObject);
+	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
 	
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController")
-	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(UObject* WorldContextObject);
+	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+	
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController")
+	static UAuraSpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController")
+	static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutHUD);
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|Character Class Defaults")
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
