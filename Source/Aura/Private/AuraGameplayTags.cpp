@@ -57,13 +57,34 @@ namespace AuraGameplayTags
 	// Meta Attribute Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Meta_IncomingXP, "Attributes.Meta.IncomingXP");
 
+						//*                   *//
+						//  ABILITIES SECTION  //
+						//*                   *//
 	
-	// Status Tags
-	UE_DEFINE_GAMEPLAY_TAG(Status_HitReact, "Status.HitReact");
+	// General Abilities Tags
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_HitReact, "Abilities.HitReact");
 
 	// Attack Tags
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Attack, "Ability.Attack");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Montage, "Ability.Summon");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Attack, "Abilities.Attack");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Montage, "Abilities.Summon");
+
+	// Ability Info Tag
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
+	
+	// Ability Status Tag
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Locked, "Abilities.Status.Locked");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Eligible, "Abilities.Status.Eligible");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Unlocked, "Abilities.Status.Unlocked");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Equipped, "Abilities.Status.Equipped");
+
+	// Ability Type Tag
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Types_Offensive, "Abilities.Types.Offensive");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Types_Passive, "Abilities.Types.Passive");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Types_None, "Abilities.Types.None");
+	
+						//*                   *//
+						//  MONTAGE SECTION  //
+						//*                   *//
 
 	// Montage Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Montage_Attack_1, "Montage.Attack.1");
@@ -77,8 +98,7 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_RightHand, "CombatSocket.RightHand");
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_Tail, "CombatSocket.Tail");
 
-	// Ability Info Tag
-	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
+	
 	
 	// Cooldown Tag
 	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Firebolt, "Cooldown.Fire.FireBolt");

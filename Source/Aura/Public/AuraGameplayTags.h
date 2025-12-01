@@ -65,13 +65,42 @@ namespace AuraGameplayTags
 	// Meta Attribute Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Meta_IncomingXP);
 	
-	// Status Tags
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_HitReact);
-
+	//*                   *//
+	//  ABILITIES SECTION  //
+	//*                   *//
+	
 	// Attack Tags
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Attack);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Summon);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Attack);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Summon);
+	
+	// Ability Status Tag
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Status_Locked);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Status_Eligible);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Status_Unlocked);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Status_Equipped);
 
+	// Ability Type Tag
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Types_Offensive);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Types_Passive);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Types_None);
+	
+	// Ability Element Type
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
+
+	// Status Tags
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_HitReact);
+
+	//*							   *//
+	//  ABILITIES COOLDOWN SECTION  //
+	//*						       *//
+		
+	// Cooldown Tag
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Fire_Firebolt);
+
+	//*                   *//
+	//  MONTAGES SECTION  //
+	//*                   *//
+	
 	// Montage Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_1);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_2);
@@ -84,11 +113,6 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_RightHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_Tail);
 
-	// Ability Info Tag
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
-	
-	// Cooldown Tag
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Fire_Firebolt);
 
 
 }

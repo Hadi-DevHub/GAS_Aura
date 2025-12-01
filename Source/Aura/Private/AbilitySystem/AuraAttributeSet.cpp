@@ -226,7 +226,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			else
 			{
 				FGameplayTagContainer GameplayTagContainer;
-				GameplayTagContainer.AddTag(AuraGameplayTags::Status_HitReact);
+				GameplayTagContainer.AddTag(AuraGameplayTags::Abilities_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(GameplayTagContainer);
 			}
 			bool bIsBlocked = UAuraAbilitySystemLibrary::GetIsBlockedHit(Props.EffectContextHandle);
