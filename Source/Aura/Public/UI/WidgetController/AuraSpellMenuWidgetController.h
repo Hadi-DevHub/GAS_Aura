@@ -17,6 +17,7 @@ class AURA_API UAuraSpellMenuWidgetController : public UAuraWidgetController
 
 public:
 
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
 };

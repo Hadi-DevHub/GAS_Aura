@@ -36,6 +36,8 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_2, "Input.2");
 	UE_DEFINE_GAMEPLAY_TAG(Input_3, "Input.3");
 	UE_DEFINE_GAMEPLAY_TAG(Input_4, "Input.4");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Passive_1, "Input.Passive.1");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Passive_2, "Input.Passive.2");
 
 	// DamageType Gameplay Tags
 	// Damage
