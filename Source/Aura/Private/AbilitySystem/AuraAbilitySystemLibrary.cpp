@@ -48,7 +48,6 @@ UAuraSpellMenuWidgetController* UAuraAbilitySystemLibrary::GetSpellMenuWidgetCon
 	return nullptr;
 }
 
-
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutHUD)
 {
 	if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
