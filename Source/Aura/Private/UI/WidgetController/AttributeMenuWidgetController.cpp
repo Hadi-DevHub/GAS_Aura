@@ -14,7 +14,7 @@ void UAttributeMenuWidgetController::BroadcastInitialValue()
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
-	OnAttributePointsAdded.Broadcast(GetAPS()->GetAttributePoints());
+	OnPlayerStatChangedAdded.Broadcast(GetAPS()->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
@@ -22,13 +22,8 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 	check(AttributeInfo);
 	GetAPS()->OnAttributePointsAdded.AddLambda([this](int32 NewValue)
 	{
-		OnAttributePointsAdded.Broadcast(NewValue);
+		OnPlayerStatChangedAdded.Broadcast(NewValue);
 	});
-	GetAPS()->OnSpellPointsAdded.AddLambda([this](int32 NewValue)
-	{
-		OnSpellPointsAdded.Broadcast(NewValue);
-	});
-	
 	for (auto& Pair : GetAAS()->TagsToAttributes)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(

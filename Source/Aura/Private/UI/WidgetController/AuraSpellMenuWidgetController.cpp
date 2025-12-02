@@ -4,14 +4,20 @@
 #include "UI/WidgetController/AuraSpellMenuWidgetController.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "Player/AuraPlayerState.h"
 
 void UAuraSpellMenuWidgetController::BroadcastInitialValue()
 {
 	BroadcastAbilityInfos();
+	OnPlayerStatChangedAdded.Broadcast(GetAPS()->GetSpellPoints());
 }
 
 void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 {
+	GetAPS()->OnSpellPointsAdded.AddLambda([this](int32 NewValue)
+	{
+		OnPlayerStatChangedAdded.Broadcast(NewValue);
+	});
 	GetAASC()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
 	{
 		if (AbilityInfo)

@@ -17,6 +17,7 @@ class UAuraAbilitySystemComponent;
 class UAbilityInfo;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FAuraAbilityInfo&, Info);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerStatChangedSignature, int32, NewValue);
 
 USTRUCT(BlueprintType)
 struct FWidgetControllerParams
@@ -54,6 +55,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Messages")
 	FAbilityInfoSignature AbilityInfoDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FPlayerStatChangedSignature OnPlayerStatChangedAdded;
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")

@@ -12,11 +12,11 @@ class AURA_API UAuraSpellMenuWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 
-
 public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
+	
 
 };
