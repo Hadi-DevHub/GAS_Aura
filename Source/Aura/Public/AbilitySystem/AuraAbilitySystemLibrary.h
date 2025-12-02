@@ -6,6 +6,7 @@
 #include "AuraAbilityTypes.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
+class UAbilityInfo;
 struct FWidgetControllerParams;
 class UAuraSpellMenuWidgetController;
 class UCharacterClassInfo;
@@ -39,6 +40,8 @@ public:
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ThisASC, ECharacterClass CharacterClass);
 
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
+	
+	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
 	/*
 	/	Setters & Getters for the Aura

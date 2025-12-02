@@ -85,8 +85,13 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Types_None);
 	
 	// Ability Element Type
+	
+	//-- Fire -- //
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
-
+	
+	// -- Lightning -- //
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Lightning_Electrocute);
+	
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_HitReact);
 
@@ -96,6 +101,8 @@ namespace AuraGameplayTags
 		
 	// Cooldown Tag
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Fire_Firebolt);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Lightning_Electrocute);
+
 
 	//*                   *//
 	//  MONTAGES SECTION  //

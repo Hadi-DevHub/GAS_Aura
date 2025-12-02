@@ -69,8 +69,13 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Montage, "Abilities.Summon");
 
 	// Ability Info Tag
+	
+	// -- Fire -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
 	
+	// -- Lightning -- //
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute");
+
 	// Ability Status Tag
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Locked, "Abilities.Status.Locked");
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Eligible, "Abilities.Status.Eligible");
@@ -81,6 +86,10 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Types_Offensive, "Abilities.Types.Offensive");
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Types_Passive, "Abilities.Types.Passive");
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Types_None, "Abilities.Types.None");
+
+	// Cooldown Tag
+	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Firebolt, "Cooldown.Fire.FireBolt");
+	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Lightning_Electrocute, "Cooldown.Lightning.Electrocute");
 	
 						//*                   *//
 						//  MONTAGE SECTION  //
@@ -99,9 +108,6 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_Tail, "CombatSocket.Tail");
 
 	
-	
-	// Cooldown Tag
-	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Firebolt, "Cooldown.Fire.FireBolt");
 	
 }
 
