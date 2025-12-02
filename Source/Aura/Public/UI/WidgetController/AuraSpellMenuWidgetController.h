@@ -3,12 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "AuraSpellMenuWidgetController.generated.h"
 
-/**
- * 
- */
 UCLASS(Blueprintable, BlueprintType)
 class AURA_API UAuraSpellMenuWidgetController : public UAuraWidgetController
 {
@@ -20,4 +18,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
+
 };

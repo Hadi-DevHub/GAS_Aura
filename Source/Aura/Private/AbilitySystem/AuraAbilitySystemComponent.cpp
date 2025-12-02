@@ -40,6 +40,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(TArray<TSubclassOf<UGame
 	AbilityGiven.Broadcast();
 }
 
+
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
 {
 	Super::OnRep_ActivateAbilities();
@@ -170,12 +171,19 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
 			if (GetAbilitySpecFromTag(Info.AbilityTag) == nullptr)
 			{
 				FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.Ability, 1);
-				Info.StatusTag = AuraGameplayTags::Abilities_Status_Eligible;
+				AbilitySpec.DynamicAbilityTags.AddTag(AuraGameplayTags::Abilities_Status_Eligible);
 				GiveAbility(AbilitySpec);
 				MarkAbilitySpecDirty(AbilitySpec);
+				ClientUpdateAbilityStatuses(Info.AbilityTag, AuraGameplayTags::Abilities_Status_Eligible);
 			}
 		}
 	}
+}
+
+void UAuraAbilitySystemComponent::ClientUpdateAbilityStatuses_Implementation(const FGameplayTag& AbilityTag,
+	const  FGameplayTag& StatusTag)
+{
+	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
 }
 
 void UAuraAbilitySystemComponent::UpgradeAttributes(const FGameplayTag& AttributeTag)
