@@ -3,11 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AuraGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "AuraSpellMenuWidgetController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGlobeSelected, bool, bShouldEnableSpendPointButton, bool, bShouldEnableEquipButton);
+
+struct FSelectedAbility
+{
+	FGameplayTag AbilityTag = FGameplayTag();
+	FGameplayTag StatusTag = FGameplayTag();
+};
 
 UCLASS(Blueprintable, BlueprintType)
 class AURA_API UAuraSpellMenuWidgetController : public UAuraWidgetController
@@ -27,6 +34,10 @@ public:
 	FOnGlobeSelected OnGlobeSelected;
 
 private:
+
+	FSelectedAbility SelectedAbility = FSelectedAbility(AuraGameplayTags::Abilities_Types_None, AuraGameplayTags::Abilities_Status_Locked);
+	int32 PendingSpellPoints = 0;
+	
 	UFUNCTION()
 	static void ShouldEnableButtons(const FGameplayTag& StatusTag, int32 SpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton);
 };
