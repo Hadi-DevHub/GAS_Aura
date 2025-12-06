@@ -28,6 +28,9 @@ public:
 	virtual void BindCallbacksToDependencies() override;
 
 	UFUNCTION(BlueprintCallable)
+	void SpendPointButtonPressed();
+
+	UFUNCTION(BlueprintCallable)
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 
 	UPROPERTY(BlueprintAssignable)

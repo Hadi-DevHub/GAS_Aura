@@ -10,7 +10,7 @@ class UAbilityInfo;
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* Asset Tags */);
 DECLARE_MULTICAST_DELEGATE(FAbilityGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag& /* Ability Tag */ /* Status Tag */)
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag& /* Ability Tag */ /* Status Tag */, int32 Level)
 
 UCLASS()
 class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
@@ -34,7 +34,6 @@ public:
 
 	void UpdateAbilityStatuses(int32 Level);
 	
-	
 	FEffectAssetTags EffectAssetTags;
 	FAbilityGiven AbilityGiven;
 	FAbilityStatusChanged AbilityStatusChanged;
@@ -45,13 +44,16 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerUpdateAttributes(const FGameplayTag& AttributeTag);
+
+	UFUNCTION(Server, Reliable)
+	void Server_SpendPointButtonPressed(const FGameplayTag& AbilityTag);
 	
 protected:
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 
 	UFUNCTION(Client, Reliable)
-	void ClientUpdateAbilityStatuses(const FGameplayTag& AbilityTag, const  FGameplayTag& StatusTag);
+	void ClientUpdateAbilityStatuses(const FGameplayTag& AbilityTag, const  FGameplayTag& StatusTag, int32 Level);
 
 	virtual void OnRep_ActivateAbilities() override;
 	

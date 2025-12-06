@@ -174,16 +174,16 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
 				AbilitySpec.DynamicAbilityTags.AddTag(AuraGameplayTags::Abilities_Status_Eligible);
 				GiveAbility(AbilitySpec);
 				MarkAbilitySpecDirty(AbilitySpec);
-				ClientUpdateAbilityStatuses(Info.AbilityTag, AuraGameplayTags::Abilities_Status_Eligible);
+				ClientUpdateAbilityStatuses(Info.AbilityTag, AuraGameplayTags::Abilities_Status_Eligible, 1);
 			}
 		}
 	}
 }
 
 void UAuraAbilitySystemComponent::ClientUpdateAbilityStatuses_Implementation(const FGameplayTag& AbilityTag,
-	const  FGameplayTag& StatusTag)
+	const  FGameplayTag& StatusTag, int32 Level)
 {
-	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
+	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag, Level);
 }
 
 void UAuraAbilitySystemComponent::UpgradeAttributes(const FGameplayTag& AttributeTag)
@@ -194,6 +194,33 @@ void UAuraAbilitySystemComponent::UpgradeAttributes(const FGameplayTag& Attribut
 		{
 			ServerUpdateAttributes(AttributeTag);
 		}
+	}
+}
+
+void UAuraAbilitySystemComponent::Server_SpendPointButtonPressed_Implementation(const FGameplayTag& AbilityTag)
+{
+	if (!AbilityTag.IsValid()) return;
+
+	if (GetAvatarActor()->Implements<UPlayerInterface>())
+	{
+		IPlayerInterface::Execute_AddSpellPoints(GetAvatarActor(), -1);
+	}
+	FGameplayAbilitySpec* AbilitySpec = GetAbilitySpecFromTag(AbilityTag);
+	if (AbilitySpec != nullptr)
+	{
+		FGameplayTag StatusTag = GetStatusTagFromSpec(*AbilitySpec);
+		if (StatusTag.MatchesTagExact(AuraGameplayTags::Abilities_Status_Eligible))
+		{
+			AbilitySpec->DynamicAbilityTags.RemoveTag(AuraGameplayTags::Abilities_Status_Eligible);
+			AbilitySpec->DynamicAbilityTags.AddTag(AuraGameplayTags::Abilities_Status_Unlocked);
+			StatusTag = AuraGameplayTags::Abilities_Status_Unlocked;
+		}
+		else if (StatusTag.MatchesTagExact(AuraGameplayTags::Abilities_Status_Equipped) || StatusTag.MatchesTagExact(AuraGameplayTags::Abilities_Status_Unlocked))
+		{
+			AbilitySpec->Level += 1;
+		}
+		ClientUpdateAbilityStatuses(AbilityTag, StatusTag, AbilitySpec->Level);
+		MarkAbilitySpecDirty(*AbilitySpec);
 	}
 }
 

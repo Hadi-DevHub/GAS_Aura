@@ -26,7 +26,7 @@ void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 		ShouldEnableButtons(SelectedAbility.StatusTag, NewValue, bShouldEnableSpendPoints, bShouldEnableEquip);
 		OnGlobeSelected.Broadcast(bShouldEnableSpendPoints, bShouldEnableEquip);
 	});
-	GetAASC()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+	GetAASC()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level)
 	{
 		if (SelectedAbility.AbilityTag == AbilityTag)
 		{
@@ -49,6 +49,11 @@ void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 		
 		}
 	});
+}
+
+void UAuraSpellMenuWidgetController::SpendPointButtonPressed()
+{
+	if (GetAASC()) GetAASC()->Server_SpendPointButtonPressed_Implementation(SelectedAbility.AbilityTag);
 }
 
 void UAuraSpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
