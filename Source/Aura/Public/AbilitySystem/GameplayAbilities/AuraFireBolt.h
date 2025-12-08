@@ -1,0 +1,20 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystem/GameplayAbilities/AuraProjectileSpell.h"
+#include "AuraFireBolt.generated.h"
+
+/**
+ * 
+ */
+UCLASS()
+class AURA_API UAuraFireBolt : public UAuraProjectileSpell
+{
+	GENERATED_BODY()
+
+	virtual FString GetSpellDescription(int32 Level) override;
+	virtual FString GetSpellDescriptionNextLevel(int32 Level) override;
+	
+};
