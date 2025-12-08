@@ -32,6 +32,7 @@ public:
 	static FGameplayTag GetStatusTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	FGameplayAbilitySpec* GetAbilitySpecFromTag(const FGameplayTag& Tag);
 
+	bool GetDescriptionByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutDescriptionNextLevel);
 	void UpdateAbilityStatuses(int32 Level);
 	
 	FEffectAssetTags EffectAssetTags;

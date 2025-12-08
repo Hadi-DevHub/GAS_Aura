@@ -18,6 +18,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	FGameplayTag StartupInputTag;
 
+	virtual FString GetSpellDescription(int32 Level);
+	virtual FString GetSpellDescriptionNextLevel(int32 Level);
+	static FString GetSpellLockedDescription(int32 Level);
+
 protected:
 
 private:
