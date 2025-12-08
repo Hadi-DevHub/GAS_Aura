@@ -26,3 +26,10 @@ FTaggedMontages UAuraDamageGameplayAbility::GetRandomTaggedMontagesFromArray(con
 	}
 	return FTaggedMontages();
 }
+
+float UAuraDamageGameplayAbility::GetSpellDamage(int32 Level, const FGameplayTag& DamageType)
+{
+	checkf(DamageTypes.Contains(DamageType), TEXT("Damage type : [%s] not found in [%s] Ability"), *DamageType.ToString(), *GetNameSafe(this));
+	return DamageTypes[DamageType].GetValueAtLevel(Level);
+}
+

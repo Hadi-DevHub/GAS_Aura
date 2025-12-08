@@ -32,5 +32,8 @@ protected:
 
 	UFUNCTION(BlueprintPure)
 	FTaggedMontages GetRandomTaggedMontagesFromArray(const TArray<FTaggedMontages>& MontagesTagged) const;
+	
+	virtual float GetSpellDamage(int32 Level, const FGameplayTag& DamageType);
+
 
 };

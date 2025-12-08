@@ -21,6 +21,8 @@ public:
 	virtual FString GetSpellDescription(int32 Level);
 	virtual FString GetSpellDescriptionNextLevel(int32 Level);
 	static FString GetSpellLockedDescription(int32 Level);
+	virtual float GetManaCost(float InLevel);
+	virtual float GetCooldownDuration(float InLevel);
 
 protected:
 
