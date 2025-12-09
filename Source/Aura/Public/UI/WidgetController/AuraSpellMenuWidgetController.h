@@ -6,9 +6,11 @@
 #include "AuraGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "AuraSpellMenuWidgetController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnGlobeSelected, bool, bShouldEnableSpendPointButton, bool, bShouldEnableEquipButton, FString, OutDesc, FString, OutDescNextLevel);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipDelegateSignature, const FGameplayTag&, Info);
 
 struct FSelectedAbility
 {
@@ -36,8 +38,19 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DeselectSpellGlobe();
 
+	UFUNCTION(BlueprintCallable)
+	void EquipButtonPressed();
+
 	UPROPERTY(BlueprintAssignable)
 	FOnGlobeSelected OnGlobeSelected;
+
+	UPROPERTY(BlueprintAssignable)
+	FWaitForEquipDelegateSignature StartWaitingForEquipDelegate;
+	
+	UPROPERTY(BlueprintAssignable)
+	FWaitForEquipDelegateSignature StopWaitingForEquipDelegate;
+
+	bool bOnWaitingForEquipButtonPressed = false;
 	
 private:
 
