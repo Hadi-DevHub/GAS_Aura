@@ -171,8 +171,15 @@ bool UAuraAbilitySystemComponent::GetDescriptionByAbilityTag(const FGameplayTag&
 			return true;
 		}
 	}
-	const UAbilityInfo* Info = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
-	OutDescription = UAuraGameplayAbility::GetSpellLockedDescription(Info->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+	if (!AbilityTag.IsValid() || AbilityTag.MatchesTagExact(AuraGameplayTags::Abilities_Types_None))
+	{
+		OutDescription = FString();
+	}
+	else
+	{
+		const UAbilityInfo* Info = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+		OutDescription = UAuraGameplayAbility::GetSpellLockedDescription(Info->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+	}
 	return false;
 }
 

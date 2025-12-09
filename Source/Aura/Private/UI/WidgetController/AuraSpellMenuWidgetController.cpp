@@ -23,7 +23,7 @@ void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 
 		bool bShouldEnableSpendPoints = false;
 		bool bShouldEnableEquip = false;
-		ShouldEnableButtons(SelectedAbility.StatusTag, NewValue, bShouldEnableSpendPoints, bShouldEnableEquip);
+		ShouldEnableButtons(SelectedAbility.StatusTag, PendingSpellPoints, bShouldEnableSpendPoints, bShouldEnableEquip);
 		FString Description;
 		FString DescriptionNextLevel;
 		GetAASC()->GetDescriptionByAbilityTag(SelectedAbility.AbilityTag, Description, DescriptionNextLevel);
@@ -47,10 +47,9 @@ void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 		if (AbilityInfo)
 		{
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
-			Info.AbilityTag = AbilityTag;
 			Info.StatusTag = StatusTag;
 			AbilityInfoDelegate.Broadcast(Info);
-			SelectedAbility.StatusTag = StatusTag;
+			//SelectedAbility.StatusTag = StatusTag;
 		}
 	});
 }
@@ -92,8 +91,14 @@ void UAuraSpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& Abil
 	OnGlobeSelected.Broadcast(bShouldEnableSpendPoints, bShouldEnableEquip, Description, DescriptionNextLevel);
 }
 
-void UAuraSpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& StatusTag, int32 SpellPoints,
-	bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)
+void UAuraSpellMenuWidgetController::DeselectSpellGlobe()
+{
+	SelectedAbility.AbilityTag = AuraGameplayTags::Abilities_Types_None;
+	SelectedAbility.StatusTag = AuraGameplayTags::Abilities_Status_Locked;
+	OnGlobeSelected.Broadcast(false, false, FString(), FString() );
+}
+
+void UAuraSpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& StatusTag, int32 SpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)
 {
 	bShouldEnableSpendPointsButton = false;
 	bShouldEnableEquipButton = false;

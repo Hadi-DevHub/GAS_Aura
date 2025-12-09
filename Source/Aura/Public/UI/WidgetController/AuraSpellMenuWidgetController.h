@@ -33,9 +33,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 
+	UFUNCTION(BlueprintCallable)
+	void DeselectSpellGlobe();
+
 	UPROPERTY(BlueprintAssignable)
 	FOnGlobeSelected OnGlobeSelected;
-
+	
 private:
 
 	FSelectedAbility SelectedAbility = FSelectedAbility(AuraGameplayTags::Abilities_Types_None, AuraGameplayTags::Abilities_Status_Locked);
