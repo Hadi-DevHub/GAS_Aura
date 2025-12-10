@@ -41,6 +41,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EquipButtonPressed();
 
+	UFUNCTION(BlueprintCallable)
+	void SpellGlobeRowPressed(const FGameplayTag& SlotType, const FGameplayTag& Slot);
+
+	UFUNCTION()
+	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot);
+
 	UPROPERTY(BlueprintAssignable)
 	FOnGlobeSelected OnGlobeSelected;
 
@@ -51,6 +57,8 @@ public:
 	FWaitForEquipDelegateSignature StopWaitingForEquipDelegate;
 
 	bool bOnWaitingForEquipButtonPressed = false;
+
+	FGameplayTag SelectedGlobeSlot = FGameplayTag();
 	
 private:
 

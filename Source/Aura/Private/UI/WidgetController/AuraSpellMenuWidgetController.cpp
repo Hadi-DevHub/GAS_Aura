@@ -16,19 +16,6 @@ void UAuraSpellMenuWidgetController::BroadcastInitialValue()
 
 void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 {
-	GetAPS()->OnSpellPointsAdded.AddLambda([this](int32 NewValue)
-	{
-		OnPlayerStatChangedAdded.Broadcast(NewValue);
-		PendingSpellPoints = NewValue;
-
-		bool bShouldEnableSpendPoints = false;
-		bool bShouldEnableEquip = false;
-		ShouldEnableButtons(SelectedAbility.StatusTag, PendingSpellPoints, bShouldEnableSpendPoints, bShouldEnableEquip);
-		FString Description;
-		FString DescriptionNextLevel;
-		GetAASC()->GetDescriptionByAbilityTag(SelectedAbility.AbilityTag, Description, DescriptionNextLevel);
-		OnGlobeSelected.Broadcast(bShouldEnableSpendPoints, bShouldEnableEquip, Description, DescriptionNextLevel);
-	});
 	GetAASC()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level)
 	{
 		if (SelectedAbility.AbilityTag == AbilityTag)
@@ -49,8 +36,21 @@ void UAuraSpellMenuWidgetController::BindCallbacksToDependencies()
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
 			Info.StatusTag = StatusTag;
 			AbilityInfoDelegate.Broadcast(Info);
-			//SelectedAbility.StatusTag = StatusTag;
 		}
+	});
+	GetAASC()->AbilityEquipped.AddUObject(this, &UAuraSpellMenuWidgetController::OnAbilityEquipped);
+	GetAPS()->OnSpellPointsAdded.AddLambda([this](int32 NewValue)
+	{
+		OnPlayerStatChangedAdded.Broadcast(NewValue);
+		PendingSpellPoints = NewValue;
+
+		bool bShouldEnableSpendPoints = false;
+		bool bShouldEnableEquip = false;
+		ShouldEnableButtons(SelectedAbility.StatusTag, PendingSpellPoints, bShouldEnableSpendPoints, bShouldEnableEquip);
+		FString Description;
+		FString DescriptionNextLevel;
+		GetAASC()->GetDescriptionByAbilityTag(SelectedAbility.AbilityTag, Description, DescriptionNextLevel);
+		OnGlobeSelected.Broadcast(bShouldEnableSpendPoints, bShouldEnableEquip, Description, DescriptionNextLevel);
 	});
 }
 
@@ -72,8 +72,6 @@ void UAuraSpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& Abil
 	const bool bIsTagNone = AbilityTag.MatchesTagExact(AuraGameplayTags::Abilities_Types_None);
 	FGameplayTag AbilityStatus = FGameplayTag();
 
-	const int32 SpellPoints = GetAPS()->GetSpellPoints();
-
 	const FGameplayAbilitySpec* AbilitySpec = GetAASC()->GetAbilitySpecFromTag(AbilityTag);
 	const bool bSpecValid = AbilitySpec != nullptr;
 
@@ -89,6 +87,7 @@ void UAuraSpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& Abil
 	SelectedAbility.AbilityTag = AbilityTag; 
 	SelectedAbility.StatusTag = AbilityStatus;
 
+	const int32 SpellPoints = GetAPS()->GetSpellPoints();
 	bool bShouldEnableSpendPoints = false;
 	bool bShouldEnableEquip = false;
 	ShouldEnableButtons(AbilityStatus, SpellPoints, bShouldEnableSpendPoints, bShouldEnableEquip);
@@ -119,7 +118,41 @@ void UAuraSpellMenuWidgetController::EquipButtonPressed()
 		FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.AbilityTag);
 		StartWaitingForEquipDelegate.Broadcast(Info.AbilityType);
 		bOnWaitingForEquipButtonPressed = true;
+
+		FGameplayTag SelectedAbilityStatus = GetAASC()->GetStatusTagFromAbilityTag(SelectedAbility.AbilityTag);
+		if (SelectedAbilityStatus.MatchesTagExact(AuraGameplayTags::Abilities_Status_Equipped))
+		{
+			SelectedGlobeSlot = GetAASC()->GetInputTagFromAbilityTag(SelectedAbility.AbilityTag);
+		}
 	}
+}
+
+void UAuraSpellMenuWidgetController::SpellGlobeRowPressed(const FGameplayTag& SlotType, const FGameplayTag& Slot)
+{
+	if (!bOnWaitingForEquipButtonPressed) return;
+
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.AbilityTag);
+	if (!Info.AbilityType.MatchesTagExact(SlotType)) return;
+
+	GetAASC()->ServerEquipAbilityToSlot(SelectedAbility.AbilityTag, Slot);
+}
+
+void UAuraSpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
+{
+	bOnWaitingForEquipButtonPressed = false;
+	
+	FAuraAbilityInfo LastSlotInfo;
+	LastSlotInfo.StatusTag= AuraGameplayTags::Abilities_Status_Unlocked;
+	LastSlotInfo.InputTag = PreviousSlot;
+	LastSlotInfo.AbilityTag = FGameplayTag();
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	Info.StatusTag = StatusTag;
+	Info.InputTag = Slot;
+	AbilityInfoDelegate.Broadcast(Info);
+
+	StopWaitingForEquipDelegate.Broadcast(AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType);
 }
 
 void UAuraSpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& StatusTag, int32 SpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)
