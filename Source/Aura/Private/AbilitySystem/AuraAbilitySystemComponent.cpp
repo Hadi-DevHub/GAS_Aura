@@ -251,8 +251,8 @@ void UAuraAbilitySystemComponent::ServerEquipAbilityToSlot_Implementation(const 
 				AbilitySpec->DynamicAbilityTags.RemoveTag(AuraGameplayTags::Abilities_Status_Unlocked);
 				AbilitySpec->DynamicAbilityTags.AddTag(AuraGameplayTags::Abilities_Status_Equipped);
 			}
-			MarkAbilitySpecDirty(*AbilitySpec);
 			ClientEquipAbility(AbilityTag, AuraGameplayTags::Abilities_Status_Equipped, SlotTag, PrevSlot);
+			MarkAbilitySpecDirty(*AbilitySpec);
 		}
 	}
 }

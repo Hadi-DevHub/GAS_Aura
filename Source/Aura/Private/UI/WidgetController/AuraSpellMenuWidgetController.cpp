@@ -153,6 +153,8 @@ void UAuraSpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& Abili
 	AbilityInfoDelegate.Broadcast(Info);
 
 	StopWaitingForEquipDelegate.Broadcast(AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType);
+	SpellGlobeReassignedDelegate.Broadcast(AbilityTag);
+	DeselectSpellGlobe();
 }
 
 void UAuraSpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& StatusTag, int32 SpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)
