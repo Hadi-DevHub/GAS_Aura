@@ -9,12 +9,10 @@
 void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 {
 	FGameplayEffectSpecHandle DamageEffectHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.f);
-
-	for (TTuple<FGameplayTag, FScalableFloat> DamageType : DamageTypes)
-	{
-		const float ScaledDamage = DamageType.Value.GetValueAtLevel(GetAbilityLevel());
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageEffectHandle, DamageType.Key, ScaledDamage);
-	}
+	
+	const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageEffectHandle, DamageType, ScaledDamage);
+	
 	GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(*DamageEffectHandle.Data.Get(), UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
 }
 
@@ -27,9 +25,9 @@ FTaggedMontages UAuraDamageGameplayAbility::GetRandomTaggedMontagesFromArray(con
 	return FTaggedMontages();
 }
 
-float UAuraDamageGameplayAbility::GetSpellDamage(int32 Level, const FGameplayTag& DamageType)
+float UAuraDamageGameplayAbility::GetSpellDamage(int32 Level)
 {
-	checkf(DamageTypes.Contains(DamageType), TEXT("Damage type : [%s] not found in [%s] Ability"), *DamageType.ToString(), *GetNameSafe(this));
-	return DamageTypes[DamageType].GetValueAtLevel(Level);
+	float ScaledDamage = Damage.GetValueAtLevel(Level);
+	return ScaledDamage;
 }
 

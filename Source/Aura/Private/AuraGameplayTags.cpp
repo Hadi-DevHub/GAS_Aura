@@ -47,6 +47,11 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Damage_Lightning, "Damage.Lightning");
 	UE_DEFINE_GAMEPLAY_TAG(Damage_Physical, "Damage.Physical");
 
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Burn, "Debuff.Burn");
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Stun, "Debuff.Stun");
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Slow, "Debuff.Slow");
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_ArmorBreak, "Debuff.ArmorBreak");
+
 	// Damage Resistance
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage, "Attributes.Resistance.Damage");
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Fire, "Attributes.Resistance.Fire");
@@ -128,5 +133,10 @@ void FAuraGameplayTags::InitializeDamageTypeMappings()
 	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Arcane, AuraGameplayTags::Attributes_Resistance_Damage_Arcane);
 	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Lightning, AuraGameplayTags::Attributes_Resistance_Damage_Lightning);
 	DamageTypesToResistance.Add(AuraGameplayTags::Damage_Physical, AuraGameplayTags::Attributes_Resistance_Damage_Physical);
+	
+	DamageTypesToDebuffs.Add(AuraGameplayTags::Damage_Fire, AuraGameplayTags::Debuff_Burn);
+	DamageTypesToDebuffs.Add(AuraGameplayTags::Damage_Arcane, AuraGameplayTags::Debuff_Slow);
+	DamageTypesToDebuffs.Add(AuraGameplayTags::Damage_Lightning, AuraGameplayTags::Debuff_Stun);
+	DamageTypesToDebuffs.Add(AuraGameplayTags::Damage_Physical, AuraGameplayTags::Debuff_ArmorBreak);
 }
 

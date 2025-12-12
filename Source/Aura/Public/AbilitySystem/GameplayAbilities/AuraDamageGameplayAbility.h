@@ -24,16 +24,19 @@ public:
 	
 protected:
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AblityDamage")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AbilityProperties")
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AblityDamage")
-	TMap<FGameplayTag, FScalableFloat> DamageTypes;
+	UPROPERTY(EditDefaultsOnly, Category = "AbilityProperties")
+	FGameplayTag DamageType;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AbilityProperties")
+	FScalableFloat Damage;
 
 	UFUNCTION(BlueprintPure)
 	FTaggedMontages GetRandomTaggedMontagesFromArray(const TArray<FTaggedMontages>& MontagesTagged) const;
 	
-	virtual float GetSpellDamage(int32 Level, const FGameplayTag& DamageType);
+	virtual float GetSpellDamage(int32 Level);
 
 
 };

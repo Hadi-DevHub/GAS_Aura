@@ -54,6 +54,11 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Lightning);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Damage_Physical);
 
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Burn);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Stun);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Slow);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_ArmorBreak);
+
 	// Damage Resistance
 	// DamageType Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Resistance_Damage);
@@ -131,6 +136,7 @@ public:
 	static FAuraGameplayTags& Get();
  
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
  
 	void InitializeDamageTypeMappings();
  
