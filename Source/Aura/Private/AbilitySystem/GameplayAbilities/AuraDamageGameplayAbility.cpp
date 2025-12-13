@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 
 void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 {
@@ -31,3 +32,31 @@ float UAuraDamageGameplayAbility::GetSpellDamage(int32 Level)
 	return ScaledDamage;
 }
 
+FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
+{
+	FDamageEffectParams DamageEffectParams;
+	
+	DamageEffectParams.DamageGameplayEffectClass = DamageEffectClass;
+
+	DamageEffectParams.WorldContextObject = GetAvatarActorFromActorInfo();
+	
+	DamageEffectParams.SourceASC = GetAbilitySystemComponentFromActorInfo();
+	
+	DamageEffectParams.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	
+	DamageEffectParams.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+	
+	DamageEffectParams.AbilityLevel = GetAbilityLevel();
+	
+	DamageEffectParams.DamageType = DamageType;
+	
+	DamageEffectParams.DebuffChance = DebuffChance;
+	
+	DamageEffectParams.DebuffDamage = DebuffDamage;
+	
+	DamageEffectParams.DebuffDuration = DebuffDuration;
+	
+	DamageEffectParams.DebuffFrequency = DebuffFrequency;
+
+	return DamageEffectParams;
+}

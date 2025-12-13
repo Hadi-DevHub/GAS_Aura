@@ -52,6 +52,11 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Debuff_Slow, "Debuff.Slow");
 	UE_DEFINE_GAMEPLAY_TAG(Debuff_ArmorBreak, "Debuff.ArmorBreak");
 
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Damage, "Debuff.Damage");
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Chance, "Debuff.Chance");
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Duration, "Debuff.Duration");
+	UE_DEFINE_GAMEPLAY_TAG(Debuff_Frequency, "Debuff.Frequency");
+
 	// Damage Resistance
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage, "Attributes.Resistance.Damage");
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Resistance_Damage_Fire, "Attributes.Resistance.Fire");

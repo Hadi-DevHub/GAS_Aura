@@ -58,6 +58,11 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Stun);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Slow);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_ArmorBreak);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Damage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Duration);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Frequency);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Debuff_Chance);
 
 	// Damage Resistance
 	// DamageType Gameplay Tags
