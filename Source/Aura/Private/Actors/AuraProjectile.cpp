@@ -41,45 +41,34 @@ void AAuraProjectile::BeginPlay()
 	if (LoopingSFXComponent) LoopingSFXComponent = UGameplayStatics::SpawnSoundAttached(MidAirLoopingSFX, GetRootComponent());
 }
 
-void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AAuraProjectile::OnHit() const
 {
-	if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
-	{
-		return;
-	}
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
-	{
-		return;
-	}
-	if (!bIsHit)
-	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
-		if (LoopingSFXComponent) LoopingSFXComponent->Stop();
-	}
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
+	if (LoopingSFXComponent) LoopingSFXComponent->Stop();
+}
+
+void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	AActor* SourceAvatarActor = DamageEffectParams.SourceASC->GetAvatarActor();
+	if (SourceAvatarActor == OtherActor) return;
+	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return;
+	if (!bIsHit) OnHit();
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			DamageEffectParams.TargetASC = TargetASC;
+			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
 		Destroy();
 	}
-	else
-	{
-		bIsHit = true;
-	}
+	else bIsHit = true;
 }
 
 void AAuraProjectile::Destroyed()
 {
-	if (!bIsHit && !HasAuthority())
-	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
-		if (LoopingSFXComponent) LoopingSFXComponent->Stop();
-	}
+	if (!bIsHit && !HasAuthority()) OnHit();
 	Super::Destroyed();
 }
 
