@@ -115,7 +115,7 @@ namespace AuraGameplayTags
 
 
 	//*                   *//
-	//  MONTAGES SECTION  //
+	//  MONTAGES SECTION   //
 	//*                   *//
 	
 	// Montage Gameplay Tags
@@ -129,8 +129,6 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_LeftHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_RightHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_Tail);
-
-
 
 }
 
