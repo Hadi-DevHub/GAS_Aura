@@ -28,21 +28,24 @@ struct FDamageEffectParams
 	
 	UPROPERTY()
 	float AbilityLevel = 0.0f;
-	
+
 	UPROPERTY()
-	FGameplayTag DamageType = FGameplayTag();
-	
+	bool bSuccessfulDebuff = false;
+
 	UPROPERTY()
 	float DebuffChance = 0.0f;
-	
+
 	UPROPERTY()
 	float DebuffDamage = 0.0f;
-	
+
 	UPROPERTY()
 	float DebuffDuration = 0.0f;
-	
+
 	UPROPERTY()
 	float DebuffFrequency = 0.0f;
+
+	UPROPERTY()
+	FGameplayTag DamageType = FGameplayTag();
 };
 
 USTRUCT(BlueprintType)
@@ -52,9 +55,19 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	
 	void SetIsCriticalHit(bool bCritHit) { bIsCriticalHit = bCritHit; }
 	void SetIsBlockingHit(bool bHitBlock) { bIsBlockedHit = bHitBlock; }
+	void SetIsSuccessfulDebuff(bool bInSuccessfulDebuff) { bSuccessfulDebuff = bInSuccessfulDebuff; }
+	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) {	DamageType = InDamageType; }
+	void SetDebuffDamage(float InDamage) { DebuffDamage = InDamage; }
+	void SetDebuffDuration(float InDuration) { DebuffDuration = InDuration; }
+	void SetDebuffFrequency(float InFrequency) { DebuffFrequency = InFrequency; }
 	
 	bool GetIsCriticalHit() const { return bIsCriticalHit; }
 	bool GetIsBlockingHit() const { return bIsBlockedHit; }
+	bool GetIsSuccessfulDebuff() const { return bSuccessfulDebuff; }
+	float GetDebuffDamage() const { return DebuffDamage; }
+	float GetDebuffDuration() const { return DebuffDuration; }
+	float GetDebuffFrequency()  const{ return DebuffFrequency; }
+	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 	
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const 
@@ -83,6 +96,20 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	
 	UPROPERTY()
 	bool bIsCriticalHit = false;
+
+	UPROPERTY()
+	bool bSuccessfulDebuff = false;
+	
+	UPROPERTY()
+	float DebuffDamage = 0.f;
+	
+	UPROPERTY()
+	float DebuffDuration = 0.f;
+	
+	UPROPERTY()
+	float DebuffFrequency = 0.f; 
+	
+	TSharedPtr<FGameplayTag> DamageType;
 };
 
 template<>
