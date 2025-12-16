@@ -67,6 +67,9 @@ public:
 	UAuraAttributeSet();
 	
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	void HandleIncomingDamage(const FEffectProperties& Props);
+	void HandleIncomingXP(const FEffectProperties& Props);
+	void Debuff(const FEffectProperties& Props);
 	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
@@ -197,9 +200,9 @@ public:
 	UFUNCTION()
 	void OnRep_ManaRegeneration(FGameplayAttributeData OldManaRegeneration) const;
 	
-	/**
-	 * Vital Attributes
-	 */
+						//------------------------------------------------------//
+						//		  VITAL ATTRIBUTES - RESISTANCES SECTION		//
+						//------------------------------------------------------//
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attribute")
 	FGameplayAttributeData Health;
@@ -236,6 +239,10 @@ public:
 	 * Secondary Attributes -- Resistances
 	 */
 
+								//------------------------------------------------------//
+								//		SECONDARY ATTRIBUTES - RESISTANCES SECTION		//
+								//------------------------------------------------------//
+
 	UFUNCTION()
 	void OnRep_FireResistance(FGameplayAttributeData OldFireResistance) const;
 	
@@ -264,7 +271,7 @@ public:
 	void SendXPEvent(const FEffectProperties& Props);
 
 	UFUNCTION()
-	void ShowDamageText(FEffectProperties& Props, float DamageAmount, bool bIsBlocked, bool bIsCritical);
+	void ShowDamageText(const FEffectProperties& Props, float DamageAmount, bool bIsBlocked, bool bIsCritical);
 	
 protected:
 

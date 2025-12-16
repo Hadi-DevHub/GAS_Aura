@@ -90,6 +90,19 @@ void UExecCalc_Damage::DeterminedDebuff(const FGameplayEffectCustomExecutionPara
 			if (bool bDebuff = FMath::RandRange(0, 100) < EffectiveDebuffChance)
 			{
 				// TODO: What To DO?
+				FGameplayEffectContextHandle EffectHandle = EffectSpec.GetContext();
+				UAuraAbilitySystemLibrary::SetIsSuccessfulDebuff(EffectHandle, true);
+
+				FNativeGameplayTag& DebuffDamageTag = AuraGameplayTags::Debuff_Damage;
+				const float DebuffDamage = EffectSpec.GetSetByCallerMagnitude(DebuffDamageTag, false, -1);
+				FNativeGameplayTag& DebuffDurationTag = AuraGameplayTags::Debuff_Duration;
+				const float DebuffDuration = EffectSpec.GetSetByCallerMagnitude(DebuffDurationTag, false, -1);
+				FNativeGameplayTag& DebuffFrequencyTag = AuraGameplayTags::Debuff_Frequency;
+				const float DebuffFrequency = EffectSpec.GetSetByCallerMagnitude(DebuffFrequencyTag, false, -1);
+				
+				UAuraAbilitySystemLibrary::SetDebuffDamage(EffectHandle, DebuffDamage);
+				UAuraAbilitySystemLibrary::SetDebuffDuration(EffectHandle, DebuffDuration);
+				UAuraAbilitySystemLibrary::SetDebuffFrequency(EffectHandle, DebuffFrequency);
 			}
 		}
 	}
@@ -188,20 +201,24 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	//FGameplayEffectContext
 	FGameplayEffectContextHandle EffectContextHandle = EffectSpec.GetContext();
 	
-										//*                     *//
-										//   DAMAGE CALUCLATION  //
-										//*                     *//
+										//-----------------------//
+										//   DAMAGE CALCULATION  //
+										//-----------------------//
 	
 	// Halves Damage Taken, if Block Chance = true
 	const bool bBlockedHit = FMath::FRandRange(0.f,100.f) <= TargetBlockChance;
 	Damage = bBlockedHit ? Damage / 2.f : Damage;
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlockedHit);
 
-										//*                     *//
-										//   DEBUFF CALUCLATION  //
-										//*                     *//
+										//-----------------------//
+										//   DEBUFF CALCULATION  //
+										//-----------------------//
 	 
 	DeterminedDebuff(ExecutionParams, TagsToCaptureDefs, EffectSpec, EvaluationParameters);
+
+										//-----------------------//
+										//   DEBUFF CALCULATION  //
+										//-----------------------//
 
 	// Armor Penetration ignores a percentage of target's armor
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
