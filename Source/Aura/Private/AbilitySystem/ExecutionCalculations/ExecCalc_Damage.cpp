@@ -80,7 +80,7 @@ void UExecCalc_Damage::DeterminedDebuff(const FGameplayEffectCustomExecutionPara
 
 		if (TypeDamage > .5f)
 		{
-			const float SourceDebuffChance = EffectSpec.GetSetByCallerMagnitude(DebuffType, false, -1);
+			const float SourceDebuffChance = EffectSpec.GetSetByCallerMagnitude(AuraGameplayTags::Debuff_Chance, false, -1);
 			float TargetDebuffRes = 0.f;
 
 			const FGameplayTag& ResistanceTag = FAuraGameplayTags::Get().DamageTypesToResistance[DamageType];
@@ -103,6 +103,7 @@ void UExecCalc_Damage::DeterminedDebuff(const FGameplayEffectCustomExecutionPara
 				UAuraAbilitySystemLibrary::SetDebuffDamage(EffectHandle, DebuffDamage);
 				UAuraAbilitySystemLibrary::SetDebuffDuration(EffectHandle, DebuffDuration);
 				UAuraAbilitySystemLibrary::SetDebuffFrequency(EffectHandle, DebuffFrequency);
+				UAuraAbilitySystemLibrary::SetDamageType(EffectHandle, DamageType);
 			}
 		}
 	}

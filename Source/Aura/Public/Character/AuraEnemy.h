@@ -89,5 +89,5 @@ private:
 	 */
 
 	UFUNCTION()
-	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	void HitReactTagChanged(FGameplayTag CallbackTag, int32 NewCount);
 };
