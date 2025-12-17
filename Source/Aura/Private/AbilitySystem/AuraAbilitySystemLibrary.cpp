@@ -214,9 +214,18 @@ void UAuraAbilitySystemLibrary::SetDamageType(FGameplayEffectContextHandle& Cont
 		AuraEffectContext->SetDamageType(DamageType);
 	}
 }
-										//==================\\
-										//		GETTERS		\\
-										//==================\\
+
+void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& Context, const FVector& InVector)
+{
+	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(Context.Get()))
+	{
+		AuraEffectContext->SetDeathImpulse(InVector);
+	}
+}
+
+	//------------------//
+	//		GETTERS		//
+	//------------------//							
 
 bool UAuraAbilitySystemLibrary::GetIsBlockedHit(const FGameplayEffectContextHandle& Context)
 {
@@ -279,6 +288,15 @@ FGameplayTag UAuraAbilitySystemLibrary::GetDamageType(const FGameplayEffectConte
 		return *AuraEffectContext->GetDamageType();
 	}
 	return FGameplayTag();
+}
+
+FVector UAuraAbilitySystemLibrary::GetDeathImpulse(const FGameplayEffectContextHandle& Context)
+{
+	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(Context.Get()))
+	{
+		return AuraEffectContext->GetDeathImpulse();
+	}
+	return FVector::ZeroVector;
 }
 
 void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldContextObject,
