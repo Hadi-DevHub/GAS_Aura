@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
+#include "Debuff/AuraDebuffNiagaraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Material/DynamicMaterialInstance.h"
 
@@ -17,6 +18,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
+
+	DebuffNiagaraComponent = CreateDefaultSubobject<UAuraDebuffNiagaraComponent>("DebuffNiagaraComponent");
+	DebuffNiagaraComponent->SetupAttachment(GetRootComponent());
+	DebuffNiagaraComponent->DebuffTag = AuraGameplayTags::Debuff_Burn;
 	
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
@@ -55,7 +60,7 @@ AActor* AAuraCharacterBase::GetAvatarActor_Implementation()
 	return this;
 }
 
-bool AAuraCharacterBase::GetIsDead() const
+bool AAuraCharacterBase::GetIsDead_Implementation()
 {
 	return bIsDead;
 }
@@ -141,6 +146,7 @@ void AAuraCharacterBase::DIE()
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	MulticastHandleDeath();
+	OnDeathDelegate.Broadcast(this);
 }
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
@@ -157,7 +163,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-
+	bIsDead = true;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 }
@@ -177,6 +183,16 @@ void AAuraCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
+}
+
+FOnAbilitySystemRegistered& AAuraCharacterBase::DelegateToOnAbilitySystemRegistered() 
+{
+	return AbilitySystemRegisteredDelegate;
+}
+
+FOnDeath& AAuraCharacterBase::DelegateToOnDeath() 
+{
+	return OnDeathDelegate;
 }
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()

@@ -3,13 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "UObject/Interface.h"
 #include "CombatInterface.generated.h"
 
 class UNiagaraSystem;
-// This class does not need to be modified.
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnAbilitySystemRegistered, UAbilitySystemComponent*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
+
 UINTERFACE(MinimalAPI, BlueprintType)
 class UCombatInterface : public UInterface
 {
@@ -58,7 +62,7 @@ public:
 	virtual void DIE() = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	bool GetIsDead() const;
+	bool GetIsDead();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatarActor();
@@ -77,5 +81,9 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	ECharacterClass GetCharacterClass() const;
+
+	virtual FOnAbilitySystemRegistered& DelegateToOnAbilitySystemRegistered() = 0;
+	
+	virtual FOnDeath& DelegateToOnDeath() = 0;
 
 };

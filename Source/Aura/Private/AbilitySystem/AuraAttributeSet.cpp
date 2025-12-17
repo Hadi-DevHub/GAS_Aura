@@ -304,6 +304,12 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	Super::PostGameplayEffectExecute(Data);
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+
+	if (Props.TargetCharacter->Implements<UCombatInterface>() && ICombatInterface::Execute_GetIsDead(Props.TargetCharacter))
+	{
+		return;
+	}
+		
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0, GetMaxHealth()));

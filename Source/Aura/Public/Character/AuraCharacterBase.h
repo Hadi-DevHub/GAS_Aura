@@ -9,6 +9,7 @@
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
+class UAuraDebuffNiagaraComponent;
 class UNiagaraSystem;class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayAbility;
@@ -39,7 +40,7 @@ public:
 	FName TailSocketName;
 
 	virtual AActor* GetAvatarActor_Implementation() override;
-	virtual bool GetIsDead() const;
+	virtual bool GetIsDead_Implementation();
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
 	
 	virtual TArray<FTaggedMontages> GetAttackMontages_Implementation() const override;
@@ -114,9 +115,19 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Character Defaults|Attributes")
 	int32 Level = 1;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Combat")
+	TObjectPtr<UAuraDebuffNiagaraComponent> DebuffNiagaraComponent; 
 
-
-	// FX Related
+	virtual FOnAbilitySystemRegistered& DelegateToOnAbilitySystemRegistered() override;
+	FOnAbilitySystemRegistered AbilitySystemRegisteredDelegate;
+	
+	virtual FOnDeath& DelegateToOnDeath() override;
+	FOnDeath OnDeathDelegate;
+	
+	//-------------------------------//
+	//			VFX RELATED			 //
+	//-------------------------------//
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|Animations")

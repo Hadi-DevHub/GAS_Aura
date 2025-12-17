@@ -8,6 +8,7 @@
 #include "Interaction/EnemyInterface.h"
 #include "AuraEnemy.generated.h"
 
+class UAuraDebuffNiagaraComponent;
 class UBehaviorTree;
 class AAuraAIController;
 enum class ECharacterClass : uint8;
@@ -50,13 +51,17 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = " Combat ")
 	bool bHitReacting;
+	
+	UPROPERTY(BlueprintReadOnly, Category = " Combat ")
+	bool bOnFire;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 3.f;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
-	
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
@@ -67,9 +72,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
 
-	//
-	// AI Implementations
-	//
+	//---------------------------------------//
+	//			AI IMPLEMENTATIONS			 //
+	//---------------------------------------//
 
 	void PossessedBy(AController* NewController) override;
 	
@@ -78,16 +83,17 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 	TObjectPtr<AAuraAIController> AuraAIController;
+
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
 
-	/**
-	 * Reacting to player attacks
-	 */
-
+	//---------------------------------------//
+	//		REACTING TO PLAYER ATTACKS		 //
+	//---------------------------------------//
 	UFUNCTION()
 	void HitReactTagChanged(FGameplayTag CallbackTag, int32 NewCount);
+	
 };
