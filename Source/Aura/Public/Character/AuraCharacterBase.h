@@ -27,7 +27,7 @@ public:
 	/**
 	 *  Derived from ICombatInterface Functions
 	 */
-	virtual void DIE() override;
+	virtual void DIE(const FVector& DeathImpulse) override;
 	
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
 	UPROPERTY(EditAnywhere, Category = "Combat")
@@ -76,7 +76,7 @@ protected:
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
 	UFUNCTION(NetMulticast, reliable)  // This function is related to the DIE function above.
-	virtual void MulticastHandleDeath();
+	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;

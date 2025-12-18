@@ -21,20 +21,27 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 
 public:
 	AAuraEnemy();
-
-	//** Interface Functions **//
-
-	// Enemy Interface
+	//-------------------------//
+	//   Interface Functions   //
+	//-------------------------//
+	
+	//----------------------//
+	//   ENEMY INTERFACE    //
+	//----------------------//
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
 
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
 
-	// Combat Interface //
+	//----------------------//
+	//   COMBAT INTERFACE   //
+	//----------------------//
 	virtual int32 GetPlayerLevel_Implementation() override;
 	
-	//** Interface Functions **//
+	//------------------------//
+	//   Interface Functions  //
+	//------------------------//
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;
@@ -67,7 +74,7 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
 
-	virtual void DIE() override;
+	virtual void DIE(const FVector& DeathImpulse) override;
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;

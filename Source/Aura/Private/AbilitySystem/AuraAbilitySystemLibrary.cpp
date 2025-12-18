@@ -73,7 +73,6 @@ bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldC
 	return false;
 }
 
-
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	UCharacterClassInfo* CharaClassInfo = GetCharacterClassInfo(WorldContextObject);
@@ -139,6 +138,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	
 	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+	SetDeathImpulse(EffectContextHandle, DamageEffectParams.DeathImpulse);
 	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceASC->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
@@ -150,10 +150,9 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	DamageEffectParams.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
 	return EffectContextHandle;
 }
-
-									//==================\\
-									//		SETTERS		\\
-									//==================\\
+									//------------------//
+									//		SETTERS		//
+									//------------------//
 
 void UAuraAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& Context, bool bIsInBlock)
 {
@@ -222,7 +221,6 @@ void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& Co
 		AuraEffectContext->SetDeathImpulse(InVector);
 	}
 }
-
 	//------------------//
 	//		GETTERS		//
 	//------------------//							

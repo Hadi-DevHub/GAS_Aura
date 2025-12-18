@@ -60,7 +60,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 
 	DamageEffectParams.DeathImpulseMagnitude = DeathImpulseMagnitude;
 
-	DamageEffectParams.DeathImpulse = 
+	DamageEffectParams.DeathImpulse = FVector::ZeroVector;
 
 	return DamageEffectParams;
 }

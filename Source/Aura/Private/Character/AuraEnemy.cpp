@@ -88,11 +88,11 @@ void AAuraEnemy::InitializeDefaultAttributes() const
 	UAuraAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
 
-void AAuraEnemy::DIE()
+void AAuraEnemy::DIE(const FVector& DeathImpulse)
 {
 	SetLifeSpan(LifeSpan);
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
-	Super::DIE();
+	Super::DIE(DeathImpulse);
 }
 
 void AAuraEnemy::PossessedBy(AController* NewController)

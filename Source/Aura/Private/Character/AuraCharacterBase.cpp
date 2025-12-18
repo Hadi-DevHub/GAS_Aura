@@ -142,14 +142,14 @@ FTaggedMontages AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const F
 	return FTaggedMontages();
 }
 
-void AAuraCharacterBase::DIE()
+void AAuraCharacterBase::DIE(const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-	MulticastHandleDeath();
+	MulticastHandleDeath(DeathImpulse);
 	OnDeathDelegate.Broadcast(this);
 }
 
-void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
 {
 	if (DeathSound)
 	{
@@ -159,10 +159,12 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	Weapon->AddImpulse(DeathImpulse, NAME_None, true);
 	
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->AddImpulse(DeathImpulse, NAME_None, true);
 	bIsDead = true;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();

@@ -59,7 +59,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	TArray<FTaggedMontages> GetAttackMontages() const;
 
-	virtual void DIE() = 0;
+	virtual void DIE(const FVector& DeathImpulse) = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool GetIsDead();
