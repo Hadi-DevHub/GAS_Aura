@@ -2,8 +2,9 @@
 
 
 #include "AbilitySystem/GameplayAbilities/AuraFireBolt.h"
-
 #include "AuraGameplayTags.h"
+#include "Components/SlateWrapperTypes.h"
+#include "Kismet/GameplayStatics.h"
 
 FString UAuraFireBolt::GetSpellDescription(int32 Level)
 {
@@ -26,7 +27,7 @@ FString UAuraFireBolt::GetSpellDescription(int32 Level)
 		"<Default>Cooldown  : </><Cooldown> %.2f</>"
 		),
 		Level,
-		FMath::Min(Level, ProjNumber),
+		FMath::Min(Level, NumProjectiles),
 		CurrentDamage,
 		Manacost,
 		Cooldown
@@ -58,8 +59,8 @@ FString UAuraFireBolt::GetSpellDescriptionNextLevel(int32 Level)
 		),
 		Level,
 		Level + 1,
-		FMath::Min(Level, ProjNumber),
-		FMath::Min(Level + 1, ProjNumber),
+		FMath::Min(Level, NumProjectiles),
+		FMath::Min(Level + 1, NumProjectiles),
 		CurrentLevelDamage,
 		NextLevelDamage,
 		CurrentManacost,
@@ -67,4 +68,43 @@ FString UAuraFireBolt::GetSpellDescriptionNextLevel(int32 Level)
 		CurrentCooldown,
 		NextCooldown
 		);
+}
+
+void UAuraFireBolt::SpawnProjectiles(const FVector& SpawnLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)
+{
+	AActor* Avatar = GetAvatarActorFromActorInfo();
+	bool bIsServer = Avatar->HasAuthority();
+	if (!bIsServer) return;
+
+	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
+	int32 NumberOfProjectiles = FMath::Min(NumProjectiles, MaxNumProjectiles);
+	
+	FVector ForwardRotation = GetAvatarActorFromActorInfo()->GetActorForwardVector();
+	FVector LeftOfSpread = ForwardRotation.RotateAngleAxis(-ProjectileSpread / 2, FVector::UpVector);
+	FVector RightOfSpread = ForwardRotation.RotateAngleAxis(ProjectileSpread / 2, FVector::UpVector);
+	
+	UKismetSystemLibrary::DrawDebugArrow(Avatar, SocketLocation, SocketLocation + ForwardRotation * 75.f, 1.f, FColor::White, 20.f, 1.f );
+	UKismetSystemLibrary::DrawDebugArrow(Avatar, SocketLocation, SocketLocation + LeftOfSpread * 75.f, 1.f, FColor::White, 20.f, 1.f );
+	UKismetSystemLibrary::DrawDebugArrow(Avatar, SocketLocation, SocketLocation + RightOfSpread * 75.f, 1.f, FColor::White, 20.f, 1.f );
+
+	if (NumberOfProjectiles > 1)
+	{
+		const float DeltaRotation = ProjectileSpread / (NumberOfProjectiles - 1);
+		for (int32 i = 0; i < NumberOfProjectiles; i++)
+		{
+			FVector Start = SocketLocation + FVector(0,0,10.f);
+			FVector ProjectileDirection = LeftOfSpread.RotateAngleAxis(DeltaRotation * i, FVector::UpVector);
+			FVector End   = Start + ProjectileDirection * 50.f;
+			
+			UKismetSystemLibrary::DrawDebugArrow(Avatar,
+				Start,
+				End,
+				1.f,
+				FColor::Red,
+				20.f,
+				1.f
+				);
+		}
+	}
+
 }
