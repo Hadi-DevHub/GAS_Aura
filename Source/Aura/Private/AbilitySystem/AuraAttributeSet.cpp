@@ -7,6 +7,7 @@
 #include "GameplayEffectExtension.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
@@ -198,15 +199,17 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		float NewHealth = GetHealth() - LocalIncomingDamage;
 		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 		const bool bFatal = NewHealth <= 0.f;
+		ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 		if (bFatal)
 		{
-			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 			if (CombatInterface == nullptr) return;
 			CombatInterface->DIE(UAuraAbilitySystemLibrary::GetDeathImpulse(Props.EffectContextHandle));
 			SendXPEvent(Props);
 		}
 		else
 		{
+			Props.TargetCharacter->LaunchCharacter(UAuraAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle), true, true);
+			Props.TargetCharacter->GetCharacterMovement()->StopMovementImmediately();
 			FGameplayTagContainer GameplayTagContainer;
 			GameplayTagContainer.AddTag(AuraGameplayTags::Abilities_HitReact);
 			Props.TargetASC->TryActivateAbilitiesByTag(GameplayTagContainer);

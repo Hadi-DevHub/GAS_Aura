@@ -11,46 +11,55 @@ struct FDamageEffectParams
 	
 	FDamageEffectParams(){};
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UObject> WorldContextObject = nullptr;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> SourceASC;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> TargetASC;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float BaseDamage = 0.0f;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float AbilityLevel = 0.0f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	bool bSuccessfulDebuff = false;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffChance = 0.0f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffDamage = 0.0f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffDuration = 0.0f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffFrequency = 0.0f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	FGameplayTag DamageType = FGameplayTag();
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DeathImpulseMagnitude = 0.0f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackForceMagnitude = 0.0f;
+
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackChance = 0.0f;
+	
+	UPROPERTY(BlueprintReadWrite)
+	FVector KnockbackForce = FVector::ZeroVector;
+
+	UPROPERTY(BlueprintReadWrite)
 	FVector DeathImpulse = FVector::ZeroVector;
 };
 
@@ -71,6 +80,7 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	void SetDebuffDuration(float InDuration) { DebuffDuration = InDuration; }
 	void SetDebuffFrequency(float InFrequency) { DebuffFrequency = InFrequency; }
 	void SetDeathImpulse(FVector InVector) { DeathImpulse = InVector; }
+	void SetKnockbackForce(FVector InVector) { KnockbackForce = InVector; }
 
 	//------------------//
 	//		GETTERS		//
@@ -84,7 +94,8 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	float GetDebuffFrequency()  const{ return DebuffFrequency; }
 	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 	FVector GetDeathImpulse() const { return DeathImpulse; }
-	
+	FVector GetKnockbackForce() const { return KnockbackForce; }
+
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const 
 	{
@@ -129,6 +140,9 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 
 	UPROPERTY()
 	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY()
+	FVector KnockbackForce = FVector::ZeroVector;
 };
 
 template<>
