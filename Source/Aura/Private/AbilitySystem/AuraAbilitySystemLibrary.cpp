@@ -316,6 +316,44 @@ FVector UAuraAbilitySystemLibrary::GetKnockbackForce(const FGameplayEffectContex
 	return FVector::ZeroVector;
 }
 
+TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& ForwardDirection, const FVector& Axis, float SpreadAngle, int32 NumRotators)
+{
+	TArray<FRotator> Rotators;
+	FVector LeftOfSpread = ForwardDirection.RotateAngleAxis(-SpreadAngle / 2, Axis);
+
+	if (NumRotators > 1)
+	{
+		const float DeltaRotation = SpreadAngle / (NumRotators - 1);
+		for (int32 i = 0; i < NumRotators; i++)
+		{
+			FVector VectorDir = LeftOfSpread.RotateAngleAxis(DeltaRotation * i, FVector::UpVector);
+			Rotators.Add(VectorDir.Rotation());
+		}
+		return Rotators;
+	}
+	Rotators.Add(ForwardDirection.Rotation());
+	return Rotators;
+}
+
+TArray<FVector> UAuraAbilitySystemLibrary::EvenlySpacedVectors(const FVector& ForwardDirection, const FVector& Axis, float SpreadAngle, int32 NumVectors)
+{
+	TArray<FVector> Directions;
+	FVector LeftOfSpread = ForwardDirection.RotateAngleAxis(-SpreadAngle / 2, Axis);
+
+	if (NumVectors > 1)
+	{
+		const float DeltaRotation = SpreadAngle / (NumVectors - 1);
+		for (int32 i = 0; i < NumVectors; i++)
+		{
+			FVector VectorDir = LeftOfSpread.RotateAngleAxis(DeltaRotation * i, FVector::UpVector);
+			Directions.Add(VectorDir);
+		}
+		return Directions;
+	}
+	Directions.Add(ForwardDirection);
+	return Directions;
+}
+
 void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldContextObject,
                                                            TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorsToIgnore, float radius, const FVector& SphereOrigin)
 {

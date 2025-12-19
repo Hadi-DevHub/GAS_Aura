@@ -3,8 +3,9 @@
 
 #include "AbilitySystem/GameplayAbilities/AuraFireBolt.h"
 #include "AuraGameplayTags.h"
-#include "Components/SlateWrapperTypes.h"
-#include "Kismet/GameplayStatics.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Actors/AuraProjectile.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 FString UAuraFireBolt::GetSpellDescription(int32 Level)
 {
@@ -70,41 +71,36 @@ FString UAuraFireBolt::GetSpellDescriptionNextLevel(int32 Level)
 		);
 }
 
-void UAuraFireBolt::SpawnProjectiles(const FVector& SpawnLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)
+void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)
 {
 	AActor* Avatar = GetAvatarActorFromActorInfo();
+	FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(Avatar, SocketTag);
 	bool bIsServer = Avatar->HasAuthority();
 	if (!bIsServer) return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
+	FRotator Forward = (ProjectileTargetLocation - SocketLocation).Rotation();
 	int32 NumberOfProjectiles = FMath::Min(NumProjectiles, MaxNumProjectiles);
-	
-	FVector ForwardRotation = GetAvatarActorFromActorInfo()->GetActorForwardVector();
-	FVector LeftOfSpread = ForwardRotation.RotateAngleAxis(-ProjectileSpread / 2, FVector::UpVector);
-	FVector RightOfSpread = ForwardRotation.RotateAngleAxis(ProjectileSpread / 2, FVector::UpVector);
-	
-	UKismetSystemLibrary::DrawDebugArrow(Avatar, SocketLocation, SocketLocation + ForwardRotation * 75.f, 1.f, FColor::White, 20.f, 1.f );
-	UKismetSystemLibrary::DrawDebugArrow(Avatar, SocketLocation, SocketLocation + LeftOfSpread * 75.f, 1.f, FColor::White, 20.f, 1.f );
-	UKismetSystemLibrary::DrawDebugArrow(Avatar, SocketLocation, SocketLocation + RightOfSpread * 75.f, 1.f, FColor::White, 20.f, 1.f );
 
-	if (NumberOfProjectiles > 1)
+	TArray<FRotator> SpawnDirections = UAuraAbilitySystemLibrary::EvenlySpacedRotators(Forward.Vector(), FVector::UpVector, ProjectileSpread, NumberOfProjectiles);
+
+	for (FRotator Vector : SpawnDirections)
 	{
-		const float DeltaRotation = ProjectileSpread / (NumberOfProjectiles - 1);
-		for (int32 i = 0; i < NumberOfProjectiles; i++)
-		{
-			FVector Start = SocketLocation + FVector(0,0,10.f);
-			FVector ProjectileDirection = LeftOfSpread.RotateAngleAxis(DeltaRotation * i, FVector::UpVector);
-			FVector End   = Start + ProjectileDirection * 50.f;
-			
-			UKismetSystemLibrary::DrawDebugArrow(Avatar,
-				Start,
-				End,
-				1.f,
-				FColor::Red,
-				20.f,
-				1.f
-				);
-		}
-	}
+		FTransform SpawnTransform;
+    	SpawnTransform.SetLocation(SocketLocation);
+    	SpawnTransform.SetRotation(Vector.Quaternion());
+		
+		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+		ProjectileClass,
+		SpawnTransform,
+		GetOwningActorFromActorInfo(),
+		Cast<APawn>(GetOwningActorFromActorInfo()),
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
+		//----------------------//
+		//  SETTING PROJ PARAMS //
+		//----------------------//
+		
+		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+		Projectile->FinishSpawning(SpawnTransform);
+	}
 }
