@@ -5,6 +5,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Actors/AuraProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 FString UAuraFireBolt::GetSpellDescription(int32 Level)
@@ -79,7 +80,12 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 	if (!bIsServer) return;
 
 	FRotator Forward = (ProjectileTargetLocation - SocketLocation).Rotation();
-	int32 NumberOfProjectiles = FMath::Min(NumProjectiles, MaxNumProjectiles);
+	if (bOverridePitch)
+	{
+		Forward.Pitch = PitchOverride;
+	}
+	
+	int32 NumberOfProjectiles = FMath::Min(GetAbilityLevel(), MaxNumProjectiles);
 
 	TArray<FRotator> SpawnDirections = UAuraAbilitySystemLibrary::EvenlySpacedRotators(Forward.Vector(), FVector::UpVector, ProjectileSpread, NumberOfProjectiles);
 
@@ -99,6 +105,19 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 		//----------------------//
 		//  SETTING PROJ PARAMS //
 		//----------------------//
+		Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectiles;
+		Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::FRandRange(HomingAccelerationMin, HomingAccelerationMax);
+
+		if (HomingTarget && HomingTarget->Implements<UCombatInterface>())
+		{
+			Projectile->ProjectileMovementComponent->HomingTargetComponent = HomingTarget->GetRootComponent();
+		}
+		else
+		{
+			Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+			Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+			Projectile->ProjectileMovementComponent->HomingTargetComponent = Projectile->HomingTargetSceneComponent;
+		}
 		
 		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 		Projectile->FinishSpawning(SpawnTransform);

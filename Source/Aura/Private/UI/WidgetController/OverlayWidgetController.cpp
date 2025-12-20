@@ -78,6 +78,7 @@ void UOverlayWidgetController::OnXPChanged(int32 NewValue)
 	checkf(LevelUpInfo, TEXT("Unable to find LevelUpInfo, please fill out AuraPlayerState Blueprint"));
 
 	int32 CurrentPlayerLevel = LevelUpInfo->FindLevelForXP(NewValue);
+	int32 CurrentPlayerXP = GetAPS()->GetPlayerExperience();
 	int32 MaxPlayerLevel = LevelUpInfo->LevelUpInfos.Num() - 1;
 	
 	if (CurrentPlayerLevel > 0 && CurrentPlayerLevel <= MaxPlayerLevel)
@@ -86,7 +87,7 @@ void UOverlayWidgetController::OnXPChanged(int32 NewValue)
 		int32 PreviousLevelUpRequirement = LevelUpInfo->LevelUpInfos[CurrentPlayerLevel - 1].LevelUpRequirement;
 		int32 DeltaLevelUpRequirement = LevelUpRequirement - PreviousLevelUpRequirement;
 
-		float XPBarPercent = static_cast<float>(NewValue) / static_cast<float>(DeltaLevelUpRequirement);
+		float XPBarPercent = static_cast<float>(CurrentPlayerXP) / static_cast<float>(LevelUpRequirement);
 		
 		OnPlayerXPChanged.Broadcast(XPBarPercent);
 	}

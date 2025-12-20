@@ -24,5 +24,14 @@ class AURA_API UAuraFireBolt : public UAuraProjectileSpell
 	float ProjectileSpread = 90.f;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "SPELL|PROPERTIES")
-	int32 MaxNumProjectiles = 5;	
+	int32 MaxNumProjectiles = 5;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FireBolt")
+	float HomingAccelerationMin = 1600.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FireBolt")
+	float HomingAccelerationMax = 3200.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FireBolt")
+	bool bLaunchHomingProjectiles = true;
 };
