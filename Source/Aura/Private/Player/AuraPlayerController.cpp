@@ -50,6 +50,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bTargeting = ThisEnemy ? true : false;
 		bAutoMovement = false;
 	}
+	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);	
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -79,11 +80,11 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
-		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
+		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);	
 		return;
 	}
 
-	if (bShiftAction) if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
+	if (bShiftAction) if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 
 	if (!bTargeting && !bShiftAction)
 	{

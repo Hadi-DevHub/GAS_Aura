@@ -46,6 +46,11 @@ void AAuraProjectile::OnHit() const
 {
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ProjectileImpactVFX, GetActorLocation());
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), ProjectileImpactSFX, GetActorLocation());
+	if (LoopingSFXComponent)
+	{
+		LoopingSFXComponent->Stop();
+		LoopingSFXComponent->DestroyComponent();
+	}
 	if (LoopingSFXComponent) LoopingSFXComponent->Stop();
 }
 
@@ -84,6 +89,11 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent,
 
 void AAuraProjectile::Destroyed()
 {
+	if (LoopingSFXComponent)
+	{
+		LoopingSFXComponent->Stop();
+		LoopingSFXComponent->DestroyComponent();
+	}
 	if (!bIsHit && !HasAuthority()) OnHit();
 	Super::Destroyed();
 }
