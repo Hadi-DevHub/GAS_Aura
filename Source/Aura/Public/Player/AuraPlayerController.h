@@ -9,6 +9,7 @@
 #include "UI/Widgets/DamageTextComponent.h"
 #include "AuraPlayerController.generated.h"
 
+class UNiagaraSystem;
 class USplineComponent;
 class UAuraAbilitySystemComponent;
 class IEnemyInterface;
@@ -60,8 +61,11 @@ protected:
 	UAuraAbilitySystemComponent* GetASC();
 
 	FVector CachedDestination = FVector::ZeroVector;
+	
 	float FollowTime = 0.0f;
+	
 	float ShortPressedThreshold = .5f;
+	
 	bool bAutoMovement = false;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -71,6 +75,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
 
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
+
 	// Cursor Trace
 	FHitResult UnderCursor;
 
@@ -78,6 +85,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponent;
+	
 };
 
 
