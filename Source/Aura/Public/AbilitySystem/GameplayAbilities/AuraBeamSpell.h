@@ -1,0 +1,30 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "AbilitySystem/GameplayAbilities/AuraDamageGameplayAbility.h"
+#include "AuraBeamSpell.generated.h"
+
+
+UCLASS()
+class AURA_API UAuraBeamSpell : public UAuraDamageGameplayAbility
+{
+	GENERATED_BODY()
+
+protected:
+
+	UFUNCTION(BlueprintCallable)
+	void StoreMouseDataInfo(const FHitResult& DataUnderMouse);
+	
+	UFUNCTION(BlueprintCallable)
+	void StoreOwnerPlayerController();
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<AActor> StoredHitActor;
+
+	UPROPERTY(BlueprintReadOnly)
+	FVector StoredHitLocation;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<APlayerController> OwnerPlayerController;
+
+private:
+};
