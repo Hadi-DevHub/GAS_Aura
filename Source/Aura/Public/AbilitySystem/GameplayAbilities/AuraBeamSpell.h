@@ -3,7 +3,6 @@
 #include "AbilitySystem/GameplayAbilities/AuraDamageGameplayAbility.h"
 #include "AuraBeamSpell.generated.h"
 
-
 UCLASS()
 class AURA_API UAuraBeamSpell : public UAuraDamageGameplayAbility
 {
@@ -24,7 +23,10 @@ protected:
 	FVector StoredHitLocation;
 
 	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<APlayerController> OwnerPlayerController;
+	TObjectPtr<APlayerController> StoredOwnerPlayerController;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<ACharacter> StoredOwnerAvatar;
 
 private:
 };
