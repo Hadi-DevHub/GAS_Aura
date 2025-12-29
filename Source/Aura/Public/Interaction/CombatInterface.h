@@ -57,6 +57,9 @@ public:
 	UAnimMontage* GetHitReactMontage();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USkeletalMeshComponent* GetWeapon();
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	TArray<FTaggedMontages> GetAttackMontages() const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

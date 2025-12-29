@@ -42,6 +42,7 @@ public:
 	virtual AActor* GetAvatarActor_Implementation() override;
 	virtual bool GetIsDead_Implementation();
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
+	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	
 	virtual TArray<FTaggedMontages> GetAttackMontages_Implementation() const override;
 	virtual FTaggedMontages GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
