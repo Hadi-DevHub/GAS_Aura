@@ -104,7 +104,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					bAutoMovement = true;
 				}
 			}
-			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+			if (GetASC() && !GetASC()->HasMatchingGameplayTag(AuraGameplayTags::Player_Block_CursorTrace))
+			{
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+			}
 		}
 		FollowTime = 0.f;
 		bTargeting = false;
@@ -158,6 +161,13 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 
 void AAuraPlayerController::CursorTrace()
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(AuraGameplayTags::Player_Block_CursorTrace))
+	{
+		if (LastEnemy) LastEnemy->UnHighlightActor();
+		if (ThisEnemy) ThisEnemy->UnHighlightActor();
+		return;
+	}
+	
 	GetHitResultUnderCursor(ECC_Visibility, false, UnderCursor );
 	if (!UnderCursor.bBlockingHit) return;
 	

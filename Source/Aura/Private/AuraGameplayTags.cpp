@@ -102,7 +102,7 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Lightning_Electrocute, "Cooldown.Lightning.Electrocute");
 	
 						//*                   *//
-						//  MONTAGE SECTION  //
+						//  MONTAGE SECTION    //
 						//*                   *//
 
 	// Montage Gameplay Tags
@@ -117,7 +117,14 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_RightHand, "CombatSocket.RightHand");
 	UE_DEFINE_GAMEPLAY_TAG(CombatSocket_Tail, "CombatSocket.Tail");
 
-	
+						//*                  *//
+						//	  PLAYER BLOCK    //
+						//*                  *//
+
+	UE_DEFINE_GAMEPLAY_TAG(PLayer_Block_InputPressed, "Player.Block.InputPressed");
+	UE_DEFINE_GAMEPLAY_TAG(PLayer_Block_InputHold, "Player.Block.InputHold");
+	UE_DEFINE_GAMEPLAY_TAG(PLayer_Block_InputReleased, "Player.Block.InputReleased");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Block_CursorTrace, "Player.Block.CursorTrace");
 	
 }
 

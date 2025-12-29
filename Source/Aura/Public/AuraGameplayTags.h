@@ -129,6 +129,15 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_LeftHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_RightHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_Tail);
+	
+	//*                  *//
+	//	  PLAYER BLOCK    //
+	//*                  *//
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputPressed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputHold);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputReleased);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_CursorTrace);
 
 }
 
