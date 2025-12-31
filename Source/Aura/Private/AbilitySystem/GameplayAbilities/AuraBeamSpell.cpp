@@ -44,7 +44,7 @@ void UAuraBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 			TraceTypeQuery1,
 			false,
 			ActorsToIgnore,
-			EDrawDebugTrace::ForDuration,
+			EDrawDebugTrace::None,
 			HitTarget,
 			true
 			);
