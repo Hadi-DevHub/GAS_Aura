@@ -16,6 +16,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void StoreOwnerPlayerController();
 
+	UFUNCTION(BlueprintCallable)
+	void TraceFirstTarget(const FVector& BeamTargetLocation);
+
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<AActor> StoredHitActor;
 
