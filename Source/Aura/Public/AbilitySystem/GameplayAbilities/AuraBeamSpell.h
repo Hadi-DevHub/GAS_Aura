@@ -19,6 +19,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void TraceFirstTarget(const FVector& BeamTargetLocation);
 
+	UFUNCTION(BlueprintCallable)
+	void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
+
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<AActor> StoredHitActor;
 
@@ -30,6 +33,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<ACharacter> StoredOwnerAvatar;
+
+	UPROPERTY(EditDefaultsOnly, Category = "BeamSpell")
+	int32 MaxNumOfStoredTargets;
 
 private:
 };
