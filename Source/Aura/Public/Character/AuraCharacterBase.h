@@ -50,6 +50,9 @@ public:
 	TArray<FTaggedMontages> TaggedMontages;
 	virtual int32 GetNumberOfMinions_Implementation() const override;
 	virtual void IncrementNumberOfMinions_Implementation(int32 Amount) override;
+
+	virtual FOnDeathSignature& GetDelegateToOnDeath() override;
+	FOnDeathSignature OnDeathDelegate;
 	
 	/**
 	 *  Derived from ICombatInterface Functions
@@ -123,9 +126,7 @@ protected:
 	virtual FOnAbilitySystemRegistered& DelegateToOnAbilitySystemRegistered() override;
 	FOnAbilitySystemRegistered AbilitySystemRegisteredDelegate;
 	
-	virtual FOnDeath& DelegateToOnDeath() override;
-	FOnDeath OnDeathDelegate;
-	
+
 	//-------------------------------//
 	//			VFX RELATED			 //
 	//-------------------------------//

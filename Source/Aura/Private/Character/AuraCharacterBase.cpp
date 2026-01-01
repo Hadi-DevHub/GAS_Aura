@@ -151,7 +151,6 @@ void AAuraCharacterBase::DIE(const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	MulticastHandleDeath(DeathImpulse);
-	OnDeathDelegate.Broadcast(this);
 }
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
@@ -173,6 +172,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	
 	bIsDead = true;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	OnDeathDelegate.Broadcast(this);
 	Dissolve();
 }
 
@@ -198,7 +198,7 @@ FOnAbilitySystemRegistered& AAuraCharacterBase::DelegateToOnAbilitySystemRegiste
 	return AbilitySystemRegisteredDelegate;
 }
 
-FOnDeath& AAuraCharacterBase::DelegateToOnDeath() 
+FOnDeathSignature& AAuraCharacterBase::GetDelegateToOnDeath() 
 {
 	return OnDeathDelegate;
 }

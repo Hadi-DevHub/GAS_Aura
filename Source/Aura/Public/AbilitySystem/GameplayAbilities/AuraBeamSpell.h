@@ -10,6 +10,12 @@ class AURA_API UAuraBeamSpell : public UAuraDamageGameplayAbility
 
 protected:
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnPrimaryTargetDied(AActor* DeadActor);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnAdditionalTargetDied(AActor* DeadActor);
+
 	UFUNCTION(BlueprintCallable)
 	void StoreMouseDataInfo(const FHitResult& DataUnderMouse);
 	

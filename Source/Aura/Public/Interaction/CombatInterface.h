@@ -12,7 +12,7 @@
 class UNiagaraSystem;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnAbilitySystemRegistered, UAbilitySystemComponent*);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathSignature, AActor*, DeadActor);
 
 UINTERFACE(MinimalAPI, BlueprintType)
 class UCombatInterface : public UInterface
@@ -90,6 +90,6 @@ public:
 
 	virtual FOnAbilitySystemRegistered& DelegateToOnAbilitySystemRegistered() = 0;
 	
-	virtual FOnDeath& DelegateToOnDeath() = 0;
+	virtual FOnDeathSignature& GetDelegateToOnDeath() = 0;
 
 };

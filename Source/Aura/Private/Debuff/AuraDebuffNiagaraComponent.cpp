@@ -40,7 +40,7 @@ void UAuraDebuffNiagaraComponent::BeginPlay()
 	}
 	if (GetOwner()->Implements<UCombatInterface>())
 	{
-		CombatInterface->DelegateToOnDeath().AddDynamic(this, &UAuraDebuffNiagaraComponent::OnOwnerDeath);
+		CombatInterface->GetDelegateToOnDeath().AddDynamic(this, &UAuraDebuffNiagaraComponent::OnOwnerDeath);
 	}
 }
 
