@@ -29,13 +29,13 @@ void UAuraDebuffNiagaraComponent::BeginPlay()
 	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner());
 	if (ASC)
 	{
-		ASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UAuraDebuffNiagaraComponent::OnDebuff_BurnTagChanged);
+		ASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UAuraDebuffNiagaraComponent::OnDebuffTagChanged);
 	}
 	else if (GetOwner()->Implements<UCombatInterface>())
 	{
 		CombatInterface->DelegateToOnAbilitySystemRegistered().AddWeakLambda(this, [this](UAbilitySystemComponent* ASC)
 		{
-			ASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UAuraDebuffNiagaraComponent::OnDebuff_BurnTagChanged);
+			ASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UAuraDebuffNiagaraComponent::OnDebuffTagChanged);
 		});
 	}
 	if (GetOwner()->Implements<UCombatInterface>())
@@ -44,7 +44,7 @@ void UAuraDebuffNiagaraComponent::BeginPlay()
 	}
 }
 
-void UAuraDebuffNiagaraComponent::OnDebuff_BurnTagChanged(FGameplayTag CallbackTag, int32 NewCount)
+void UAuraDebuffNiagaraComponent::OnDebuffTagChanged(FGameplayTag CallbackTag, int32 NewCount)
 {
 	if (NewCount > 0)
 	{

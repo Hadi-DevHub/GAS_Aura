@@ -11,6 +11,7 @@
 #include "Camera/CameraComponent.h"
 #include "Player/AuraPlayerState.h"
 #include "Components/CapsuleComponent.h"
+#include "Debuff/AuraDebuffNiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "UI/HUD/AuraHUD.h"
 
@@ -69,10 +70,24 @@ void AAuraCharacter::OnRep_IsStunned() const
 	if (bIsStunned)
 	{
 		AuraASC->AddLooseGameplayTags(BlockedTags);
+		StunDebuffComponent->Activate();
 	}
 	else
 	{
 		AuraASC->RemoveLooseGameplayTags(BlockedTags);
+		StunDebuffComponent->Deactivate();
+	}
+}
+
+void AAuraCharacter::OnRep_IsBurned() const
+{
+	if (bIsBurned)
+	{
+		BurnDebuffComponent->Activate();
+	}
+	else
+	{
+		BurnDebuffComponent->Deactivate();
 	}
 }
 

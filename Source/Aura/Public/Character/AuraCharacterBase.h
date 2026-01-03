@@ -62,9 +62,15 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_IsStunned)
     bool bIsStunned = false;
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_IsBurned)
+	bool bIsBurned = false;
     
     UFUNCTION()
     virtual void OnRep_IsStunned() const;
+
+	UFUNCTION()
+	virtual void OnRep_IsBurned() const;
 	
 protected:
 	
@@ -134,7 +140,10 @@ protected:
 	int32 Level = 1;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Combat")
-	TObjectPtr<UAuraDebuffNiagaraComponent> DebuffNiagaraComponent; 
+	TObjectPtr<UAuraDebuffNiagaraComponent> BurnDebuffComponent; 
+	
+	UPROPERTY(VisibleAnywhere, Category = "Combat")
+    TObjectPtr<UAuraDebuffNiagaraComponent> StunDebuffComponent; 
 
 	virtual FOnAbilitySystemRegistered& DelegateToOnAbilitySystemRegistered() override;
 	FOnAbilitySystemRegistered AbilitySystemRegisteredDelegate;

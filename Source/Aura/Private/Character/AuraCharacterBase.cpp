@@ -20,9 +20,13 @@ AAuraCharacterBase::AAuraCharacterBase()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
 
-	DebuffNiagaraComponent = CreateDefaultSubobject<UAuraDebuffNiagaraComponent>("DebuffNiagaraComponent");
-	DebuffNiagaraComponent->SetupAttachment(GetRootComponent());
-	DebuffNiagaraComponent->DebuffTag = AuraGameplayTags::Debuff_Burn;
+	BurnDebuffComponent = CreateDefaultSubobject<UAuraDebuffNiagaraComponent>("BurnDebuffNiagaraComponent");
+	BurnDebuffComponent->SetupAttachment(GetRootComponent());
+	BurnDebuffComponent->DebuffTag = AuraGameplayTags::Debuff_Burn;
+	
+	StunDebuffComponent = CreateDefaultSubobject<UAuraDebuffNiagaraComponent>("StunDebuffNiagaraComponent");
+	StunDebuffComponent->SetupAttachment(GetRootComponent());
+	StunDebuffComponent->DebuffTag = AuraGameplayTags::Debuff_Stun;
 	
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
@@ -39,6 +43,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
+	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
 }
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
@@ -148,6 +153,11 @@ void AAuraCharacterBase::OnRep_IsStunned() const
 
 }
 
+void AAuraCharacterBase::OnRep_IsBurned() const
+{
+	
+}
+
 TArray<FTaggedMontages> AAuraCharacterBase::GetAttackMontages_Implementation() const
 {
 	return TaggedMontages;
@@ -190,6 +200,8 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	
 	bIsDead = true;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	if (BurnDebuffComponent) BurnDebuffComponent->Deactivate();
+	if (StunDebuffComponent) StunDebuffComponent->Deactivate();
 	OnDeathDelegate.Broadcast(this);
 	Dissolve();
 }

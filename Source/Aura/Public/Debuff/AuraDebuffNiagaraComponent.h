@@ -27,7 +27,7 @@ public:
 	void Deactivate() override;
 
 	UFUNCTION()
-	void OnDebuff_BurnTagChanged(FGameplayTag CallbackTag, int32 NewCount);
+	void OnDebuffTagChanged(FGameplayTag CallbackTag, int32 NewCount);
 
 	UFUNCTION()
 	void OnOwnerDeath(AActor* DeadActor);
