@@ -47,6 +47,10 @@ void AAuraPlayerController::SHIFTReleased()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(AuraGameplayTags::PLayer_Block_InputPressed))
+	{
+		return;
+	}
 	if (InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
 		bTargeting = ThisEnemy ? true : false;
@@ -57,6 +61,10 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(AuraGameplayTags::PLayer_Block_InputHold))
+	{
+		return;
+	}
 	if (!InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);	
@@ -80,6 +88,10 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(AuraGameplayTags::PLayer_Block_InputReleased))
+	{
+		return;
+	}
 	if (!InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
 		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);	
@@ -185,6 +197,10 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(AuraGameplayTags::PLayer_Block_InputPressed))
+	{
+		return;
+	}
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
 	const FRotator Rotator = GetControlRotation();
 	const FRotator YawRotation = FRotator(0.f, Rotator.Yaw, 0.0f);

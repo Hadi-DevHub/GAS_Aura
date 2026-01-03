@@ -23,10 +23,12 @@ public:
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() { return AttributeSet; }
+	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
 
-	/**
-	 *  Derived from ICombatInterface Functions
-	 */
+	//-------------------------------//
+	//	COMBAT INTERFACE FUNCTIONS	 //
+	//-------------------------------//
 	virtual void DIE(const FVector& DeathImpulse) override;
 	
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
@@ -54,9 +56,15 @@ public:
 	virtual FOnDeathSignature& GetDelegateToOnDeath() override;
 	FOnDeathSignature OnDeathDelegate;
 	
-	/**
-	 *  Derived from ICombatInterface Functions
-	 */
+	//-------------------------------//
+	//								 //
+	//-------------------------------//
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_IsStunned)
+    bool bIsStunned = false;
+    
+    UFUNCTION()
+    virtual void OnRep_IsStunned() const;
 	
 protected:
 	
@@ -65,6 +73,7 @@ protected:
 	virtual void AddCharacterAbilities();
 	virtual void AddCharacterPassiveAbilities();
 	virtual ECharacterClass GetCharacterClass_Implementation() const override;
+	virtual void OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount);
 
 	virtual void Dissolve();
 	UPROPERTY(EditAnywhere, Category = "Dissolve")
@@ -84,8 +93,12 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	bool bIsDead = false;
+		
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = " Combat ")
+	float BaseWalkSpeed;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -125,7 +138,6 @@ protected:
 
 	virtual FOnAbilitySystemRegistered& DelegateToOnAbilitySystemRegistered() override;
 	FOnAbilitySystemRegistered AbilitySystemRegisteredDelegate;
-	
 
 	//-------------------------------//
 	//			VFX RELATED			 //

@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerController.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "NiagaraComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
@@ -52,6 +53,27 @@ void AAuraCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::OnRep_IsStunned() const
+{
+	Super::OnRep_IsStunned();
+	
+	UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	FGameplayTagContainer BlockedTags;
+	BlockedTags.AddTag(AuraGameplayTags::Player_Block_CursorTrace);
+	BlockedTags.AddTag(AuraGameplayTags::PLayer_Block_InputHold);
+	BlockedTags.AddTag(AuraGameplayTags::PLayer_Block_InputPressed);
+	BlockedTags.AddTag(AuraGameplayTags::PLayer_Block_InputReleased);
+	
+	if (bIsStunned)
+	{
+		AuraASC->AddLooseGameplayTags(BlockedTags);
+	}
+	else
+	{
+		AuraASC->RemoveLooseGameplayTags(BlockedTags);
+	}
 }
 
 int32 AAuraCharacter::GetPlayerLevel_Implementation()
@@ -146,6 +168,13 @@ void AAuraCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 	}
 }
 
+void AAuraCharacter::OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount)
+{
+	Super::OnStunTagChanged(CallbackTag, NewCount);
+	bIsStunned = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.f: BaseWalkSpeed;
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
@@ -156,6 +185,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 	InitializeDefaultAttributes();
 	AbilitySystemRegisteredDelegate.Broadcast(AbilitySystemComponent);
+	AbilitySystemComponent->RegisterGameplayTagEvent(AuraGameplayTags::Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraCharacter::OnStunTagChanged);
 	if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(GetController()))
 	{
 		if (AAuraHUD* HUD = Cast<AAuraHUD>(PlayerController->GetHUD()))
@@ -163,5 +193,4 @@ void AAuraCharacter::InitAbilityActorInfo()
 			HUD->InitOverlay(PlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
-	
 }

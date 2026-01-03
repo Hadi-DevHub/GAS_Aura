@@ -141,7 +141,7 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* M
 	{
 		if (Ar.IsLoading())
 		{
-			if (DamageType.IsValid())
+			if (!DamageType.IsValid())
 			{
 				DamageType = MakeShared<FGameplayTag>();
 			}

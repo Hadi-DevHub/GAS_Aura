@@ -67,6 +67,9 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 {
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Add(StoredHitActor);
+	ActorsToIgnore.Add(StoredOwnerAvatar);
+
+	int32 MaxAdditionalTargets = FMath::Min(GetAbilityLevel(), MaxNumOfStoredTargets);
 	
 	TArray<AActor*> OverlappingActors;
 	UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(GetAvatarActorFromActorInfo(),
@@ -75,7 +78,9 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 		850.f,
 		StoredHitLocation
 		);
-	UAuraAbilitySystemLibrary::GetClosestTargets(5,
+	
+	UAuraAbilitySystemLibrary::GetClosestTargets(
+		MaxAdditionalTargets,
 		OverlappingActors,
 		OutAdditionalTargets,
 		StoredHitLocation

@@ -135,7 +135,7 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	
 	UPROPERTY()
 	float DebuffFrequency = 0.f; 
-	
+
 	TSharedPtr<FGameplayTag> DamageType;
 
 	UPROPERTY()

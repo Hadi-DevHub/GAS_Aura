@@ -42,8 +42,6 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	
 	DamageEffectParams.SourceASC = GetAbilitySystemComponentFromActorInfo();
 	
-	DamageEffectParams.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
-	
 	DamageEffectParams.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
 	
 	DamageEffectParams.AbilityLevel = GetAbilityLevel();
@@ -66,6 +64,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	
 	if (IsValid(TargetActor))
 	{
+		DamageEffectParams.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 		FRotator Rotation = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
 		Rotation.Pitch = 45.f;
 		const FVector ToTarget = Rotation.Vector();

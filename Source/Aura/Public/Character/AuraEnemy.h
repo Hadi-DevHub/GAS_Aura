@@ -52,16 +52,12 @@ public:
 	/**
 	* Reacting to player attacks
 	 */
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = " Combat ")
-	float BaseWalkSpeed;
 
 	UPROPERTY(BlueprintReadOnly, Category = " Combat ")
 	bool bHitReacting;
 	
 	UPROPERTY(BlueprintReadOnly, Category = " Combat ")
 	bool bOnFire;
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 3.f;
@@ -73,6 +69,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
+	virtual void OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount) override;
 
 	virtual void DIE(const FVector& DeathImpulse) override;
 

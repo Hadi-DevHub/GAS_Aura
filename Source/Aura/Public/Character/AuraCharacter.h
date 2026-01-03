@@ -23,6 +23,7 @@ public:
 	AAuraCharacter();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+	virtual void OnRep_IsStunned() const override;
 
 	/* Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
@@ -43,6 +44,8 @@ public:
 	/* End Player Interface */
 	
 protected:
+
+	virtual void OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount) override;
 	
 private:
 	virtual void InitAbilityActorInfo() override;

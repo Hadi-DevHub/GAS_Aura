@@ -7,8 +7,9 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
 #include "Debuff/AuraDebuffNiagaraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Material/DynamicMaterialInstance.h"
+#include "Net/UnrealNetwork.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -32,6 +33,12 @@ AAuraCharacterBase::AAuraCharacterBase()
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
 }
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
@@ -114,6 +121,12 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation() const
 	return CharacterClass;
 }
 
+void AAuraCharacterBase::OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount)
+{
+	bIsStunned = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.f: BaseWalkSpeed;
+}
+
 void AAuraCharacterBase::Dissolve()
 {
 	if (IsValid(CharacterDissolveMaterial))
@@ -128,6 +141,11 @@ void AAuraCharacterBase::Dissolve()
 		Weapon->SetMaterial(0, DynamicMatInst);
 		StartWeaponDissolveTimeline(DynamicMatInst);
 	}
+}
+
+void AAuraCharacterBase::OnRep_IsStunned() const
+{
+
 }
 
 TArray<FTaggedMontages> AAuraCharacterBase::GetAttackMontages_Implementation() const

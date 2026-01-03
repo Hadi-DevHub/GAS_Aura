@@ -41,7 +41,7 @@ protected:
 	TObjectPtr<ACharacter> StoredOwnerAvatar;
 
 	UPROPERTY(EditDefaultsOnly, Category = "BeamSpell")
-	int32 MaxNumOfStoredTargets;
+	int32 MaxNumOfStoredTargets = 5;
 
 private:
 };
