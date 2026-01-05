@@ -115,19 +115,19 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	int32 MinionCount = 0;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Character Defaults|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Abilities")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Character Defaults|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupPassiveAbilities;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Defaults|Attributes")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Character Defaults|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "CharacterProperties")

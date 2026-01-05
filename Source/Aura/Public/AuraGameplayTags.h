@@ -101,6 +101,11 @@ namespace AuraGameplayTags
 	
 	// -- Lightning -- //
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Lightning_Electrocute);
+
+	// -- Passive Abilities -- //
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_HaloOfProtection);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_HealthSiphon);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_ManaSiphon);
 	
 	// Status Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_HitReact);

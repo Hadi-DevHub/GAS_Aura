@@ -86,6 +86,11 @@ namespace AuraGameplayTags
 	// -- Lightning -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute");
 
+	// -- Passive Abilities -- //
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Passive_HaloOfProtection, "Abilities.Passive.HaloOfProtection");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Passive_HealthSiphon, "Abilities.Passive.HealthSiphon");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Passive_ManaSiphon, "Abilities.Passive.ManaSiphon");
+
 	// Ability Status Tag
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Locked, "Abilities.Status.Locked");
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Status_Eligible, "Abilities.Status.Eligible");

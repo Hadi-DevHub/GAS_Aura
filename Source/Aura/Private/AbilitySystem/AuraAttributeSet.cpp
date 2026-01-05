@@ -6,6 +6,7 @@
 #include "AuraGameplayTags.h"
 #include "GameplayEffectExtension.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Character/AuraCharacter.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
@@ -273,7 +274,9 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	Effect->DurationPolicy  = EGameplayEffectDurationType::HasDuration;
 	Effect->Period = DebuffFrequency;
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
-
+	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+	Effect->StackLimitCount = 1;
+	
 	FInheritedTagContainer TagContainer = FInheritedTagContainer();
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
 	FGameplayTag DebuffTag = FAuraGameplayTags::Get().DamageTypesToDebuffs[DamageType];
@@ -282,24 +285,19 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	//-------------------------//
 	//	STUN DEBUFF EXCLUSIVE  //
 	//-------------------------//
-	
-	if (DebuffTag.MatchesTagExact(AuraGameplayTags::Debuff_Stun))
+	AAuraCharacter* bPlayer = Cast<AAuraCharacter>(Props.TargetCharacter);
+	if (DebuffTag.MatchesTagExact(AuraGameplayTags::Debuff_Stun) && bPlayer)
 	{
 		TagContainer.Added.AddTag(AuraGameplayTags::Player_Block_CursorTrace);
 		TagContainer.Added.AddTag(AuraGameplayTags::PLayer_Block_InputHold);
 		TagContainer.Added.AddTag(AuraGameplayTags::PLayer_Block_InputPressed);
 		TagContainer.Added.AddTag(AuraGameplayTags::PLayer_Block_InputReleased);
 	}
-
 	//-------------------------//
 	//	STUN DEBUFF EXCLUSIVE  //
 	//-------------------------//
 	
 	Component.SetAndApplyTargetTagChanges(TagContainer);
-	
-	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
-	Effect->StackLimitCount = 1;
-
 	
 	int32 Index = Effect->Modifiers.Num();
 	Effect->Modifiers.Add(FGameplayModifierInfo());
