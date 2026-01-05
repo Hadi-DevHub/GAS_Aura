@@ -149,11 +149,7 @@ int32 AAuraCharacter::FindLevelForXP_Implementation(int32 XP)
 
 inline void AAuraCharacter::PlayerLevelUp_Implementation()
 {
-	FVector CameraLocation = TopDownCameraComponent->GetComponentLocation();
-	FVector LevelUpParticleLocation = LevelUpParticles->GetComponentLocation();
-	FRotator FaceCameraRotation = (LevelUpParticleLocation - CameraLocation).Rotation();
-	LevelUpParticles->SetWorldRotation(FaceCameraRotation);
-	LevelUpParticles->Activate(true);
+	MulticastLevelUpParticles();
 }
 
 void AAuraCharacter::AddAttributePoints_Implementation(int32 AttributePoint)
@@ -207,5 +203,17 @@ void AAuraCharacter::InitAbilityActorInfo()
 		{
 			HUD->InitOverlay(PlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
+	}
+}
+
+void AAuraCharacter::MulticastLevelUpParticles_Implementation() const
+{
+	if (LevelUpParticles)
+	{
+		FVector CameraLocation = TopDownCameraComponent->GetComponentLocation();
+		FVector LevelUpParticleLocation = LevelUpParticles->GetComponentLocation();
+		FRotator FaceCameraRotation = (LevelUpParticleLocation - CameraLocation).Rotation();
+		LevelUpParticles->SetWorldRotation(FaceCameraRotation);
+		LevelUpParticles->Activate(true);
 	}
 }

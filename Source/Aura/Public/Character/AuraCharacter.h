@@ -59,5 +59,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraComponent> LevelUpParticles;
+	
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastLevelUpParticles() const;
 };
 
