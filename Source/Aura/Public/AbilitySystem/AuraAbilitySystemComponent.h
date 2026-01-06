@@ -37,6 +37,13 @@ public:
 	FGameplayTag GetStatusTagFromAbilityTag(const FGameplayTag& AbilityTag);
 	FGameplayTag GetInputTagFromAbilityTag(const FGameplayTag& AbilityTag);
 	bool GetDescriptionByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutDescriptionNextLevel);
+	
+	static bool AbilityHasInputTag(const FGameplayAbilitySpec& Spec, const FGameplayTag& InputTag);
+	static bool AbilityHasAnyInputTag(const FGameplayAbilitySpec& Spec);
+	bool IsThisInputTagEmpty(const FGameplayTag& InputTag);
+	FGameplayAbilitySpec* GetAbilitySpecWithInputTag(const FGameplayTag& InputTag);
+	bool IsPassiveAbility(const FGameplayAbilitySpec& AbilitySpec) const;
+	void AssignInputTagToAbility(const FGameplayTag& InputTag, FGameplayAbilitySpec& AbilitySpec);
 
 	UFUNCTION(Server, Reliable)
 	void ServerEquipAbilityToSlot(const FGameplayTag& AbilityTag, const FGameplayTag& SlotTag);

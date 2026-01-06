@@ -131,8 +131,14 @@ void UAuraSpellMenuWidgetController::SpellGlobeRowPressed(const FGameplayTag& Sl
 {
 	if (!bOnWaitingForEquipButtonPressed) return;
 
+	/*
 	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.AbilityTag);
 	if (!Info.AbilityType.MatchesTagExact(SlotType)) return;
+
+	GetAASC()->ServerEquipAbilityToSlot(SelectedAbility.AbilityTag, Slot);*/
+
+	const FGameplayTag& SelectedAbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.AbilityTag).AbilityType;
+	if (!SelectedAbilityType.MatchesTagExact(SlotType)) return;
 
 	GetAASC()->ServerEquipAbilityToSlot(SelectedAbility.AbilityTag, Slot);
 }
