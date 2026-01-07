@@ -9,6 +9,7 @@
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
+class UAuraPassiveNiagaraComponent;
 class UAuraDebuffNiagaraComponent;
 class UNiagaraSystem;class UAbilitySystemComponent;
 class UAttributeSet;
@@ -75,6 +76,7 @@ public:
 protected:
 	
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 	virtual void InitAbilityActorInfo();
 	virtual void AddCharacterAbilities();
 	virtual void AddCharacterPassiveAbilities();
@@ -164,4 +166,16 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|DamagedEffect")
 	TObjectPtr<USoundBase> DeathSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|PassiveEffects")
+	TObjectPtr<UAuraPassiveNiagaraComponent> HaloOfProtectionComponent;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|PassiveEffects")
+	TObjectPtr<UAuraPassiveNiagaraComponent> LifeSiphonComponent;	
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|PassiveEffects")
+	TObjectPtr<UAuraPassiveNiagaraComponent> ManaSiphonComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Defaults|PassiveEffects")
+	TObjectPtr<USceneComponent> EffectAttachmentLocation;
 };

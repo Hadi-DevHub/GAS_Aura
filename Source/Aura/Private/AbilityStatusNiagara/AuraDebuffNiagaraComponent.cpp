@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Debuff/AuraDebuffNiagaraComponent.h"
+#include "AbilityStatusNiagara/AuraDebuffNiagaraComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"

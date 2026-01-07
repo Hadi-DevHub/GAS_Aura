@@ -10,9 +10,10 @@ class UAbilityInfo;
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* Asset Tags */);
 DECLARE_MULTICAST_DELEGATE(FAbilityGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
-DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag& /* Ability Tag */ /* Status Tag */, int32 Level)
-DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& AbilityTag, const FGameplayTag& Status,  const FGameplayTag& Slot, const FGameplayTag& PrevSlot)
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag& /* Ability Tag */ /* Status Tag */, int32 Level);
+DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& AbilityTag, const FGameplayTag& Status,  const FGameplayTag& Slot, const FGameplayTag& PrevSlot);
 DECLARE_MULTICAST_DELEGATE_OneParam(FDeactivatePassiveAbility, const FGameplayTag& /* AbilityTag */);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FPassiveAbilityFXHandle, const FGameplayTag& /*AbilityTag*/, const bool /*bShould Activate*/);
 
 UCLASS()
 class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
@@ -62,6 +63,7 @@ public:
 	FAbilityGiven AbilityGiven;
 	FAbilityStatusChanged AbilityStatusChanged;
 	FDeactivatePassiveAbility DeactivatePassiveAbility;
+	FPassiveAbilityFXHandle PassiveAbilityFXHandle;
 	
 	bool bStartupAbilitiesGiven = false;
 
@@ -74,6 +76,9 @@ public:
 	void Server_SpendPointButtonPressed(const FGameplayTag& AbilityTag);
 	
 protected:
+	UFUNCTION(NetMulticast, Unreliable)
+	void NetMulticast_BroadcastHandlePassiveAbilityFX(const FGameplayTag& AbilityTag, const bool bShouldActivate);
+	
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 

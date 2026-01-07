@@ -11,7 +11,7 @@
 #include "Camera/CameraComponent.h"
 #include "Player/AuraPlayerState.h"
 #include "Components/CapsuleComponent.h"
-#include "Debuff/AuraDebuffNiagaraComponent.h"
+#include "AbilityStatusNiagara//AuraDebuffNiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "UI/HUD/AuraHUD.h"
 

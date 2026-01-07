@@ -3,10 +3,11 @@
 #include "Character/AuraCharacterBase.h"
 
 #include "AuraGameplayTags.h"
+#include "AbilityStatusNiagara/AuraPassiveNiagaraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
-#include "Debuff/AuraDebuffNiagaraComponent.h"
+#include "AbilityStatusNiagara//AuraDebuffNiagaraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -32,6 +33,25 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Weapon->SetIsReplicated(true);
+
+	//-------------------//
+	//    Passive VFX    //
+	//-------------------//
+	
+	EffectAttachmentLocation = CreateDefaultSubobject<USceneComponent>("EffectAttachmentLocation");
+	EffectAttachmentLocation->SetupAttachment(GetRootComponent());
+	
+	HaloOfProtectionComponent = CreateDefaultSubobject<UAuraPassiveNiagaraComponent>("HaloOfProtectionComponent");
+	HaloOfProtectionComponent->SetupAttachment(EffectAttachmentLocation);
+	LifeSiphonComponent = CreateDefaultSubobject<UAuraPassiveNiagaraComponent>("LifeSiphonComponent");
+	LifeSiphonComponent->SetupAttachment(EffectAttachmentLocation);
+	ManaSiphonComponent = CreateDefaultSubobject<UAuraPassiveNiagaraComponent>("ManaSiphonComponent");
+	ManaSiphonComponent->SetupAttachment(EffectAttachmentLocation);
+
+	//-------------------//
+	//    Passive VFX    //
+	//-------------------//
+	
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -100,6 +120,12 @@ void AAuraCharacterBase::IncrementNumberOfMinions_Implementation(int32 Amount)
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AAuraCharacterBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	EffectAttachmentLocation->SetWorldRotation(FRotator(FRotator::ZeroRotator));
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()

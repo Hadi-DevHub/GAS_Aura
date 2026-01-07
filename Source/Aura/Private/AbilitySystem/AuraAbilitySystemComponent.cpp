@@ -332,6 +332,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbilityToSlot_Implementation(const 
 					if (IsPassiveAbility(*SpecWithThisInputTag))
 					{
 						DeactivatePassiveAbility.Broadcast(GetAbilityTagFromSpec(*SpecWithThisInputTag));
+						NetMulticast_BroadcastHandlePassiveAbilityFX(GetAbilityTagFromSpec(*SpecWithThisInputTag), false);
 					}
 					ClearSlot(SpecWithThisInputTag);
 				}
@@ -341,6 +342,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbilityToSlot_Implementation(const 
 				if (IsPassiveAbility(*AbilitySpec))
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					NetMulticast_BroadcastHandlePassiveAbilityFX(AbilityTag, true);
 				}
 			}
 			AssignInputTagToAbility(SlotTag, *AbilitySpec);
@@ -348,6 +350,11 @@ void UAuraAbilitySystemComponent::ServerEquipAbilityToSlot_Implementation(const 
 		}
 		ClientEquipAbility(AbilityTag, AuraGameplayTags::Abilities_Status_Equipped, SlotTag, PrevSlot);
 	}
+}
+
+void UAuraAbilitySystemComponent::NetMulticast_BroadcastHandlePassiveAbilityFX_Implementation(const FGameplayTag& AbilityTag, const bool bShouldActivate)
+{
+	PassiveAbilityFXHandle.Broadcast(AbilityTag, bShouldActivate);
 }
 
 void UAuraAbilitySystemComponent::ClientEquipAbility_Implementation(const FGameplayTag& AbilityTag,
@@ -393,6 +400,8 @@ void UAuraAbilitySystemComponent::UpgradeAttributes(const FGameplayTag& Attribut
 		}
 	}
 }
+
+
 
 void UAuraAbilitySystemComponent::Server_SpendPointButtonPressed_Implementation(const FGameplayTag& AbilityTag)
 {
