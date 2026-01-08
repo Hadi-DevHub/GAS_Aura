@@ -9,6 +9,7 @@
 #include "UI/Widgets/DamageTextComponent.h"
 #include "AuraPlayerController.generated.h"
 
+class AMagicCircle;
 class UNiagaraSystem;
 class USplineComponent;
 class UAuraAbilitySystemComponent;
@@ -24,14 +25,44 @@ public:
 	AAuraPlayerController();
 	virtual void SetupInputComponent() override;
 
-	// Gameplay Related Function
 	UFUNCTION(Client, Reliable)
 	void ShowDamageText(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCritical);
 protected:
+	
+	//------------------//
+	//	CLASS DEFAULTS	//
+	//------------------//
+	
 	virtual void BeginPlay() override;
+	virtual void PlayerTick(float DeltaTime) override;
+
+	//------------------//
+	//	 MOUSE INPUTS	//
+	//------------------//
+	
 	void AutoRun();
 	void CursorTrace();
-	virtual void PlayerTick(float DeltaTime) override;
+
+	//------------------//
+	//	 MAGIC CIRCLE	//
+	//------------------//
+
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle();
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
+	UFUNCTION(BlueprintCallable)
+	void UpdateMagicCircleLocation();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AMagicCircle> MagicCircleClass;
+
+	UPROPERTY()
+	TObjectPtr<AMagicCircle> MagicCircle;
+
+	//--------------------//
+	//	 GAMEPLAY INPUT   //
+	//--------------------//
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
