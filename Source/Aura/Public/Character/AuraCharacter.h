@@ -29,8 +29,11 @@ public:
 	/* Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
 	/* End Combat Interface */
+	
+	//------------------//
+	// Player Interface //
+	//------------------//
 
-	/* Player Interface */
 	virtual void AddToXp_Implementation(int32 InXP) override;
 	virtual void PlayerLevelUp_Implementation() override;
 	virtual int32 GetPlayerXP_Implementation() const override;
@@ -42,7 +45,8 @@ public:
 	virtual void AddAttributePoints_Implementation(int32 AttributePoint) override;
 	virtual void AddSpellPoints_Implementation(int32 SpellPoint) override;
 	virtual void AddToPlayerLevel_Implementation(int32 InPlayerLevel) override;
-	/* End Player Interface */
+	virtual void ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial) override;
+	virtual void HideMagicCircle_Implementation() override;
 	
 protected:
 

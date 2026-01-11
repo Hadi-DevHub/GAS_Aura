@@ -14,10 +14,10 @@ struct FAuraAbilityInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FGameplayTag AbilityTag = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FGameplayTag AbilityType = FGameplayTag();
 	
 	UPROPERTY(BlueprintReadOnly)
@@ -26,20 +26,20 @@ struct FAuraAbilityInfo
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayTag StatusTag = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TObjectPtr<UTexture2D> AbilityIcon = nullptr;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FGameplayTag CooldownTag = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TObjectPtr<UMaterialInstance> AbilityBackground = nullptr;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     int32 LevelRequirement = 0;
     
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> Ability = nullptr;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	TSubclassOf<UGameplayAbility> Ability;
 	
 };
 

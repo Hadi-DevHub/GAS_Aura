@@ -179,6 +179,22 @@ void AAuraCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 	}
 }
 
+void AAuraCharacter::ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial)
+{
+	if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		PlayerController->ShowMagicCircle(DecalMaterial);
+	}
+}
+
+void AAuraCharacter::HideMagicCircle_Implementation()
+{
+	if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		PlayerController->HideMagicCircle();
+	}
+}
+
 void AAuraCharacter::OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount)
 {
 	Super::OnStunTagChanged(CallbackTag, NewCount);

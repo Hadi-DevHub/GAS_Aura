@@ -7,7 +7,7 @@
 #include "PlayerInterface.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UPlayerInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -18,31 +18,49 @@ class AURA_API IPlayerInterface
 	GENERATED_BODY()
 
 public:
-	
-	UFUNCTION(BlueprintNativeEvent)
-	void AddToXp(int32 InXP);
 
-	UFUNCTION(BlueprintNativeEvent)
+	//---------------------//
+	//	PLAYER EXPERIENCE  //
+	//---------------------//
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void AddToXp(int32 InXP);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void PlayerLevelUp();
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 GetPlayerXP() const;
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 FindLevelForXP(int32 XP);
-	UFUNCTION(BlueprintNativeEvent)
+
+	//------------------------------//
+	//	ATTRIBUTE AND SPELL POINTS  //
+	//------------------------------//
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 GetAttributePointsReward(int32 PlayerLevel) const;
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 GetSpellPointsReward(int32 PlayerLevel) const;
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 GetAttributePoints() const;
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 GetSpellPoints() const;
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void AddToPlayerLevel(int32 InPlayerLevel);
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void AddAttributePoints(int32 AttributePoint);
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void AddSpellPoints(int32 SpellPoint);
+	
+	//-----------------//
+	//	MAGIC CIRCLES  //
+	//-----------------//
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void HideMagicCircle();
 	
 };

@@ -286,7 +286,7 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	FInheritedTagContainer TagContainer = FInheritedTagContainer();
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
 	FGameplayTag DebuffTag = FAuraGameplayTags::Get().DamageTypesToDebuffs[DamageType];
-	TagContainer.Added.AddTag(DebuffTag);
+	TagContainer.Added.AddLeafTag(DebuffTag);
 	
 	//-------------------------//
 	//	STUN DEBUFF EXCLUSIVE  //

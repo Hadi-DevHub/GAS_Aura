@@ -67,9 +67,9 @@ namespace AuraGameplayTags
 	// Meta Attribute Gameplay Tags
 	UE_DEFINE_GAMEPLAY_TAG(Attributes_Meta_IncomingXP, "Attributes.Meta.IncomingXP");
 
-						//*                   *//
-						//  ABILITIES SECTION  //
-						//*                   *//
+	//---------------------//
+	//  ABILITIES SECTION  //
+	//---------------------//
 	
 	// General Abilities Tags
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_HitReact, "Abilities.HitReact");
@@ -85,6 +85,9 @@ namespace AuraGameplayTags
 	
 	// -- Lightning -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute");
+	
+	// -- Arcane -- //
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Arcane_ArcaneShards, "Abilities.Arcane.ArcaneShards");
 
 	// -- Passive Abilities -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Passive_HaloOfProtection, "Abilities.Passive.HaloOfProtection");

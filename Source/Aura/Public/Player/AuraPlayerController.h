@@ -27,6 +27,18 @@ public:
 
 	UFUNCTION(Client, Reliable)
 	void ShowDamageText(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCritical);
+
+	//------------------//
+	//	 MAGIC CIRCLE	//
+	//------------------//
+
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
+	UFUNCTION(BlueprintCallable)
+	void UpdateMagicCircleLocation();
+
 protected:
 	
 	//------------------//
@@ -42,17 +54,6 @@ protected:
 	
 	void AutoRun();
 	void CursorTrace();
-
-	//------------------//
-	//	 MAGIC CIRCLE	//
-	//------------------//
-
-	UFUNCTION(BlueprintCallable)
-	void ShowMagicCircle();
-	UFUNCTION(BlueprintCallable)
-	void HideMagicCircle();
-	UFUNCTION(BlueprintCallable)
-	void UpdateMagicCircleLocation();
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMagicCircle> MagicCircleClass;

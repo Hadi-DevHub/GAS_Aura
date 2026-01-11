@@ -75,9 +75,9 @@ namespace AuraGameplayTags
 	// Meta Attribute Gameplay Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Meta_IncomingXP);
 	
-	//*                   *//
+	//---------------------//
 	//  ABILITIES SECTION  //
-	//*                   *//
+	//---------------------//
 	
 	// Attack Tags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Attack);
@@ -101,6 +101,10 @@ namespace AuraGameplayTags
 	
 	// -- Lightning -- //
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Lightning_Electrocute);
+	
+	// -- Arcane -- //
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Arcane_ArcaneShards);
+
 
 	// -- Passive Abilities -- //
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Passive_HaloOfProtection);
