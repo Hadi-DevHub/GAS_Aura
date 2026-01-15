@@ -55,12 +55,24 @@ struct FDamageEffectParams
 
 	UPROPERTY(BlueprintReadWrite)
 	float KnockbackChance = 0.0f;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector DeathImpulse = FVector::ZeroVector;
 	
 	UPROPERTY(BlueprintReadWrite)
 	FVector KnockbackForce = FVector::ZeroVector;
 
 	UPROPERTY(BlueprintReadWrite)
-	FVector DeathImpulse = FVector::ZeroVector;
+	bool bIsRadialDamage = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	float RadialDamageInnerRadius = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	float RadialDamageOuterRadius = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector RadialDamageOrigin = FVector::ZeroVector;
 };
 
 USTRUCT(BlueprintType)
@@ -68,9 +80,7 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 {
 	GENERATED_BODY()
 
-	//------------------//
-	//		SETTERS		//
-	//------------------//
+	/** Setters */
 	
 	void SetIsCriticalHit(bool bCritHit) { bIsCriticalHit = bCritHit; }
 	void SetIsBlockingHit(bool bHitBlock) { bIsBlockedHit = bHitBlock; }
@@ -79,8 +89,12 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	void SetDebuffDamage(float InDamage) { DebuffDamage = InDamage; }
 	void SetDebuffDuration(float InDuration) { DebuffDuration = InDuration; }
 	void SetDebuffFrequency(float InFrequency) { DebuffFrequency = InFrequency; }
-	void SetDeathImpulse(FVector InVector) { DeathImpulse = InVector; }
-	void SetKnockbackForce(FVector InVector) { KnockbackForce = InVector; }
+	void SetDeathImpulse(const FVector& InVector) { DeathImpulse = InVector; }
+	void SetKnockbackForce(const FVector&InVector) { KnockbackForce = InVector; }
+	void SetIsRadialDamage(bool IsInRadialDamage) { bIsRadialDamage = IsInRadialDamage; }
+	void SetRadialDamageInnerRadius(float InInnerRadius) { RadialDamageInnerRadius = InInnerRadius; }
+	void SetRadialDamageOuterRadius(float InOuterRadius) { RadialDamageOuterRadius = InOuterRadius; }
+	void SetRadialDamageOrigin(const FVector& InOrigin) { RadialDamageOrigin = InOrigin; }
 
 	//------------------//
 	//		GETTERS		//
@@ -95,6 +109,10 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 	FVector GetDeathImpulse() const { return DeathImpulse; }
 	FVector GetKnockbackForce() const { return KnockbackForce; }
+	bool GetIsRadialDamage() const { return bIsRadialDamage; }
+	float GetRadialDamageInnerRadius() const { return RadialDamageInnerRadius; }
+	float GetRadialDamageOuterRadius() const { return RadialDamageOuterRadius; }
+	FVector GetRadialDamageOrigin() const { return RadialDamageOrigin; }
 
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const 
@@ -143,6 +161,18 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 
 	UPROPERTY()
 	FVector KnockbackForce = FVector::ZeroVector;
+	
+	UPROPERTY()
+	bool bIsRadialDamage = false;
+
+	UPROPERTY()
+	float RadialDamageInnerRadius = 0.f;
+
+	UPROPERTY()
+	float RadialDamageOuterRadius = 0.f;
+
+	UPROPERTY()
+	FVector RadialDamageOrigin = FVector::ZeroVector;
 };
 
 template<>

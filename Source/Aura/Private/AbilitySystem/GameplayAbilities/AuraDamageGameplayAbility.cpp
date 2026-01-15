@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "AbilitySystem/GameplayAbilities/AuraDamageGameplayAbility.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
@@ -61,6 +58,14 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	DamageEffectParams.KnockbackForceMagnitude = KnockbackForceMagnitude;
 
 	DamageEffectParams.KnockbackChance = KnockbackChance;
+
+	DamageEffectParams.bIsRadialDamage = bIsRadialDamage;
+
+	DamageEffectParams.RadialDamageInnerRadius = RadialDamageInnerRadius;
+
+	DamageEffectParams.RadialDamageOuterRadius = RadialDamageOuterRadius;
+
+	DamageEffectParams.RadialDamageOrigin = RadialDamageOrigin;
 	
 	if (IsValid(TargetActor))
 	{
