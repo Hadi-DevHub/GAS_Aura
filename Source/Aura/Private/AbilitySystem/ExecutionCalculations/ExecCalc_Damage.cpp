@@ -67,10 +67,8 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(GetDamageStatics().PhysicalResistanceDef);
 }
 
-void UExecCalc_Damage::DeterminedDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
-	const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& TagsToCaptureDefs,
-	const FGameplayEffectSpec& EffectSpec,
-	FAggregatorEvaluateParameters EvaluationParameters) const
+void UExecCalc_Damage::DeterminedDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams, const TMap<FGameplayTag,
+	FGameplayEffectAttributeCaptureDefinition>& TagsToCaptureDefs,const FGameplayEffectSpec& EffectSpec, FAggregatorEvaluateParameters EvaluationParameters) const
 {
 	for (const TTuple<FGameplayTag, FGameplayTag>& Tag : FAuraGameplayTags::Get().DamageTypesToDebuffs)
 	{
@@ -109,6 +107,8 @@ void UExecCalc_Damage::DeterminedDebuff(const FGameplayEffectCustomExecutionPara
 	}
 }
 
+
+
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
 	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> TagsToCaptureDefs;
@@ -143,6 +143,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 
 	const FGameplayEffectSpec& EffectSpec = ExecutionParams.GetOwningSpec();
+	//FGameplayEffectContext
+	FGameplayEffectContextHandle EffectContextHandle = EffectSpec.GetContext();
 
 	const FGameplayTagContainer* SourceTags = EffectSpec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = EffectSpec.CapturedTargetTags.GetAggregatedTags();
@@ -168,6 +170,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 		DamageTypeValue *= (100 - Resistance) / 100.f;
 		Damage += DamageTypeValue;
+	}
+	
+	if (UAuraAbilitySystemLibrary::GetIsRadialDamage(EffectContextHandle))
+	{
+		Damage = CalculateRadialDamage(EffectContextHandle, Damage, TargetAvatar);
 	}
 
 	// Get Block Chance
@@ -199,8 +206,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageStatics().CriticalHitResistanceDef, EvaluationParameters, TargetCriticalHitResistance);
 	TargetCriticalHitResistance = FMath::Max<float>(TargetCriticalHitResistance, 0.0f);
 
-	//FGameplayEffectContext
-	FGameplayEffectContextHandle EffectContextHandle = EffectSpec.GetContext();
 	
 										//-----------------------//
 										//   DAMAGE CALCULATION  //
@@ -216,10 +221,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 										//-----------------------//
 	 
 	DeterminedDebuff(ExecutionParams, TagsToCaptureDefs, EffectSpec, EvaluationParameters);
-
-										//-----------------------//
-										//   DEBUFF CALCULATION  //
-										//-----------------------//
 
 	// Armor Penetration ignores a percentage of target's armor
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
@@ -245,4 +246,27 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+}
+
+float UExecCalc_Damage::CalculateRadialDamage(const FGameplayEffectContextHandle& EffectContextHandle, float Damage, AActor* InTargetAvatar) const
+{
+	float InnerRadius = UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle);
+	float SquaredInnerRadius = FMath::Square(InnerRadius);
+		
+	float OuterRadius = UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle);
+	float SquaredOuterRadius = FMath::Square(OuterRadius);
+		
+	FVector Origin = UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle);
+	FVector TargetLocation = InTargetAvatar->GetActorLocation();
+		
+	float SquaredDistance = FVector::DistSquared(Origin, TargetLocation);
+
+	if (SquaredDistance <= SquaredInnerRadius) return Damage;
+		
+	const TRange<float> DistanceRange(SquaredInnerRadius, SquaredOuterRadius);
+	const TRange<float> DamageScaleRange(1.0f, 0.f);
+	const float DamageScale = FMath::GetMappedRangeValueClamped(DistanceRange, DamageScaleRange, SquaredDistance);
+	const float RadialDamage = Damage * DamageScale;
+ 
+	return RadialDamage;
 }

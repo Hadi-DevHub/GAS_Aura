@@ -17,6 +17,8 @@ public:
 	UExecCalc_Damage();
 
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+
+	float CalculateRadialDamage(const FGameplayEffectContextHandle& EffectContextHandle, float Damage, AActor* InTargetAvatar) const;
 	
 	void DeterminedDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 		const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& TagsToCaptureDefs,

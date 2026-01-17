@@ -136,11 +136,15 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 {
 	AActor* SourceAvatarActor = DamageEffectParams.SourceASC->GetAvatarActor();
 	
-	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceASC->MakeEffectContext();
-	EffectContextHandle.AddSourceObject(SourceAvatarActor);
-	SetDeathImpulse(EffectContextHandle, DamageEffectParams.DeathImpulse);
-	SetKnockbackForce(EffectContextHandle, DamageEffectParams.KnockbackForce);
-	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceASC->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
+	FGameplayEffectContextHandle EffectContexthandle = DamageEffectParams.SourceASC->MakeEffectContext();
+	EffectContexthandle.AddSourceObject(SourceAvatarActor);
+	SetDeathImpulse(EffectContexthandle, DamageEffectParams.DeathImpulse);
+	SetIsRadialDamage(EffectContexthandle, DamageEffectParams.bIsRadialDamage);
+	SetRadialDamageInnerRadius(EffectContexthandle, DamageEffectParams.RadialDamageInnerRadius);
+	SetRadialDamageOuterRadius(EffectContexthandle, DamageEffectParams.RadialDamageOuterRadius);
+	SetRadialDamageOrigin(EffectContexthandle, DamageEffectParams.RadialDamageOrigin);
+	SetKnockbackForce(EffectContexthandle, DamageEffectParams.KnockbackForce);
+	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceASC->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContexthandle);
 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, AuraGameplayTags::Debuff_Damage, DamageEffectParams.DebuffDamage);
@@ -149,7 +153,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, AuraGameplayTags::Debuff_Frequency, DamageEffectParams.DebuffFrequency);
 
 	DamageEffectParams.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
-	return EffectContextHandle;
+	return EffectContexthandle;
 }
 									//------------------//
 									//		SETTERS		//
@@ -350,7 +354,7 @@ bool UAuraAbilitySystemLibrary::GetIsRadialDamage(const FGameplayEffectContextHa
 {
 	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(Context.Get()))
 	{
-		return AuraEffectContext->GetIsSuccessfulDebuff();
+		return AuraEffectContext->GetIsRadialDamage();
 	}
 	return false;
 }

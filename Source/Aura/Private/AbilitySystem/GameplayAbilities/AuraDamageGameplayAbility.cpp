@@ -29,7 +29,7 @@ float UAuraDamageGameplayAbility::GetSpellDamage(int32 Level)
 	return ScaledDamage;
 }
 
-FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
+FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor, FVector DamageOrigin) const
 {
 	FDamageEffectParams DamageEffectParams;
 	
@@ -65,7 +65,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 
 	DamageEffectParams.RadialDamageOuterRadius = RadialDamageOuterRadius;
 
-	DamageEffectParams.RadialDamageOrigin = RadialDamageOrigin;
+	DamageEffectParams.RadialDamageOrigin = DamageOrigin;
 	
 	if (IsValid(TargetActor))
 	{
