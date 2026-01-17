@@ -17,7 +17,6 @@
 #include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
-#include "Kismet/GameplayStatics.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -200,7 +199,7 @@ void AAuraPlayerController::UpdateMagicCircleLocation()
 {
 	if (MagicCircle)
 	{
-		FVector MagicCircleLocation = UnderCursor.ImpactPoint;
+		FVector MagicCircleLocation = UnderCursor.ImpactPoint;	
 		MagicCircleLocation.Z = 0.f;
 		MagicCircle->SetActorLocation(MagicCircleLocation);
 	}
@@ -212,10 +211,13 @@ void AAuraPlayerController::CursorTrace()
 	{
 		if (LastEnemy) LastEnemy->UnHighlightActor();
 		if (ThisEnemy) ThisEnemy->UnHighlightActor();
+		LastEnemy = nullptr;
+		ThisEnemy = nullptr;
 		return;
 	}
-	
-	GetHitResultUnderCursor(ECC_Visibility, false, UnderCursor );
+
+	const ECollisionChannel TraceChannel = IsValid(MagicCircle) ? ECC_ExcludePlayers : ECC_Visibility;
+	GetHitResultUnderCursor(TraceChannel, false, UnderCursor );
 	if (!UnderCursor.bBlockingHit) return;
 	
 	LastEnemy = ThisEnemy;
