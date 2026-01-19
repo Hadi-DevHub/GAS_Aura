@@ -15,14 +15,14 @@ FString UAuraFireBolt::GetSpellDescription(int32 Level)
 	float Manacost = GetManaCost(Level);
 	return FString::Printf(TEXT(
 		// Title 
-		"<Title_fire>Fire bolt</>\n"
+		"<Title_Fire>Fire Bolt</>\n"
 
 		// Level
 		"<Default>Level %d""</>\n\n"
 
 		// Description
 		"<Default>Launches %d bolt(s) of fire,</>"
-		"<Default> exploding on impact and dealing </><Damage>%d </><Default>Fire Damage with a chance to burn</>\n\n"
+		"<Default> exploding on impact and dealing </><FireDamage>%d </><Default>Fire Damage with a chance to </><FireDamage>Burn</><Default>.</>\n\n"
 
 		// Cost and Cooldown
 		"<Default>Mana Cost : </><Manacost> %.2f</>\n"
@@ -46,14 +46,14 @@ FString UAuraFireBolt::GetSpellDescriptionNextLevel(int32 Level)
 	float NextManacost = GetManaCost(Level + 1);
 	return FString::Printf(TEXT(
 		// Title 
-		"<Title_fire>Fire bolt</>\n"
+		"<Title_Fire>Fire Bolt</>\n"
 
 		// Level
 		"<Default>Level </><PreLeveled>%d > </><Level>%d</>\n\n"
 				
 		// Description
 		"<Default>Launches</> <PreLeveled>%d </><Default>> %d</> bolt(s) of fire,"
-		"<Default> exploding on impact and dealing </><Damage>%d </><Default>> </><Damage>%d</><Default> Fire Damage with a chance to burn</>\n\n"
+		"<Default> exploding on impact and dealing </><PreLeveled>%d </><Default>> </><FireDamage>%d</><Default> Fire Damage with a chance to </><FireDamage>Burn</><Default>.</>\n\n"
 
 		// Cost and Cooldown
 		"<Default>Mana Cost : </><PreLeveled>%.2f </><Default>></><Manacost>%.2f</>\n"

@@ -54,6 +54,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 		DamageEffectParams.RadialDamageOrigin = DamageOrigin;
 	}
 
+	bool bKnockback = FMath::RandRange(0, 100) < DamageEffectParams.KnockbackChance;
 	if (IsValid(TargetActor))
 	{
 		DamageEffectParams.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
@@ -62,7 +63,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 
 		const FVector ToTarget = Rotation.Vector();
 	
-		bool bKnockback = FMath::RandRange(0, 100) < DamageEffectParams.KnockbackChance;
+		bKnockback = FMath::RandRange(0, 100) < DamageEffectParams.KnockbackChance;
 		if (bKnockback && !bOverrideKnockBackDirection)
 		{
 			DamageEffectParams.KnockbackForce = ToTarget * KnockbackForceMagnitude;
@@ -77,7 +78,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 		}
 	}
 
-	if (bOverrideKnockBackDirection)
+	if (bKnockback && bOverrideKnockBackDirection)
 	{
 		InOverrideKnockBackDirection.Normalize();
 		DamageEffectParams.KnockbackForce = InOverrideKnockBackDirection * KnockbackForceMagnitude;
