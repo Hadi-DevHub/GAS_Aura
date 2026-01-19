@@ -108,6 +108,7 @@ namespace AuraGameplayTags
 	// Cooldown Tag
 	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Firebolt, "Cooldown.Fire.FireBolt");
 	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Lightning_Electrocute, "Cooldown.Lightning.Electrocute");
+	UE_DEFINE_GAMEPLAY_TAG(	Cooldown_Arcane_ArcaneShards, "Cooldown.Arcane.ArcaneShards");
 	
 						//*                   *//
 						//  MONTAGE SECTION    //

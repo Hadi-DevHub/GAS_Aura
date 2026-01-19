@@ -121,6 +121,7 @@ namespace AuraGameplayTags
 	// Cooldown Tag
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Fire_Firebolt);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Lightning_Electrocute);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Cooldown_Arcane_ArcaneShards);
 
 
 	//*                   *//
@@ -139,9 +140,9 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_RightHand);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CombatSocket_Tail);
 	
-	//*                  *//
+	//--------------------//
 	//	  PLAYER BLOCK    //
-	//*                  *//
+	//--------------------//
 
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputPressed);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputHold);
