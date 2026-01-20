@@ -82,6 +82,7 @@ namespace AuraGameplayTags
 	
 	// -- Fire -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Fireblast, "Abilities.Fire.Fireblast");
 	
 	// -- Lightning -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute");
@@ -107,6 +108,7 @@ namespace AuraGameplayTags
 
 	// Cooldown Tag
 	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Firebolt, "Cooldown.Fire.FireBolt");
+	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Fire_Fireblast, "Cooldown.Fire.Fireblast");
 	UE_DEFINE_GAMEPLAY_TAG(Cooldown_Lightning_Electrocute, "Cooldown.Lightning.Electrocute");
 	UE_DEFINE_GAMEPLAY_TAG(	Cooldown_Arcane_ArcaneShards, "Cooldown.Arcane.ArcaneShards");
 	
