@@ -66,3 +66,8 @@ FString UAuraFireBlast::GetSpellDescriptionNextLevel(int32 Level)
 		NextLevelCooldown
 		);
 }
+
+TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
+{
+	return TArray<AAuraFireBall*>();
+}

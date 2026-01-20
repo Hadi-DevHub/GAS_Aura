@@ -6,6 +6,7 @@
 #include "AbilitySystem/GameplayAbilities/AuraDamageGameplayAbility.h"
 #include "AuraFireBlast.generated.h"
 
+class AAuraFireBall;
 /**
  * 
  */
@@ -19,5 +20,15 @@ class AURA_API UAuraFireBlast : public UAuraDamageGameplayAbility
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FireBlast", meta = (AllowPrivateAccess = "true"))
 	int32 MaxNumFireBalls = 12;
+
+	UFUNCTION(BlueprintCallable)
+	TArray<AAuraFireBall*> SpawnFireBalls();
+
+private:
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AAuraFireBall> FireBallClass;;
 	
 };
+
+
