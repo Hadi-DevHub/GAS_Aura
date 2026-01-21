@@ -3,6 +3,9 @@
 
 #include "AbilitySystem/GameplayAbilities/AuraFireBlast.h"
 
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Actors/AuraFireBall.h"
+
 FString UAuraFireBlast::GetSpellDescription(int32 Level)
 {
 	int32 CurrentDamage = GetSpellDamage(Level);
@@ -69,5 +72,29 @@ FString UAuraFireBlast::GetSpellDescriptionNextLevel(int32 Level)
 
 TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
 {
-	return TArray<AAuraFireBall*>();
+	FVector Forward = GetAvatarActorFromActorInfo()->GetActorForwardVector();
+	TArray<AAuraFireBall*> FireBalls;
+	
+	TArray<FRotator> Rotators = UAuraAbilitySystemLibrary::EvenlySpacedRotators(Forward, FVector::UpVector, 360.f, MaxNumFireBalls);
+	for (FRotator Rotator : Rotators)
+	{
+		FTransform SpawnTransform;
+		FVector ActorLocation = GetAvatarActorFromActorInfo()->GetActorLocation();
+		SpawnTransform.SetLocation(ActorLocation);
+		SpawnTransform.SetRotation(Rotator.Quaternion());
+		
+		AAuraFireBall* FireBall = GetWorld()->SpawnActorDeferred<AAuraFireBall>(
+			FireBallClass,
+			SpawnTransform,
+			GetAvatarActorFromActorInfo(),
+			nullptr,
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
+			);
+
+		FireBall->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+		FireBall->FinishSpawning(SpawnTransform);
+
+		FireBalls.Add(FireBall);
+	}
+	return FireBalls;
 }
