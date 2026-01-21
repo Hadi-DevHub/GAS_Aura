@@ -87,7 +87,7 @@ TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
 			FireBallClass,
 			SpawnTransform,
 			GetAvatarActorFromActorInfo(),
-			nullptr,
+			GetAvatarActorFromActorInfo()->GetInstigator(),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
 			);
 
