@@ -54,16 +54,19 @@ void AAuraProjectile::OnHit() const
 	if (LoopingSFXComponent) LoopingSFXComponent->Stop();
 }
 
-void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent,
-	AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+bool AAuraProjectile::IsValidHit(AActor* OtherActor)
 {
-
-	if(!IsValid(DamageEffectParams.SourceASC)) return;
-	
+	if(!IsValid(DamageEffectParams.SourceASC)) return false;
 	AActor* SourceAvatarActor = DamageEffectParams.SourceASC->GetAvatarActor();
-	if (SourceAvatarActor == OtherActor) return;
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return;
+	if (SourceAvatarActor == OtherActor) return false;
+	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return false;
 	if (!bIsHit) OnHit();
+	return true;
+}
+
+void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (IsValidHit(OtherActor)) return;
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))

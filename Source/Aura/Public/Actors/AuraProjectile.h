@@ -36,10 +36,13 @@ protected:
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable)
 	void OnHit() const;
+	bool IsValidHit(AActor* OtherActor);
 
 	UFUNCTION()
 	virtual void OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	virtual void Destroyed() override;
+	
+	bool bIsHit = false;
 	
 private:
 
@@ -48,7 +51,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* Sphere;
 
-	bool bIsHit = false;
+	
 
 	// Cosmetics //
 	
