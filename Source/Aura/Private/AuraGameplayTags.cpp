@@ -79,7 +79,10 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Montage, "Abilities.Summon");
 
 	// Ability Info Tag
-	
+
+	// -- Fire -- //
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_None, "Abilities.None");
+
 	// -- Fire -- //
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Firebolt, "Abilities.Fire.FireBolt");
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Fire_Fireblast, "Abilities.Fire.Fireblast");
@@ -136,6 +139,12 @@ namespace AuraGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(PLayer_Block_InputHold, "Player.Block.InputHold");
 	UE_DEFINE_GAMEPLAY_TAG(PLayer_Block_InputReleased, "Player.Block.InputReleased");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Block_CursorTrace, "Player.Block.CursorTrace");
+
+	//--------------------//
+	//		  CUES	      //
+	//--------------------//
+
+	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_FireBlast, "GameplayCue.FireBlast");
 	
 }
 

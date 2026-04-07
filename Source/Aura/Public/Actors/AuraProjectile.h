@@ -35,7 +35,7 @@ protected:
 	
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable)
-	void OnHit() const;
+	virtual void OnHit() const;
 	bool IsValidHit(AActor* OtherActor);
 
 	UFUNCTION()
@@ -43,6 +43,9 @@ protected:
 	virtual void Destroyed() override;
 	
 	bool bIsHit = false;
+
+	UPROPERTY()
+	TObjectPtr<UAudioComponent> LoopingSFXComponent;
 	
 private:
 
@@ -64,7 +67,5 @@ private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> MidAirLoopingSFX;
 
-	UPROPERTY()
-	TObjectPtr<UAudioComponent> LoopingSFXComponent;
 	
 };

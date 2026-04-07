@@ -61,12 +61,13 @@ bool AAuraProjectile::IsValidHit(AActor* OtherActor)
 	if (SourceAvatarActor == OtherActor) return false;
 	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return false;
 	if (!bIsHit) OnHit();
+	bIsHit = true;
 	return true;
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (IsValidHit(OtherActor)) return;
+	if (!IsValidHit(OtherActor)) return;
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))

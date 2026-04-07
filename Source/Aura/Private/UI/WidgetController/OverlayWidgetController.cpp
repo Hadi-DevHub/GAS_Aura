@@ -98,11 +98,12 @@ void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag,
 	FAuraAbilityInfo LastSlotInfo;
 	LastSlotInfo.StatusTag= AuraGameplayTags::Abilities_Status_Unlocked;
 	LastSlotInfo.InputTag = PreviousSlot;
-	LastSlotInfo.AbilityTag = FGameplayTag();
+	LastSlotInfo.AbilityTag = AuraGameplayTags::Abilities_None;
 	AbilityInfoDelegate.Broadcast(LastSlotInfo);
 
 	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
 	Info.StatusTag = StatusTag;
 	Info.InputTag = Slot;
+	
 	AbilityInfoDelegate.Broadcast(Info);
 }

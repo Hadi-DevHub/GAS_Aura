@@ -4,7 +4,10 @@
 #include "Actors/AuraFireBall.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
+#include "GameplayCueManager.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Components/AudioComponent.h"
 
 void AAuraFireBall::BeginPlay()
 {
@@ -28,4 +31,21 @@ void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* PrimitiveComponent, AAc
 			}
 		}
 	}
+}
+
+void AAuraFireBall::OnHit() const
+{
+	if (GetOwner())
+	{
+		FGameplayCueParameters CueParams;
+		CueParams.Location = GetActorLocation();
+		UGameplayCueManager::ExecuteGameplayCue_NonReplicated(GetOwner(), AuraGameplayTags::GameplayCue_FireBlast, CueParams);
+	}
+		
+	if (LoopingSFXComponent)
+	{
+		LoopingSFXComponent->Stop();
+		LoopingSFXComponent->DestroyComponent();
+	}
+	if (LoopingSFXComponent) LoopingSFXComponent->Stop();
 }

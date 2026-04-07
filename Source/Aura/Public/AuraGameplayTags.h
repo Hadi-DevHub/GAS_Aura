@@ -95,7 +95,10 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Types_None);
 	
 	// Ability Element Type
-	
+
+	//-- None --//
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_None);
+
 	//-- Fire -- //
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_FireBolt);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Fire_Fireblast);
@@ -151,6 +154,13 @@ namespace AuraGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputHold);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PLayer_Block_InputReleased);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Block_CursorTrace);
+
+	//--------------------//
+	//		  CUES	      //
+	//--------------------//
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayCue_FireBlast);
+
 
 }
 
