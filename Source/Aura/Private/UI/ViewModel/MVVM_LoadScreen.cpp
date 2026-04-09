@@ -16,3 +16,17 @@ UMVVM_LoadSlot* UMVVM_LoadScreen::GetSlotForIndex(int Index) const
 {
 	return LoadSlots.FindChecked(Index);
 }
+
+void UMVVM_LoadScreen::NewGameButtonPressed(int32 LoadSlotIndex)
+{
+	LoadSlots[LoadSlotIndex]->SetWidgetSwitcherIndex.Broadcast(1);
+}
+
+void UMVVM_LoadScreen::NewSlotButtonPressed(int32 LoadSlotIndex, const FString& EnteredName)
+{
+}
+
+void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 LoadSlotIndex)
+{
+}
+
