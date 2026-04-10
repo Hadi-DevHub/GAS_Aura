@@ -13,10 +13,18 @@ class AURA_API UMVVM_LoadSlot : public UMVVMViewModelBase
 
 public:
 
+	void InitializeSlot();
+
+	UPROPERTY()
+	FString LoadSlotName = FString();
+
+	UPROPERTY()
+	int32 LoadSlotIndex = 0;
+
+	UPROPERTY()
+	FString LoadSlotPlayerName = FString();
+
 	UPROPERTY(BlueprintAssignable)
 	FSetWidgetSwitcherIndex SetWidgetSwitcherIndex;
-	
-protected:
-
 	
 };
