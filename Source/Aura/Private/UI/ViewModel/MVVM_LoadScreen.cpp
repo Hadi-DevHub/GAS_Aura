@@ -29,7 +29,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 LoadSlotIndex, const FString& 
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (AuraGameMode)
 	{
-		LoadSlots[LoadSlotIndex]->LoadSlotPlayerName = EnteredName;
+		LoadSlots[LoadSlotIndex]->SetLoadSlotPlayerName(EnteredName);
 		AuraGameMode->SaveSlotData(LoadSlots[LoadSlotIndex], LoadSlotIndex);
 		LoadSlots[LoadSlotIndex]->InitializeSlot();
 	}
