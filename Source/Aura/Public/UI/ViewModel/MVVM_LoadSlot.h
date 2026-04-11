@@ -16,9 +16,6 @@ public:
 	void InitializeSlot();
 
 	UPROPERTY()
-	FString LoadSlotName = FString();
-
-	UPROPERTY()
 	int32 LoadSlotIndex = 0;
 
 	UPROPERTY()
@@ -26,5 +23,14 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FSetWidgetSwitcherIndex SetWidgetSwitcherIndex;
+
+	void SetLoadSlotName(const FString& InLoadSlotName);
+
+	FString GetLoadSlotName() const { return LoadSlotName; };
+
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Getter, Setter, meta = (AllowPrivateAccess = true))
+	FString LoadSlotName = FString();
 	
 };

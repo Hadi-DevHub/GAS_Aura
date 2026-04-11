@@ -31,10 +31,16 @@ public:
     	
 	UFUNCTION(BlueprintCallable)
 	void SelectSlotButtonPressed(int32 Slot);
-    	
+
+	void SetNumSlots(int32 InNumSlots);
+	
+	int32 GetNumSlots() const { return NumSlots; };
 	
 private:
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Getter, Setter, FieldNotify, meta = (AllowPrivateAccess = true))
+	int32 NumSlots;
+	
 	TMap<int32, UMVVM_LoadSlot*> LoadSlots;
 
 	UPROPERTY()

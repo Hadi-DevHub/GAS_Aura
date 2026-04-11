@@ -39,3 +39,8 @@ void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 LoadSlotIndex)
 {
 }
 
+void UMVVM_LoadScreen::SetNumSlots(int32 InNumSlots)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(NumSlots, InNumSlots);
+}
+
