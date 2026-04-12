@@ -19,4 +19,5 @@ void ALoadScreenHUD::BeginPlay()
 
 	FInputModeUIOnly InputMode;
 	GetOwningPlayerController()->SetInputMode(InputMode);
+	GetOwningPlayerController()->SetShowMouseCursor(true);
 }

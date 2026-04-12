@@ -24,7 +24,7 @@ public:
 
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 
-	ULoadScreenSaveGame* GetSaveSlotData(const FString& LoadSlotPlayerName, int32 SlotIndex);
+	ULoadScreenSaveGame* GetSaveSlotData(const FString& LoadSlotName, int32 SlotIndex);
 
 private:
 

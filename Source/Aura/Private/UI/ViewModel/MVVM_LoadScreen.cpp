@@ -42,6 +42,17 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 LoadSlotIndex, const FString& 
 
 void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 LoadSlotIndex)
 {
+	for (TTuple<int32, UMVVM_LoadSlot*>& LoadSlot : LoadSlots)
+	{
+		if (LoadSlot.Key == LoadSlotIndex)
+		{
+			LoadSlot.Value->SelectButtonPressed.Broadcast(false);
+		}
+		else
+		{
+			LoadSlot.Value->SelectButtonPressed.Broadcast(true);
+		}
+	}
 }
 
 void UMVVM_LoadScreen::LoadSaveSlots()
