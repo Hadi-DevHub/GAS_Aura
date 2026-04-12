@@ -1,16 +1,20 @@
 #include "UI/ViewModel/MVVM_LoadScreen.h"
 
 #include "GameMode/AuraGameModeBase.h"
+#include "GameMode/LoadScreenSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 
 void UMVVM_LoadScreen::InitializeLoadSlots()
 {
 	LoadSlot_0 = NewObject<UMVVM_LoadSlot>(this, LoadSlotViewModelClass);
+	LoadSlot_0->SetLoadSlotName("LoadSlot_0");
 	LoadSlots.Add(0, LoadSlot_0);
 	LoadSlot_1 = NewObject<UMVVM_LoadSlot>(this, LoadSlotViewModelClass);
+	LoadSlot_1->SetLoadSlotName("LoadSlot_1");
 	LoadSlots.Add(1, LoadSlot_1);
 	LoadSlot_2= NewObject<UMVVM_LoadSlot>(this, LoadSlotViewModelClass);
+	LoadSlot_2->SetLoadSlotName("LoadSlot_2");
 	LoadSlots.Add(2, LoadSlot_2);
 }
 
@@ -30,6 +34,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 LoadSlotIndex, const FString& 
 	if (AuraGameMode)
 	{
 		LoadSlots[LoadSlotIndex]->SetLoadSlotPlayerName(EnteredName);
+		LoadSlots[LoadSlotIndex]->SlotStatus = ESaveSlotStatus::Taken;
 		AuraGameMode->SaveSlotData(LoadSlots[LoadSlotIndex], LoadSlotIndex);
 		LoadSlots[LoadSlotIndex]->InitializeSlot();
 	}
@@ -38,6 +43,22 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 LoadSlotIndex, const FString& 
 void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 LoadSlotIndex)
 {
 }
+
+void UMVVM_LoadScreen::LoadSaveSlots()
+{
+	AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	for (TTuple<int32, UMVVM_LoadSlot*>& LoadSlot : LoadSlots)
+	{
+		ULoadScreenSaveGame* SaveGameObject = AuraGameModeBase->GetSaveSlotData(LoadSlot.Value->GetLoadSlotName(), LoadSlot.Key);
+
+		FString& PlayerName = SaveGameObject->PlayerName;
+		LoadSlot.Value->SlotStatus = SaveGameObject->SlotStatus;
+		
+		LoadSlot.Value->SetLoadSlotPlayerName(PlayerName);
+		LoadSlot.Value->InitializeSlot();
+	}
+}
+
 
 void UMVVM_LoadScreen::SetNumSlots(int32 InNumSlots)
 {

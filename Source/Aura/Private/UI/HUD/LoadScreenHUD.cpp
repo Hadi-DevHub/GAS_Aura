@@ -14,4 +14,9 @@ void ALoadScreenHUD::BeginPlay()
 	LoadScreenWidget = CreateWidget<ULoadScreenWidget>(GetWorld(), LoadScreenWidgetClass);
 	LoadScreenWidget->AddToViewport();
 	LoadScreenWidget->BlueprintInitializeWidget();
+
+	MVVM_LoadScreen->LoadSaveSlots();
+
+	FInputModeUIOnly InputMode;
+	GetOwningPlayerController()->SetInputMode(InputMode);
 }

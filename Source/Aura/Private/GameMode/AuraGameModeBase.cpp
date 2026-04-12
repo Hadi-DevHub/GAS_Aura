@@ -1,5 +1,4 @@
 #include "GameMode/AuraGameModeBase.h"
-
 #include "GameMode/LoadScreenSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/ViewModel/MVVM_LoadSlot.h"
@@ -15,4 +14,20 @@ void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 	LoadScreenSaveGame->PlayerName = LoadSlot->GetLoadSlotPlayerName();
 
 	UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, LoadSlot->GetLoadSlotName(), SlotIndex);
+}
+
+ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& LoadSlotPlayerName, int32 SlotIndex)
+{
+	USaveGame* SaveGameObject = nullptr;
+	if (UGameplayStatics::DoesSaveGameExist(LoadSlotPlayerName, SlotIndex))
+	{
+		 SaveGameObject = UGameplayStatics::LoadGameFromSlot(LoadSlotPlayerName, SlotIndex);
+	}
+	else
+	{
+		SaveGameObject = UGameplayStatics::CreateSaveGameObject(LoadScreenSaveGameClass);
+	}
+	ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject);
+	LoadScreenSaveGame->PlayerName = LoadSlotPlayerName;
+	return LoadScreenSaveGame;
 }

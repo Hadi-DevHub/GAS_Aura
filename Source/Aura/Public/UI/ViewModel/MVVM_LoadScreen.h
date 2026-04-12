@@ -32,6 +32,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SelectSlotButtonPressed(int32 Slot);
 
+	void LoadSaveSlots();
+
 	void SetNumSlots(int32 InNumSlots);
 	
 	int32 GetNumSlots() const { return NumSlots; };
@@ -53,3 +55,4 @@ private:
 	TObjectPtr<UMVVM_LoadSlot> LoadSlot_2;
 
 };
+

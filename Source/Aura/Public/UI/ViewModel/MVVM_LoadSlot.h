@@ -2,9 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
+#include "GameMode/LoadScreenSaveGame.h"
 #include "MVVM_LoadSlot.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetWidgetSwitcherIndex, int32, Index);
+
 
 UCLASS()
 class AURA_API UMVVM_LoadSlot : public UMVVMViewModelBase
@@ -26,6 +28,9 @@ public:
 	
 	FString GetLoadSlotName() const { return LoadSlotName; };
 	FString GetLoadSlotPlayerName() const { return LoadSlotPlayerName; };
+	
+	UPROPERTY()
+	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESaveSlotStatus::Vacant;
 
 private:
 
