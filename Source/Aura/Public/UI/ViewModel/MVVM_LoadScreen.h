@@ -1,12 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
 #include "MVVM_LoadScreen.generated.h"
 
 class UMVVM_LoadSlot;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSelecButtonPressed);
 
 UCLASS()
 class AURA_API UMVVM_LoadScreen : public UMVVMViewModelBase
@@ -37,6 +36,9 @@ public:
 	void SetNumSlots(int32 InNumSlots);
 	
 	int32 GetNumSlots() const { return NumSlots; };
+
+	UPROPERTY(BlueprintAssignable)
+	FOnSelecButtonPressed OnSelectButtonPressed;
 	
 private:
 
