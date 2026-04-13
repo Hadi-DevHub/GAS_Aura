@@ -23,7 +23,7 @@ public:
 	TObjectPtr<UAbilityInfo> AbilityInfo;
 
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
-
+	static void DeleteSelectedSlot(const FString& LoadSlotName, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& LoadSlotName, int32 SlotIndex);
 
 private:
