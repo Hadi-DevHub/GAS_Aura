@@ -21,6 +21,9 @@ public:
 
 	UPROPERTY()
 	FString SlotName = FString();
+
+	UPROPERTY()
+	FName PlayerStartTag = FName();
 	
 	UPROPERTY()
 	FString MapName = FString();

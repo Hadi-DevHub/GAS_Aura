@@ -20,6 +20,9 @@ public:
 
 	UPROPERTY()
 	int32 LoadSlotIndex = 0;
+
+	UPROPERTY()
+	FName PlayerStartTag = FName();
 	
 	UPROPERTY(BlueprintAssignable)
 	FSelectButtonPressed SelectButtonPressed;
