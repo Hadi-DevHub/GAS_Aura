@@ -21,6 +21,9 @@ public:
 
 	UPROPERTY()
 	FString SlotName = FString();
+	
+	UPROPERTY()
+	FString MapName = FString();
 
 	UPROPERTY()
 	int32 SlotIndex = 0;

@@ -26,8 +26,24 @@ public:
 	static void DeleteSelectedSlot(const FString& LoadSlotName, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& LoadSlotName, int32 SlotIndex);
 
+	UPROPERTY(EditDefaultsOnly)
+	FString DefaultMapName;
+
+	TSoftObjectPtr<UWorld> DefaultMap;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
+
+protected:
+
+	void BeginPlay() override;
+
 private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;
 };
+
+
+
+	

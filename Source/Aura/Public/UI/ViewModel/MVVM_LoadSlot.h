@@ -29,9 +29,11 @@ public:
 
 	void SetLoadSlotName(const FString& InLoadSlotName);
 	void SetLoadSlotPlayerName(const FString& InLoadSlotPlayerName);
-	
+	void SetLoadSlotMapName(const FString& InLoadSlotMapName);
+
 	FString GetLoadSlotName() const { return LoadSlotName; };
-	FString GetLoadSlotPlayerName() const { return LoadSlotPlayerName; };
+	FString GetLoadSlotPlayerName() const { return LoadSlotPlayerName; };;
+	FString GetLoadSlotMapName() const { return LoadSlotMapName; }
 	
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESaveSlotStatus::Vacant;
@@ -43,5 +45,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Getter, Setter, meta = (AllowPrivateAccess = true))
 	FString LoadSlotPlayerName = FString();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Getter, Setter, meta = (AllowPrivateAccess = true))
+	FString LoadSlotMapName = FString();
 	
 };
