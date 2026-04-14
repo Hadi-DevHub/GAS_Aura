@@ -72,6 +72,16 @@ void UMVVM_LoadScreen::DeleteSlotButtonPressed()
 	SelectedSlot = nullptr;
 }
 
+void UMVVM_LoadScreen::PlayButtonPressed()
+{
+	if (SelectedSlot == nullptr) { return; }
+	
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (AuraGameMode == nullptr) { return; }
+
+	AuraGameMode->TravelToMap(SelectedSlot);
+}
+
 void UMVVM_LoadScreen::LoadSaveSlots()
 {
 	AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));

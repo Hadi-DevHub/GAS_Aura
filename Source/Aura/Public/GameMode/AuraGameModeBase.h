@@ -25,10 +25,12 @@ public:
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	static void DeleteSelectedSlot(const FString& LoadSlotName, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& LoadSlotName, int32 SlotIndex);
+	void TravelToMap(UMVVM_LoadSlot* LoadSlot);
 
 	UPROPERTY(EditDefaultsOnly)
 	FString DefaultMapName;
 
+	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> DefaultMap;
 	
 	UPROPERTY(EditDefaultsOnly)

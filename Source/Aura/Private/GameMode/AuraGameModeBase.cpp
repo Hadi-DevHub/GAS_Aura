@@ -41,6 +41,17 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& LoadSlotN
 	return LoadScreenSaveGame;
 }
 
+void AAuraGameModeBase::TravelToMap(UMVVM_LoadSlot* LoadSlot)
+{
+	if (LoadSlot == nullptr) { return; }
+
+	const FString LoadSlotName = LoadSlot->GetLoadSlotName();
+	const int32 SlotIndex = LoadSlot->LoadSlotIndex;
+	const FString MapName = LoadSlot->GetLoadSlotMapName();
+
+	UGameplayStatics::OpenLevelBySoftObjectPtr(this, Maps.FindChecked(MapName));
+}
+
 void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
