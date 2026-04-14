@@ -26,10 +26,13 @@ public:
 	static void DeleteSelectedSlot(const FString& LoadSlotName, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& LoadSlotName, int32 SlotIndex);
 	void TravelToMap(UMVVM_LoadSlot* LoadSlot);
-	AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	UPROPERTY(EditDefaultsOnly)
 	FString DefaultMapName;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName DefaultPlayerStartTag;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> DefaultMap;
