@@ -50,8 +50,10 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	InitAbilityActorInfo();
-	AddCharacterAbilities();
-	AddCharacterPassiveAbilities();
+
+	//TODO : Load Progress
+	LoadProgress();
+	
 }
 
 void AAuraCharacter::OnRep_PlayerState()
@@ -205,13 +207,11 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 	if (IsValid(AuraGameMode))
 	{
 		ULoadScreenSaveGame* GameProgress = AuraGameMode->RetrieveInGameSaveData();
-		if (IsValid(GameProgress))
-		{
-			GameProgress->PlayerStartTag = CheckpointTag;
-			AuraGameMode->SaveInGameProgress(GameProgress);
-		}
-
-		if (AAuraPlayerState* AuraPlayerState = Cast<APlayerState>(GetPlayerState()))
+		if (!IsValid(GameProgress)) { return; }
+		
+		GameProgress->PlayerStartTag = CheckpointTag;
+		
+		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
 		{
 			GameProgress->SavedPlayerLevel = AuraPlayerState->GetPlayerLevel();
 			GameProgress->SavedPlayerXP = AuraPlayerState->GetPlayerExperience();
@@ -225,6 +225,38 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 				GameProgress->SavedResilience = AAS->GetResilienceAttribute().GetNumericValue(AAS);
 				GameProgress->SavedVigor = AAS->GetVigorAttribute().GetNumericValue(AAS);
 			}
+		}
+		GameProgress->bFirstTimeLoadIn = false;
+		AuraGameMode->SaveInGameProgress(GameProgress);
+	}
+}
+
+
+void AAuraCharacter::LoadProgress()
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (IsValid(AuraGameMode))
+	{
+		ULoadScreenSaveGame* GameProgress = AuraGameMode->RetrieveInGameSaveData();
+		if (!IsValid(GameProgress)) { return; }
+		
+		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+		{
+			AuraPlayerState->SetPlayerLevel(GameProgress->SavedPlayerLevel);
+			AuraPlayerState->SetPlayerExperience(GameProgress->SavedPlayerXP);
+			AuraPlayerState->SetPlayerAttributePoints(GameProgress->SavedAttributePoints);
+			AuraPlayerState->SetSpellPoints(GameProgress->SavedSpellPoints);
+		}
+
+		if (GameProgress->bFirstTimeLoadIn)
+		{
+			InitializeDefaultAttributes();
+			AddCharacterAbilities();
+			AddCharacterPassiveAbilities();
+		}
+		else
+		{
+			// Todo : Load Progress From Save
 		}
 	}
 }
@@ -244,7 +276,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
-	InitializeDefaultAttributes();
 	AbilitySystemRegisteredDelegate.Broadcast(AbilitySystemComponent);
 	AbilitySystemComponent->RegisterGameplayTagEvent(AuraGameplayTags::Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraCharacter::OnStunTagChanged);
 	if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(GetController()))

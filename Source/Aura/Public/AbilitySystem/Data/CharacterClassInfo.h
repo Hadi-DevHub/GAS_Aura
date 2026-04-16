@@ -45,6 +45,9 @@ public:
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Shared Class Default")
+	TSubclassOf<UGameplayEffect> PrimaryAttributes_SetByCaller;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Shared Class Default")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Shared Class Default")

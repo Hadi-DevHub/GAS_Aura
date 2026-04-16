@@ -34,7 +34,10 @@ public:
 	void AddToExperience(int32 XP); 
 
 	FORCEINLINE void SetPlayerLevel(int32 InLevel) { Level = InLevel; }
-	FORCEINLINE void SetToExperience(int32 XP) { PlayerXP = XP; }
+	FORCEINLINE void SetPlayerExperience(int32 XP) { PlayerXP = XP; }
+
+	void SetPlayerAttributePoints(int32 Points);
+	void SetSpellPoints(int32 Points);
 
 	void AddAttributePoints(int32 Points);
 	void AddSpellPoints(int32 Points);

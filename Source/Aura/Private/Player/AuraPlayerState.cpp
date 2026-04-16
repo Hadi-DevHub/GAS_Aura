@@ -33,6 +33,18 @@ void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty
 	DOREPLIFETIME(AAuraPlayerState, SpellPoints);
 }
 
+void AAuraPlayerState::SetPlayerAttributePoints(int32 Points)
+{
+	AttributePoints = Points;
+	OnAttributePointsAdded.Broadcast(AttributePoints);
+}
+
+void AAuraPlayerState::SetSpellPoints(int32 Points)
+{
+	SpellPoints = Points;
+	OnSpellPointsAdded.Broadcast(SpellPoints);
+}
+
 void AAuraPlayerState::AddAttributePoints(int32 Points)
 {
 	AttributePoints += Points;
