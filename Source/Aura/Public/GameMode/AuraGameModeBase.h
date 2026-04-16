@@ -28,6 +28,10 @@ public:
 	void TravelToMap(UMVVM_LoadSlot* LoadSlot);
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
+	ULoadScreenSaveGame* RetrieveInGameSaveData();
+
+	void SaveInGameProgress(ULoadScreenSaveGame* SaveObject);
+
 	UPROPERTY(EditDefaultsOnly)
 	FString DefaultMapName;
 

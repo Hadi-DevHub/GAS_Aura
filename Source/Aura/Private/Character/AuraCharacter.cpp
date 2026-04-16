@@ -13,6 +13,9 @@
 #include "Components/CapsuleComponent.h"
 #include "AbilityStatusNiagara//AuraDebuffNiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameMode/AuraGameModeBase.h"
+#include "GameMode/LoadScreenSaveGame.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
@@ -193,6 +196,16 @@ void AAuraCharacter::HideMagicCircle_Implementation()
 	{
 		PlayerController->HideMagicCircle();
 	}
+}
+
+void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (!IsValid(AuraGameMode)) { return; }
+	
+	ULoadScreenSaveGame* GameProgress = AuraGameMode->RetrieveInGameSaveData();
+	GameProgress->PlayerStartTag = CheckpointTag;
+	AuraGameMode->SaveInGameProgress(GameProgress);
 }
 
 void AAuraCharacter::OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount)

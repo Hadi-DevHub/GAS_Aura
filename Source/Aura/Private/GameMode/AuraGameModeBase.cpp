@@ -82,6 +82,27 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 	return nullptr;
 }
 
+ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData()
+{
+	UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance());
+	if (!IsValid(AuraGameInstance)) { return nullptr; }
+
+	FString LoadSlotName = AuraGameInstance->LoadSlotName;
+	int32 LoadSlotIndex = AuraGameInstance->LoadSlotIndex;
+	
+	return GetSaveSlotData(LoadSlotName, LoadSlotIndex);
+}
+
+void AAuraGameModeBase::SaveInGameProgress(ULoadScreenSaveGame* SaveObject)
+{
+	UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance());
+
+	FString SlotName = AuraGameInstance->LoadSlotName;
+	int32 SlotIndex = AuraGameInstance->LoadSlotIndex;
+	
+	UGameplayStatics::SaveGameToSlot(SaveObject, SlotName, SlotIndex);
+}
+
 void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();

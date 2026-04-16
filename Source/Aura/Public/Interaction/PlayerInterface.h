@@ -31,6 +31,9 @@ public:
 	int32 GetPlayerXP() const;
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 FindLevelForXP(int32 XP);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    void SaveProgress(const FName& PlayerStartTag);
 
 	//------------------------------//
 	//	ATTRIBUTE AND SPELL POINTS  //
