@@ -12,6 +12,7 @@
 #include "Player/AuraPlayerState.h"
 #include "Components/CapsuleComponent.h"
 #include "AbilityStatusNiagara//AuraDebuffNiagaraComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameMode/AuraGameModeBase.h"
 #include "GameMode/LoadScreenSaveGame.h"
@@ -201,11 +202,31 @@ void AAuraCharacter::HideMagicCircle_Implementation()
 void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (!IsValid(AuraGameMode)) { return; }
-	
-	ULoadScreenSaveGame* GameProgress = AuraGameMode->RetrieveInGameSaveData();
-	GameProgress->PlayerStartTag = CheckpointTag;
-	AuraGameMode->SaveInGameProgress(GameProgress);
+	if (IsValid(AuraGameMode))
+	{
+		ULoadScreenSaveGame* GameProgress = AuraGameMode->RetrieveInGameSaveData();
+		if (IsValid(GameProgress))
+		{
+			GameProgress->PlayerStartTag = CheckpointTag;
+			AuraGameMode->SaveInGameProgress(GameProgress);
+		}
+
+		if (AAuraPlayerState* AuraPlayerState = Cast<APlayerState>(GetPlayerState()))
+		{
+			GameProgress->SavedPlayerLevel = AuraPlayerState->GetPlayerLevel();
+			GameProgress->SavedPlayerXP = AuraPlayerState->GetPlayerExperience();
+			GameProgress->SavedAttributePoints = AuraPlayerState->GetAttributePoints();
+			GameProgress->SavedSpellPoints = AuraPlayerState->GetSpellPoints();
+			
+			if (UAuraAttributeSet* AAS = Cast<UAuraAttributeSet>(AuraPlayerState->GetAttributeSet()))
+			{
+				GameProgress->SavedStrength = AAS->GetStrengthAttribute().GetNumericValue(AAS);
+				GameProgress->SavedIntelligence = AAS->GetIntelligenceAttribute().GetNumericValue(AAS);
+				GameProgress->SavedResilience = AAS->GetResilienceAttribute().GetNumericValue(AAS);
+				GameProgress->SavedVigor = AAS->GetVigorAttribute().GetNumericValue(AAS);
+			}
+		}
+	}
 }
 
 void AAuraCharacter::OnStunTagChanged(FGameplayTag CallbackTag, int32 NewCount)
