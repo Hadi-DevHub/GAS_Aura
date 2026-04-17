@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
-
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -15,8 +12,8 @@
 #include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "Engine/OverlapResult.h"
+#include "GameMode/LoadScreenSaveGame.h"
 #include "Interaction/CombatInterface.h"
-
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -91,6 +88,35 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 
 	FGameplayEffectSpecHandle EffectSpecHandleVitals = ASC->MakeOutgoingSpec(CharaClassInfo->VitalAttributes, Level, EffectContextHandle);
 	ASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandleVitals.Data.Get());
+}
+
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributesFromSaveData(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ULoadScreenSaveGame* SaveGame)
+{
+	UCharacterClassInfo* CharaClassInfo = GetCharacterClassInfo(WorldContextObject);
+	
+	FGameplayEffectContextHandle EffectContextHandle = ASC->MakeEffectContext();
+
+	AActor* AvatarActor = ASC->GetAvatarActor();
+	EffectContextHandle.AddSourceObject(AvatarActor);
+
+	FGameplayEffectSpecHandle PrimaryEffectHandle = ASC->MakeOutgoingSpec(CharaClassInfo->PrimaryAttributes_SetByCaller, 1.0f, EffectContextHandle);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(PrimaryEffectHandle, AuraGameplayTags::Attributes_Primary_Strength, SaveGame->SavedStrength);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(PrimaryEffectHandle, AuraGameplayTags::Attributes_Primary_Intelligence, SaveGame->SavedIntelligence);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(PrimaryEffectHandle, AuraGameplayTags::Attributes_Primary_Resilience, SaveGame->SavedResilience);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(PrimaryEffectHandle, AuraGameplayTags::Attributes_Primary_Vigor, SaveGame->SavedVigor);
+
+	ASC->ApplyGameplayEffectSpecToSelf(*PrimaryEffectHandle.Data);
+
+	FGameplayEffectContextHandle SecondaryEffectContextHandle = ASC->MakeEffectContext();
+	SecondaryEffectContextHandle.AddSourceObject(AvatarActor);
+	FGameplayEffectSpecHandle SecondaryEffectHandle = ASC->MakeOutgoingSpec(CharaClassInfo->SecondaryAttributes_Infinite, 1.0f, EffectContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*SecondaryEffectHandle.Data);
+
+	FGameplayEffectContextHandle VitalEffectContextHandle = ASC->MakeEffectContext();
+	SecondaryEffectContextHandle.AddSourceObject(AvatarActor);
+	FGameplayEffectSpecHandle VitalEffectEffectHandle = ASC->MakeOutgoingSpec(CharaClassInfo->VitalAttributes, 1.0f, EffectContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*VitalEffectEffectHandle.Data);
+
 }
 
 void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,UAbilitySystemComponent* ThisASC, ECharacterClass CharacterClass)

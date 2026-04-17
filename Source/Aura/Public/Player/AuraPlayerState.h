@@ -12,6 +12,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnLevelChanged, int32 /* Level */, bool /* Leveled-Up */);
 
 UCLASS()
 class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -43,7 +44,7 @@ public:
 	void AddSpellPoints(int32 Points);
 
 	FOnPlayerStatChanged OnExperienceChanged;
-	FOnPlayerStatChanged OnLevelChanged;
+	FOnLevelChanged OnLevelChanged;
 	FOnPlayerStatChanged OnAttributePointsAdded;
 	FOnPlayerStatChanged OnSpellPointsAdded;
 

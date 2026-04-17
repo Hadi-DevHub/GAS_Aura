@@ -44,8 +44,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Shared Class Default")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Shared Class Default")
+	UPROPERTY(EditDefaultsOnly, Category = "Load From Disk")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes_SetByCaller;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Load From Disk")
+	TSubclassOf<UGameplayEffect> SecondaryAttributes_Infinite;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Shared Class Default")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;

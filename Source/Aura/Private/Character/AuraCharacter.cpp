@@ -12,6 +12,7 @@
 #include "Player/AuraPlayerState.h"
 #include "Components/CapsuleComponent.h"
 #include "AbilityStatusNiagara//AuraDebuffNiagaraComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameMode/AuraGameModeBase.h"
@@ -231,7 +232,6 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 	}
 }
 
-
 void AAuraCharacter::LoadProgress()
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -239,14 +239,6 @@ void AAuraCharacter::LoadProgress()
 	{
 		ULoadScreenSaveGame* GameProgress = AuraGameMode->RetrieveInGameSaveData();
 		if (!IsValid(GameProgress)) { return; }
-		
-		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
-		{
-			AuraPlayerState->SetPlayerLevel(GameProgress->SavedPlayerLevel);
-			AuraPlayerState->SetPlayerExperience(GameProgress->SavedPlayerXP);
-			AuraPlayerState->SetPlayerAttributePoints(GameProgress->SavedAttributePoints);
-			AuraPlayerState->SetSpellPoints(GameProgress->SavedSpellPoints);
-		}
 
 		if (GameProgress->bFirstTimeLoadIn)
 		{
@@ -256,6 +248,15 @@ void AAuraCharacter::LoadProgress()
 		}
 		else
 		{
+			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+			{
+				AuraPlayerState->SetPlayerLevel(GameProgress->SavedPlayerLevel);
+				AuraPlayerState->SetPlayerExperience(GameProgress->SavedPlayerXP);
+				AuraPlayerState->SetPlayerAttributePoints(GameProgress->SavedAttributePoints);
+				AuraPlayerState->SetSpellPoints(GameProgress->SavedSpellPoints);
+
+				UAuraAbilitySystemLibrary::InitializeDefaultAttributesFromSaveData(this, GetAbilitySystemComponent(), GameProgress);
+			}
 			// Todo : Load Progress From Save
 		}
 	}

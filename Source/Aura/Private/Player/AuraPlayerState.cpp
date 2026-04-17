@@ -60,7 +60,7 @@ void AAuraPlayerState::AddSpellPoints(int32 Points)
 void AAuraPlayerState::AddPlayerLevel(int32 InLevel)
 {
 	Level += InLevel;
-	OnLevelChanged.Broadcast(Level);
+	OnLevelChanged.Broadcast(Level, true);
 }
 
 void AAuraPlayerState::AddToExperience(int32 XP)
@@ -71,7 +71,7 @@ void AAuraPlayerState::AddToExperience(int32 XP)
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
 {
-	OnLevelChanged.Broadcast(Level);
+	OnLevelChanged.Broadcast(Level, true);
 }
 
 void AAuraPlayerState::OnRep_PlayerXP(int32 OldXP)

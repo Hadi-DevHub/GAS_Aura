@@ -20,9 +20,9 @@ void UOverlayWidgetController::BroadcastInitialValue()
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	GetAPS()->OnExperienceChanged.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
-	GetAPS()->OnLevelChanged.AddLambda([this](int32 NewValue)
+	GetAPS()->OnLevelChanged.AddLambda([this](int32 NewValue, bool NewLevel)
 	{
-		OnPlayerStatChanged.Broadcast(NewValue);
+		OnPlayerLevelChanged.Broadcast(NewValue, NewLevel);
 	});
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
