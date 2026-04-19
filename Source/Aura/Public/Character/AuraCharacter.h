@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,9 +9,7 @@ class UNiagaraComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class AAuraPlayerState;
-/**
- * 
- */
+
 UCLASS(BlueprintType, Blueprintable)
 class AURA_API AAuraCharacter : public AAuraCharacterBase, public IPlayerInterface
 {

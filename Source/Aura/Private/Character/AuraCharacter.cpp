@@ -14,6 +14,7 @@
 #include "AbilityStatusNiagara//AuraDebuffNiagaraComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameMode/AuraGameModeBase.h"
 #include "GameMode/LoadScreenSaveGame.h"
@@ -226,6 +227,27 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 				GameProgress->SavedResilience = AAS->GetResilienceAttribute().GetNumericValue(AAS);
 				GameProgress->SavedVigor = AAS->GetVigorAttribute().GetNumericValue(AAS);
 			}
+		}
+
+		UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+		if (IsValid(AuraASC) && HasAuthority())
+		{
+			FForEachAbility SaveAbilityDelegate;
+			SaveAbilityDelegate.BindLambda([this, AuraASC, GameProgress](const FGameplayAbilitySpec& Spec)
+			{
+				FSavedAbilities SavedAbilities;
+				FGameplayTag AbilityTag = AuraASC->GetAbilityTagFromSpec(Spec);
+				FAuraAbilityInfo Info = UAuraAbilitySystemLibrary::GetAbilityInfo(GetWorld())->FindAbilityInfoForTag(AbilityTag);
+
+				SavedAbilities.SavedAbility = Info.Ability;
+				SavedAbilities.SavedAbilityInputTag = Info.InputTag;
+				SavedAbilities.SavedAbilityLevel = Spec.Level;
+				SavedAbilities.SavedAbilityStatus = Info.StatusTag;
+				SavedAbilities.SavedAbilityTag = Info.AbilityTag;
+				SavedAbilities.SavedAbilityType  = Info.AbilityType;
+
+				GameProgress->SavedAbilities.Add(SavedAbilities);
+			});
 		}
 		GameProgress->bFirstTimeLoadIn = false;
 		AuraGameMode->SaveInGameProgress(GameProgress);
