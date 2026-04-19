@@ -39,6 +39,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 LoadSlotIndex, const FString& 
 	
 	LoadSlots[LoadSlotIndex]->SetLoadSlotPlayerName(EnteredName);
 	LoadSlots[LoadSlotIndex]->SetLoadSlotMapName(AuraGameMode->DefaultMapName);
+	LoadSlots[LoadSlotIndex]->SetLoadPlayerLevel(1);
 	LoadSlots[LoadSlotIndex]->SlotStatus = ESaveSlotStatus::Taken;
 	LoadSlots[LoadSlotIndex]->PlayerStartTag = AuraGameMode->DefaultPlayerStartTag;
 	AuraGameMode->SaveSlotData(LoadSlots[LoadSlotIndex], LoadSlotIndex);
@@ -103,10 +104,11 @@ void UMVVM_LoadScreen::LoadSaveSlots()
 		ULoadScreenSaveGame* SaveGameObject = AuraGameModeBase->GetSaveSlotData(LoadSlot.Value->GetLoadSlotName(), LoadSlot.Key);
 
 		FString& PlayerName = SaveGameObject->PlayerName;
-		LoadSlot.Value->SlotStatus = SaveGameObject->SlotStatus;
-		LoadSlot.Value->SetLoadSlotMapName(SaveGameObject->MapName);
-		LoadSlot.Value->PlayerStartTag = SaveGameObject->PlayerStartTag;
 		LoadSlot.Value->SetLoadSlotPlayerName(PlayerName);
+		LoadSlot.Value->SetLoadPlayerLevel(SaveGameObject->SavedPlayerLevel);
+		LoadSlot.Value->SetLoadSlotMapName(SaveGameObject->MapName);
+		LoadSlot.Value->SlotStatus = SaveGameObject->SlotStatus;
+		LoadSlot.Value->PlayerStartTag = SaveGameObject->PlayerStartTag;
 		LoadSlot.Value->InitializeSlot();
 	}
 }

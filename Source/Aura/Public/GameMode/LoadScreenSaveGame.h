@@ -43,7 +43,7 @@ public:
 	//-- Player --//
 	
 	UPROPERTY()
-	int32 SavedPlayerLevel = 0;
+	int32 SavedPlayerLevel = 1;
 
 	UPROPERTY()
 	int32 SavedPlayerXP = 0;
