@@ -228,11 +228,13 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 				GameProgress->SavedVigor = AAS->GetVigorAttribute().GetNumericValue(AAS);
 			}
 		}
+		GameProgress->bFirstTimeLoadIn = false;
 
 		UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 		if (IsValid(AuraASC) && HasAuthority())
 		{
 			FForEachAbility SaveAbilityDelegate;
+			GameProgress->SavedAbilities.Empty();
 			SaveAbilityDelegate.BindLambda([this, AuraASC, GameProgress](const FGameplayAbilitySpec& Spec)
 			{
 				FSavedAbilities SavedAbilities;
@@ -240,17 +242,17 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 				FAuraAbilityInfo Info = UAuraAbilitySystemLibrary::GetAbilityInfo(GetWorld())->FindAbilityInfoForTag(AbilityTag);
 
 				SavedAbilities.SavedAbility = Info.Ability;
-				SavedAbilities.SavedAbilityInputTag = Info.InputTag;
+				SavedAbilities.SavedAbilityInputTag = AuraASC->GetInputTagFromAbilityTag(AbilityTag);
 				SavedAbilities.SavedAbilityLevel = Spec.Level;
-				SavedAbilities.SavedAbilityStatus = Info.StatusTag;
+				SavedAbilities.SavedAbilityStatus = AuraASC->GetStatusTagFromAbilityTag(AbilityTag);
 				SavedAbilities.SavedAbilityTag = Info.AbilityTag;
 				SavedAbilities.SavedAbilityType  = Info.AbilityType;
 
-				GameProgress->SavedAbilities.Add(SavedAbilities);
+				GameProgress->SavedAbilities.AddUnique(SavedAbilities);
 			});
+			AuraASC->ForEachAbility(SaveAbilityDelegate);
+			AuraGameMode->SaveInGameProgress(GameProgress);
 		}
-		GameProgress->bFirstTimeLoadIn = false;
-		AuraGameMode->SaveInGameProgress(GameProgress);
 	}
 }
 
@@ -270,6 +272,11 @@ void AAuraCharacter::LoadProgress()
 		}
 		else
 		{
+			if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent()))
+			{
+				AuraASC->AddCharacterAbilitiesFromSaveData(GameProgress);
+			}
+			
 			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
 			{
 				AuraPlayerState->SetPlayerLevel(GameProgress->SavedPlayerLevel);
@@ -279,7 +286,7 @@ void AAuraCharacter::LoadProgress()
 
 				UAuraAbilitySystemLibrary::InitializeDefaultAttributesFromSaveData(this, GetAbilitySystemComponent(), GameProgress);
 			}
-			// Todo : Load Progress From Save
+			
 		}
 	}
 }

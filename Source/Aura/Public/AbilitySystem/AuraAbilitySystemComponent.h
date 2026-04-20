@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAbilitySystemComponent.generated.h"
 
+class ULoadScreenSaveGame;
 class UAbilityInfo;
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* Asset Tags */);
 DECLARE_MULTICAST_DELEGATE(FAbilityGiven);
@@ -25,6 +26,7 @@ public:
 	UFUNCTION()
 	void AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
 	void AddCharacterPassiveAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
+	void AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData);
 
 	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);

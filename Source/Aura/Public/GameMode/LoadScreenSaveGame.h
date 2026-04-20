@@ -24,20 +24,26 @@ struct FSavedAbilities
 	TSubclassOf<UGameplayAbility> SavedAbility;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTag SavedAbilityTag;
+	FGameplayTag SavedAbilityTag = FGameplayTag();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTag SavedAbilityStatus;
+	FGameplayTag SavedAbilityStatus = FGameplayTag();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTag SavedAbilityType;
+	FGameplayTag SavedAbilityType = FGameplayTag();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FGameplayTag SavedAbilityInputTag;
+	FGameplayTag SavedAbilityInputTag = FGameplayTag();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 SavedAbilityLevel;
+	int32 SavedAbilityLevel = 1;
 };
+
+
+inline bool operator==(const FSavedAbilities& Left, const FSavedAbilities& Right)
+{
+	return Left.SavedAbilityTag.MatchesTagExact(Right.SavedAbilityTag);
+}
 
 UCLASS()
 class AURA_API ULoadScreenSaveGame : public USaveGame
@@ -96,5 +102,6 @@ public:
 	float SavedVigor = 0.f;
 
 	//-- Abilities --//
+	UPROPERTY()
 	TArray<FSavedAbilities> SavedAbilities;
 };

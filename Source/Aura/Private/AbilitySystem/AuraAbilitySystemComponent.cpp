@@ -8,6 +8,7 @@
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "AbilitySystem/GameplayAbilities/AuraGameplayAbility.h"
 #include "Aura/AuraLogChannel.h"
+#include "GameMode/LoadScreenSaveGame.h"
 #include "Interaction/PlayerInterface.h"
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
@@ -59,6 +60,35 @@ void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(TArray<TSubclassO
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, 1.f);
 		GiveAbilityAndActivateOnce(AbilitySpec);
 	}
+}
+
+void UAuraAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData)
+{
+	for (const FSavedAbilities& Data : SaveData->SavedAbilities)
+	{
+		TSubclassOf<UGameplayAbility> SavedAbility = Data.SavedAbility;
+		FGameplayAbilitySpec SavedAbilitySpec = FGameplayAbilitySpec(SavedAbility, Data.SavedAbilityLevel);
+
+		SavedAbilitySpec.DynamicAbilityTags.AddTag(Data.SavedAbilityInputTag);
+		SavedAbilitySpec.DynamicAbilityTags.AddTag(Data.SavedAbilityStatus);
+		SavedAbilitySpec.DynamicAbilityTags.AddTag(Data.SavedAbilityType);
+
+		if (Data.SavedAbilityType.MatchesTagExact(AuraGameplayTags::Abilities_Types_Offensive))
+		{
+			GiveAbility(SavedAbilitySpec);
+		}
+		else if (Data.SavedAbilityType.MatchesTagExact(AuraGameplayTags::Abilities_Types_Passive))
+		{
+			GiveAbility(SavedAbilitySpec);
+			if (Data.SavedAbilityStatus.MatchesTagExact(AuraGameplayTags::Abilities_Status_Equipped))
+			{
+				TryActivateAbility(SavedAbilitySpec.Handle);
+				NetMulticast_BroadcastHandlePassiveAbilityFX(Data.SavedAbilityTag, true);
+			}
+		}
+	}
+	bStartupAbilitiesGiven = true;
+	AbilityGiven.Broadcast();
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
@@ -340,6 +370,8 @@ void UAuraAbilitySystemComponent::ServerEquipAbilityToSlot_Implementation(const 
 					TryActivateAbility(AbilitySpec->Handle);
 					NetMulticast_BroadcastHandlePassiveAbilityFX(AbilityTag, true);
 				}
+				AbilitySpec->DynamicAbilityTags.RemoveTag(GetStatusTagFromSpec(*AbilitySpec));
+				AbilitySpec->DynamicAbilityTags.AddTag(AuraGameplayTags::Abilities_Status_Equipped);
 			}
 			AssignInputTagToAbility(SlotTag, *AbilitySpec);
 			MarkAbilitySpecDirty(*AbilitySpec);

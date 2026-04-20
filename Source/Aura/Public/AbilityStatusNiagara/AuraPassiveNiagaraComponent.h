@@ -29,5 +29,8 @@ private:
 	FGameplayTag PassiveAbilityTag;
 
 	UFUNCTION()
-	void OnReceivePassiveAbilityFXHandle(const FGameplayTag& AbilityTag, const bool bShouldActivate);	
+	void OnReceivePassiveAbilityFXHandle(const FGameplayTag& AbilityTag, const bool bShouldActivate);
+
+	UFUNCTION()
+	void ActivateIfEquipped(UAuraAbilitySystemComponent* AuraASC);
 };

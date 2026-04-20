@@ -4,6 +4,7 @@
 #include "AbilityStatusNiagara/AuraPassiveNiagaraComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
 
@@ -19,6 +20,7 @@ void UAuraPassiveNiagaraComponent::BeginPlay()
 	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
 	{
 		AuraASC->PassiveAbilityFXHandle.AddUObject(this, &UAuraPassiveNiagaraComponent::OnReceivePassiveAbilityFXHandle);
+		ActivateIfEquipped(AuraASC);
 	}
 	else
 	{
@@ -29,6 +31,7 @@ void UAuraPassiveNiagaraComponent::BeginPlay()
 				if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(RegisteredASC))
 				{
 					AuraASC->PassiveAbilityFXHandle.AddUObject(this, &UAuraPassiveNiagaraComponent::OnReceivePassiveAbilityFXHandle);
+					ActivateIfEquipped(AuraASC);
 				}
 			}
 			);
@@ -48,6 +51,18 @@ void UAuraPassiveNiagaraComponent::OnReceivePassiveAbilityFXHandle(const FGamepl
 		else
 		{
 			Deactivate();
+		}
+	}
+}
+
+void UAuraPassiveNiagaraComponent::ActivateIfEquipped(UAuraAbilitySystemComponent* AuraASC)
+{
+	const bool bStartupAbilitiesGiven = AuraASC->bStartupAbilitiesGiven;
+	if (bStartupAbilitiesGiven)
+	{
+		if (AuraASC->GetStatusTagFromAbilityTag(PassiveAbilityTag) == AuraGameplayTags::Abilities_Status_Equipped)
+		{
+			Activate();
 		}
 	}
 }
