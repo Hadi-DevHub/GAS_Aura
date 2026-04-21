@@ -60,7 +60,7 @@ struct FSavedActor
 	TArray<uint8> Bytes;
 };
 
-inline bool operator==(const FSavedActors& Left, const FSavedActors& Right)
+inline bool operator==(const FSavedActor& Left, const FSavedActor& Right)
 {
 	return Left.ActorName == Right.ActorName;
 }

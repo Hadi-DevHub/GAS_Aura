@@ -28,6 +28,8 @@ public:
 	void TravelToMap(UMVVM_LoadSlot* LoadSlot);
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
+	void SaveWorldState(UWorld* World);
+
 	ULoadScreenSaveGame* RetrieveInGameSaveData();
 
 	void SaveInGameProgress(ULoadScreenSaveGame* SaveObject);

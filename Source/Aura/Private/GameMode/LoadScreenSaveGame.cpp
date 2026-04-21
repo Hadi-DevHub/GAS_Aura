@@ -2,17 +2,24 @@
 
 FSavedMap ULoadScreenSaveGame::GetSavedMapWithMapName(const FString& InMapName) const
 {
-	const FSavedMap* FoundMap = SavedMaps.FindByPredicate([InMapName](const FSavedMap* InSavedMaps)
+	for (auto Map : SavedMaps)
 	{
-		return InSavedMaps->MapName == InMapName;
-	});
-
-	return FoundMap ? *FoundMap : FSavedMap();
+		if (Map.MapName == InMapName)
+		{
+			return Map;
+		}
+	}
+	return FSavedMap();
 }
 
 bool ULoadScreenSaveGame::HasMap(const FString& InMapName) const
 {
-	return SavedMaps.ContainsByPredicate([InMapName](const FSavedMap& Map) {
-	  return Map.MapName == InMapName;
-   });
+	for (auto Map : SavedMaps)
+	{
+		if (Map.MapName == InMapName)
+		{
+			return true;
+		}
+	}
+	return false;
 }

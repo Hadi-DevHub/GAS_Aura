@@ -1,9 +1,12 @@
 #include "GameMode/AuraGameModeBase.h"
 
+#include "EngineUtils.h"
 #include "GameFramework/PlayerStart.h"
 #include "GameMode/AuraGameInstance.h"
 #include "GameMode/LoadScreenSaveGame.h"
+#include "Interaction/SaveInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 
 void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
@@ -81,6 +84,57 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 		return SelectedActor;
 	}
 	return nullptr;
+}
+
+void AAuraGameModeBase::SaveWorldState(UWorld* World)
+{
+	FString MapName = World->GetMapName();
+	MapName.RemoveFromStart(World->StreamingLevelsPrefix);
+
+	UAuraGameInstance* AuraGI = Cast<UAuraGameInstance>(GetGameInstance());
+	check(AuraGI);
+	
+	ULoadScreenSaveGame* SaveGame = GetSaveSlotData(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex);
+	if (SaveGame)
+	{
+		if (!SaveGame->HasMap(MapName))
+		{
+			FSavedMap NewMap;
+			NewMap.MapName = MapName;
+			SaveGame->SavedMaps.Add(NewMap);
+		}
+
+		FSavedMap SavedMap = SaveGame->GetSavedMapWithMapName(MapName);
+		SavedMap.SavedActors.Empty();
+
+		for (FActorIterator It(World); It; ++It)
+		{
+			AActor* Actor = *It;
+
+			if (!IsValid(Actor) || !Actor->Implements<USaveInterface>()) return;
+			
+			FSavedActor ActorToSave;
+			ActorToSave.ActorName = Actor->GetFName();
+			ActorToSave.ActorTransform = Actor->GetActorTransform();
+
+			FMemoryWriter MemoryWriter(ActorToSave.Bytes);
+			FObjectAndNameAsStringProxyArchive Archive(MemoryWriter, true);
+
+			Archive.ArIsSaveGame = true;
+			Actor->Serialize(Archive);
+
+			SavedMap.SavedActors.Add(ActorToSave);
+		}
+
+		for (FSavedMap& MapToReplace : SaveGame->SavedMaps)
+		{
+			if (MapToReplace.MapName == MapName)
+			{
+				MapToReplace = SavedMap;
+			}
+		}
+		UGameplayStatics::SaveGameToSlot(SaveGame, AuraGI->LoadSlotName, AuraGI->LoadSlotIndex);
+	}
 }
 
 ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData()
