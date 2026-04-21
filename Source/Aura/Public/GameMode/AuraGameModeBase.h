@@ -29,6 +29,7 @@ public:
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	void SaveWorldState(UWorld* World);
+	void LoadWorldState(UWorld* World);
 
 	ULoadScreenSaveGame* RetrieveInGameSaveData();
 

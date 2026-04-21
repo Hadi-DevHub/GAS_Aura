@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerStart.h"
+#include "Interaction/SaveInterface.h"
 #include "Checkpoint.generated.h"
 
 class USphereComponent;
 
 UCLASS()
-class AURA_API ACheckpoint : public APlayerStart
+class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface
 {
 	GENERATED_BODY()
 
@@ -17,6 +18,8 @@ public:
 	ACheckpoint(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(SaveGame)
+	bool bReached = false;
 
 protected:
 	virtual void BeginPlay() override;
@@ -29,7 +32,16 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void CheckpointReached(UMaterialInstanceDynamic* DynamicInstance);
 
+	// ISaveInterface Inherited Functions
+
+	virtual void LoadActor_Implementation() override;
+	virtual bool ShouldLoadTransform_Implementation() override { return false; }
+	
+	// End Of ISaveInterface Inherited Functions
+
 private:
+
+	
 
 	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
