@@ -9,6 +9,7 @@
 #include "UI/Widgets/DamageTextComponent.h"
 #include "AuraPlayerController.generated.h"
 
+class IHighlightInterface;
 class AMagicCircle;
 class UNiagaraSystem;
 class USplineComponent;
@@ -82,8 +83,8 @@ protected:
 	void SHIFTReleased();
 	bool bShiftAction = false;
 
-	TScriptInterface<IEnemyInterface> ThisEnemy;
-	TScriptInterface<IEnemyInterface> LastEnemy;
+	TScriptInterface<IHighlightInterface> ThisActor;
+	TScriptInterface<IHighlightInterface> LastActor;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UAuraInputConfig> AbilityInputConfig;

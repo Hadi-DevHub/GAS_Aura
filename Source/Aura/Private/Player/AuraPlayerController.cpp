@@ -17,6 +17,7 @@
 #include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -54,7 +55,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	}
 	if (InputTag.MatchesTagExact(AuraGameplayTags::Input_LMB))
 	{
-		bTargeting = ThisEnemy ? true : false;
+		bTargeting = ThisActor ? true : false;
 		bAutoMovement = false;
 	}
 	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);	
@@ -209,10 +210,10 @@ void AAuraPlayerController::CursorTrace()
 {
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(AuraGameplayTags::Player_Block_CursorTrace))
 	{
-		if (LastEnemy) LastEnemy->UnHighlightActor();
-		if (ThisEnemy) ThisEnemy->UnHighlightActor();
-		LastEnemy = nullptr;
-		ThisEnemy = nullptr;
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->UnHighlightActor();
+		LastActor = nullptr;
+		ThisActor = nullptr;
 		return;
 	}
 
@@ -220,13 +221,13 @@ void AAuraPlayerController::CursorTrace()
 	GetHitResultUnderCursor(TraceChannel, false, UnderCursor );
 	if (!UnderCursor.bBlockingHit) return;
 	
-	LastEnemy = ThisEnemy;
-	ThisEnemy = UnderCursor.GetActor();
+	LastActor = ThisActor;
+	ThisActor = UnderCursor.GetActor();
 
-	if (LastEnemy != ThisEnemy)
+	if (LastActor != ThisActor)
 	{
-		if (LastEnemy) LastEnemy->UnHighlightActor();
-		if (ThisEnemy) ThisEnemy->HighlightActor();
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->HighlightActor();
 	}
 }
 

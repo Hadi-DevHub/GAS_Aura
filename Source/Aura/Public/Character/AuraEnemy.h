@@ -6,6 +6,7 @@
 #include "Character/AuraCharacterBase.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "AuraEnemy.generated.h"
 
 class UAuraDebuffNiagaraComponent;
@@ -15,7 +16,7 @@ enum class ECharacterClass : uint8;
 class UWidgetComponent;
 
 UCLASS()
-class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
+class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 
