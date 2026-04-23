@@ -17,6 +17,14 @@ class UAuraAbilitySystemComponent;
 class IEnemyInterface;
 class UInputMappingContext;
 
+UENUM(BlueprintType)
+enum class ETargetType : uint8
+{
+	TargetingEnemy,
+	TargetingNonEnemy,
+	NotTargeting
+};
+
 UCLASS()
 class AURA_API AAuraPlayerController : public APlayerController
 {
@@ -41,6 +49,9 @@ public:
 	void UpdateMagicCircleLocation();
 
 protected:
+
+	void HighlightActor(AActor* Actor);
+	void UnHighlightActor(AActor* Actor);
 	
 	//------------------//
 	//	CLASS DEFAULTS	//
@@ -83,8 +94,13 @@ protected:
 	void SHIFTReleased();
 	bool bShiftAction = false;
 
-	TScriptInterface<IHighlightInterface> ThisActor;
-	TScriptInterface<IHighlightInterface> LastActor;
+	ETargetType TargetType;
+
+	UPROPERTY()
+	TObjectPtr<AActor> ThisActor;
+	
+	UPROPERTY()
+	TObjectPtr<AActor> LastActor;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UAuraInputConfig> AbilityInputConfig;
@@ -103,7 +119,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.f;
-	bool bTargeting = false;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
