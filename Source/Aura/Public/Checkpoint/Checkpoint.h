@@ -1,14 +1,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Aura/Aura.h"
 #include "GameFramework/PlayerStart.h"
+#include "Interaction/HighlightInterface.h"
 #include "Interaction/SaveInterface.h"
 #include "Checkpoint.generated.h"
 
 class USphereComponent;
 
 UCLASS()
-class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface
+class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 
@@ -19,6 +21,15 @@ public:
 	UPROPERTY(SaveGame)
 	bool bReached = false;
 
+	// Highlight Interface //
+
+	void HighlightActor_Implementation() override;
+	void UnHighlightActor_Implementation() override;
+	void SetMoveToLocation_Implementation(FVector& OutLocation) override;
+
+	// Highlight Interface //
+
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -44,4 +55,10 @@ private:
 	
 	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<USphereComponent> SphereCollision;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	TObjectPtr<USceneComponent> UniqueMoveToLocation;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 StencilValueOverride = CUSTOM_DEPTH_TAN;
 };

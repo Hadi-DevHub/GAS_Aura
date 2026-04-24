@@ -150,6 +150,11 @@ void AAuraEnemy::UnHighlightActor_Implementation()
 	Weapon->SetCustomDepthStencilValue(0);
 }
 
+void AAuraEnemy::SetMoveToLocation_Implementation(FVector& OutLocation)
+{
+	
+}
+
 void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
 {
 	if (InCombatTarget == nullptr) return;

@@ -1,4 +1,6 @@
 #include "Checkpoint/Checkpoint.h"
+
+#include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameMode/AuraGameModeBase.h"
 #include "Interaction/PlayerInterface.h"
@@ -19,6 +21,12 @@ ACheckpoint::ACheckpoint(const FObjectInitializer& ObjectInitializer)
 	SphereCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	SphereCollision->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	SphereCollision->SetupAttachment(CheckpointMesh);
+
+	UniqueMoveToLocation = CreateDefaultSubobject<UBoxComponent>("UniqueMoveToLocation");
+	UniqueMoveToLocation->SetupAttachment(GetRootComponent());
+
+	CheckpointMesh->SetCustomDepthStencilValue(StencilValueOverride);
+	CheckpointMesh->MarkRenderStateDirty();
 }
 
 void ACheckpoint::BeginPlay()
@@ -63,5 +71,20 @@ void ACheckpoint::LoadActor_Implementation()
 void ACheckpoint::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ACheckpoint::HighlightActor_Implementation()
+{
+	CheckpointMesh->SetRenderCustomDepth(true);
+}
+
+void ACheckpoint::UnHighlightActor_Implementation()
+{
+	CheckpointMesh->SetRenderCustomDepth(false);
+}
+
+void ACheckpoint::SetMoveToLocation_Implementation(FVector& OutLocation)
+{
+	OutLocation = UniqueMoveToLocation->GetComponentLocation();
 }
 

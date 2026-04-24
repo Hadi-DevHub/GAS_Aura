@@ -31,6 +31,7 @@ public:
 	//----------------------//
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
+	virtual void SetMoveToLocation_Implementation(FVector& OutLocation) override;
 
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
