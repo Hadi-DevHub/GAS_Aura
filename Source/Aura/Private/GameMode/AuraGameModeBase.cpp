@@ -94,7 +94,6 @@ void AAuraGameModeBase::SaveWorldState(UWorld* World)
 	MapName.RemoveFromStart(World->StreamingLevelsPrefix);
 
 	UAuraGameInstance* AuraGI = Cast<UAuraGameInstance>(GetGameInstance());
-	check(AuraGI);
 	
 	ULoadScreenSaveGame* SaveGame = GetSaveSlotData(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex);
 	if (SaveGame)
@@ -113,7 +112,7 @@ void AAuraGameModeBase::SaveWorldState(UWorld* World)
 		{
 			AActor* Actor = *It;
 
-			if (!IsValid(Actor) || !Actor->Implements<USaveInterface>()) return;
+			if (!IsValid(Actor) || !Actor->Implements<USaveInterface>()) continue;
 			
 			FSavedActor ActorToSave;
 			ActorToSave.ActorName = Actor->GetFName();
@@ -145,41 +144,40 @@ void AAuraGameModeBase::LoadWorldState(UWorld* World)
 	MapName.RemoveFromStart(World->StreamingLevelsPrefix);
 
 	UAuraGameInstance* AuraGI = Cast<UAuraGameInstance>(GetGameInstance());
-	if (IsValid(AuraGI))
+
+	if (UGameplayStatics::DoesSaveGameExist(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex))
 	{
-		if (UGameplayStatics::DoesSaveGameExist(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex))
+		ULoadScreenSaveGame* LoadGame = Cast<ULoadScreenSaveGame>(UGameplayStatics::LoadGameFromSlot(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex));
+		if (LoadGame == nullptr)
 		{
-			ULoadScreenSaveGame* LoadGame = Cast<ULoadScreenSaveGame>(UGameplayStatics::LoadGameFromSlot(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex));
-			if (LoadGame == nullptr)
+			UE_LOG(LogAura, Warning, TEXT("Failed to load slot!."))
+			return;
+		}
+
+		for (FActorIterator It(World); It; ++It)
+		{
+			AActor* Actor = *It;
+
+			if (!Actor->Implements<USaveInterface>()) continue;
+
+			for (FSavedActor SaveActor : LoadGame->GetSavedMapWithMapName(MapName).SavedActors)
 			{
-				UE_LOG(LogAura, Warning, TEXT("Failed to load slot!."))
-			}
-
-			for (FActorIterator It(World); It; ++It)
-			{
-				AActor* Actor = *It;
-
-				if (!Actor->Implements<USaveInterface>()) continue;
-
-				for (FSavedActor SaveActor : LoadGame->GetSavedMapWithMapName(MapName).SavedActors)
+				if (SaveActor.ActorName == Actor->GetFName())
 				{
-					if (SaveActor.ActorName == Actor->GetFName())
+					if (ISaveInterface::Execute_ShouldLoadTransform(Actor))
 					{
-						if (ISaveInterface::Execute_ShouldLoadTransform(Actor))
-						{
-							Actor->SetActorTransform(SaveActor.ActorTransform);
-						}
-						FMemoryReader MemoryReader(SaveActor.Bytes);
-						FNameAsStringIndexProxyArchive Archive(MemoryReader);
-						Archive.ArIsSaveGame = true;
-						Actor->Serialize(Archive);
-
-						ISaveInterface::Execute_LoadActor(Actor);
+						Actor->SetActorTransform(SaveActor.ActorTransform);
 					}
+					FMemoryReader MemoryReader(SaveActor.Bytes);
+					FObjectAndNameAsStringProxyArchive Archive(MemoryReader, true);
+					Archive.ArIsSaveGame = true;
+					Actor->Serialize(Archive);
+						
+					ISaveInterface::Execute_LoadActor(Actor);
 				}
 			}
 		}
-	}	
+	}
  
 }
 

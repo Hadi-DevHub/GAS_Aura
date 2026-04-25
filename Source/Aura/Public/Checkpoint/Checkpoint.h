@@ -18,9 +18,11 @@ public:
 	ACheckpoint(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(SaveGame)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, SaveGame)
 	bool bReached = false;
 
+	UPROPERTY(EditAnywhere)
+	bool bBindToOverlapCallback = true;
 	// Highlight Interface //
 
 	void HighlightActor_Implementation() override;
@@ -35,7 +37,8 @@ protected:
 
 	UFUNCTION()
 	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
+
+	UFUNCTION(BlueprintCallable)
 	void HandleGlowEffects();
 	
 	UFUNCTION(BlueprintImplementableEvent)

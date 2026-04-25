@@ -33,7 +33,10 @@ void ACheckpoint::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SphereCollision->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnSphereOverlap);
+	if (bBindToOverlapCallback)
+	{
+		SphereCollision->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnSphereOverlap);
+	}
 }
 
 void ACheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
