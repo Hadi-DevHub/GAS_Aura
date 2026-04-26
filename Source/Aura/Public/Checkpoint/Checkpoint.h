@@ -36,7 +36,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION(BlueprintCallable)
 	void HandleGlowEffects();
@@ -51,8 +51,7 @@ protected:
 	
 	// End Of ISaveInterface Inherited Functions
 
-private:
-
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
 	
@@ -64,4 +63,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	int32 StencilValueOverride = CUSTOM_DEPTH_TAN;
+
+private:
+
 };

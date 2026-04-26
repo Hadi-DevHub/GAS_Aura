@@ -91,6 +91,9 @@ public:
 	FName PlayerStartTag = FName();
 	
 	UPROPERTY()
+	FString MapAssetName = FString("Default Map Asset Name");
+	
+	UPROPERTY()
 	FString MapName = FString();
 
 	UPROPERTY()
