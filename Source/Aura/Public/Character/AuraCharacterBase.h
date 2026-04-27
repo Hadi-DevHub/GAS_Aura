@@ -56,6 +56,9 @@ public:
 
 	virtual FOnDeathSignature& GetDelegateToOnDeath() override;
 	FOnDeathSignature OnDeathDelegate;
+
+	void SetUnitLevel(int32 InLevel) { Level = InLevel; }
+	void SetUnitClass(ECharacterClass InCharacterClass) { CharacterClass = InCharacterClass; }
 	
 	//-------------------------------//
 	//								 //
