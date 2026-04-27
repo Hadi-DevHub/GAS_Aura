@@ -24,6 +24,9 @@ public:
 	UPROPERTY()
 	FName PlayerStartTag = FName();
 	
+	UPROPERTY()
+	FString MapAssetName;
+	
 	UPROPERTY(BlueprintAssignable)
 	FSelectButtonPressed SelectButtonPressed;
 

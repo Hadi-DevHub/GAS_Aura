@@ -33,6 +33,8 @@ public:
 
 	ULoadScreenSaveGame* RetrieveInGameSaveData();
 
+	void PlayerDied(ACharacter* Character);
+
 	void SaveInGameProgress(ULoadScreenSaveGame* SaveObject);
 
 	UPROPERTY(EditDefaultsOnly)

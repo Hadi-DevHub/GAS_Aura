@@ -25,6 +25,11 @@ public:
 
 	/* Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
+	virtual void DIE(const FVector& DeathImpulse) override;
+
+	FTimerHandle DeathTimerHandle;
+	UPROPERTY(EditAnywhere, Category = "Respawn Property")
+	float DeathTime { 5.0f };
 	/* End Combat Interface */
 	
 	//------------------//
