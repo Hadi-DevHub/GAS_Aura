@@ -78,6 +78,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnLoot();
+
 	//---------------------------------------//
 	//			AI IMPLEMENTATIONS			 //
 	//---------------------------------------//

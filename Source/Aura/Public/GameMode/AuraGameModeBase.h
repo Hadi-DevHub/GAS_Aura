@@ -4,6 +4,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "AuraGameModeBase.generated.h"
 
+class ULootTiers;
 class ULoadScreenSaveGame;
 class USaveGame;
 class UMVVM_LoadSlot;
@@ -21,6 +22,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<ULootTiers> LootTiers;
 
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	static void DeleteSelectedSlot(const FString& LoadSlotName, int32 SlotIndex);
@@ -59,6 +63,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;
+
 };
 
 

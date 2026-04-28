@@ -6,6 +6,7 @@
 #include "AuraAbilityTypes.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
+class ULootTiers;
 class UAbilityInfo;
 struct FWidgetControllerParams;
 class UAuraSpellMenuWidgetController;
@@ -46,6 +47,9 @@ public:
 	
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|Character Class Defaults", meta = (DefaultToSelf = "WorldContextObject"))
+	static ULootTiers* GetLootTiers(const UObject* WorldContextObject);
+	
 	/** Gameplay Effect Setters. */
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
