@@ -7,7 +7,7 @@
 
 AAuraActorEffect::AAuraActorEffect()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("RootComponent"));
 }
 
@@ -125,14 +125,15 @@ void AAuraActorEffect::OnEndOverlap(AActor* TargetActor)
 
 void AAuraActorEffect::ItemMovement(float DeltaTime)
 {
+	if (bRotates)
+ 	{
+ 		const FRotator DeltaRotation(0, DeltaTime * RotationRate, 0);
+ 		CalculatedRotation = UKismetMathLibrary::ComposeRotators(CalculatedRotation, DeltaRotation);
+ 	}
 	if (bSinusoidalMovement)
 	{
 		const float Sine = SineAmplitude * FMath::Sin(RunningTime * SinePeriodConstant);
 		CalculatedLocation = InitialLocation + FVector(0.f, 0.f, Sine);
 	}
-	if (bRotates)
-	{
-		const FRotator DeltaRotator(0, DeltaTime * RotationRate, 0);
-		CalculatedRotation = UKismetMathLibrary::ComposeRotators(CalculatedRotation, DeltaRotator);
-	}
+	
 }
