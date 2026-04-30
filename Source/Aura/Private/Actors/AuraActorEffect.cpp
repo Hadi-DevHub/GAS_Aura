@@ -24,7 +24,7 @@ void AAuraActorEffect::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	const float SinePeriod = 2 * PI * SinePeriodConstant;
-	
+	RunningTime += DeltaTime;
 	if (RunningTime > SinePeriod)
 	{
 		RunningTime = 0;
@@ -127,7 +127,7 @@ void AAuraActorEffect::ItemMovement(float DeltaTime)
 {
 	if (bSinusoidalMovement)
 	{
-		const float Sine = SineAmplitude * FMath::Sin(DeltaTime * SinePeriodConstant);
+		const float Sine = SineAmplitude * FMath::Sin(RunningTime * SinePeriodConstant);
 		CalculatedLocation = InitialLocation + FVector(0.f, 0.f, Sine);
 	}
 	if (bRotates)
